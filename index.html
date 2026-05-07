@@ -312,7 +312,55 @@ body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif
 .net-p { color:var(--green); background:rgba(34,211,160,.08); border:1px solid rgba(34,211,160,.15); }
 .net-n { color:var(--red); background:rgba(240,86,106,.08); border:1px solid rgba(240,86,106,.15); }
 
-/* ── PPT MODAL ─────────────────────────────────── */
+/* ── GURU PAGE ─────────────────────────────────── */
+.guru-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(380px,1fr)); gap:16px; }
+.guru-card { background:var(--s1); border:1px solid var(--border); border-radius:12px; overflow:hidden; transition:all .15s; animation:fadein .3s ease both; }
+.guru-card:hover { border-color:var(--accent); }
+.guru-header { padding:18px 20px 14px; border-bottom:1px solid var(--border); background:linear-gradient(180deg, var(--s2), var(--s1)); }
+.guru-office { display:flex; align-items:baseline; gap:10px; margin-bottom:4px; flex-wrap:wrap; }
+.guru-office-name { font-size:18px; font-weight:700; letter-spacing:-.01em; }
+.guru-name-kr { font-size:13px; font-weight:500; color:var(--accent); }
+.guru-name-en { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted); letter-spacing:.04em; }
+.guru-meta { display:flex; gap:10px; font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--muted2); margin-top:6px; }
+.guru-meta-item { display:flex; gap:4px; }
+.guru-meta-label { color:var(--muted); text-transform:uppercase; letter-spacing:.1em; }
+.guru-meta-val { color:var(--text); }
+
+.guru-holdings { padding:8px 0; }
+.gh-item { display:grid; grid-template-columns:24px 1fr auto; gap:10px; align-items:center; padding:10px 20px; cursor:pointer; transition:background .1s; border-left:2px solid transparent; }
+.gh-item:hover { background:var(--s2); border-left-color:var(--accent); }
+.gh-rank { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted); }
+.gh-name { font-size:12px; font-weight:600; line-height:1.2; }
+.gh-sub { font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--muted2); margin-top:2px; }
+.gh-source { font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--muted); padding:1px 6px; border:1px solid var(--border2); border-radius:3px; margin-left:6px; }
+.gh-value { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:var(--green); text-align:right; white-space:nowrap; }
+.gh-vc { font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--muted2); text-align:right; margin-top:2px; }
+
+.guru-notice { background:rgba(245,166,35,.05); border:1px solid rgba(245,166,35,.2); border-left:3px solid var(--amber); border-radius:4px; padding:10px 14px; margin-bottom:20px; font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--amber); line-height:1.7; }
+
+/* ── PICK PAGE ─────────────────────────────────── */
+.pick-section { margin-bottom:32px; animation:fadein .3s ease both; }
+.pick-section-header { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:14px; padding-bottom:12px; border-bottom:1px solid var(--border); flex-wrap:wrap; gap:12px; }
+.pick-guru-name { font-size:18px; font-weight:700; }
+.pick-guru-name em { color:var(--accent); font-style:normal; }
+.pick-guru-sub { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted2); margin-top:4px; }
+.pick-guru-meta { display:flex; gap:14px; font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted2); }
+.pick-guru-meta strong { color:var(--text); }
+.pick-table-wrap { background:var(--s1); border:1px solid var(--border); border-radius:10px; overflow:hidden; }
+.pick-row { display:grid; grid-template-columns:30px 95px 55px 1fr 100px; gap:12px; align-items:center; padding:11px 16px; border-bottom:1px solid var(--border); cursor:pointer; transition:background .1s; }
+.pick-row:last-child { border-bottom:none; }
+.pick-row:hover { background:var(--s2); }
+.pick-row.header { background:var(--s2); cursor:default; padding:8px 16px; }
+.pick-row.header:hover { background:var(--s2); }
+.pick-h { font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--muted2); text-transform:uppercase; letter-spacing:.1em; }
+.pick-rk { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted); }
+.pick-date { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text); }
+.pick-source { font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--accent); padding:2px 7px; border:1px solid rgba(91,127,255,.3); border-radius:3px; background:rgba(91,127,255,.08); text-align:center; width:fit-content; }
+.pick-stock-name { font-size:13px; font-weight:600; line-height:1.2; }
+.pick-stock-sub { font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--muted2); margin-top:2px; }
+.pick-vc { font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; color:var(--green); text-align:right; }
+
+
 .ppt-modal-bg { display:none; position:fixed; inset:0; background:rgba(0,0,0,.65); z-index:200; backdrop-filter:blur(4px); align-items:center; justify-content:center; }
 .ppt-modal-bg.open { display:flex; }
 .ppt-modal { background:#0d1019; border:1px solid var(--border2); border-radius:14px; width:520px; max-width:92vw; padding:32px; animation:pop .2s ease; position:relative; }
@@ -445,6 +493,16 @@ body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif
       <span class="nav-icon">▣</span>
       <span class="nav-label">포트폴리오 시각화</span>
       <span class="nav-badge">3뷰</span>
+    </div>
+    <div class="nav-item" onclick="goPage('guru',this)">
+      <span class="nav-icon">★</span>
+      <span class="nav-label">구루들의 포트폴리오</span>
+      <span class="nav-badge">9명</span>
+    </div>
+    <div class="nav-item" onclick="goPage('pick',this)">
+      <span class="nav-icon">⚡</span>
+      <span class="nav-label">구루들의 선택</span>
+      <span class="nav-badge">3~5월</span>
     </div>
 
     <div class="sidebar-divider"></div>
@@ -579,6 +637,42 @@ body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif
         <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted2);margin-bottom:14px">기관별 순매수(초록) vs 순매도(빨강) 절대 규모</div>
         <div id="ib-chart"></div>
       </div>
+    </div>
+
+    <!-- ⑤ 투자 구루들의 포트폴리오 -->
+    <div class="page" id="page-guru">
+      <div class="page-header">
+        <div class="page-title-group">
+          <div class="page-eyebrow">Module 05 · Investment Gurus' Portfolio · 누적 보유</div>
+          <div class="page-title">투자 <em>구루들의</em> 포트폴리오</div>
+        </div>
+        <div class="page-stats">
+          <div class="ps"><div class="ps-v">9명</div><div class="ps-l">분석 구루</div></div>
+          <div class="ps"><div class="ps-v">63개</div><div class="ps-l">보유 종목</div></div>
+        </div>
+      </div>
+      <div class="guru-notice">
+        ⚠ 누적 포트폴리오 — 이 페이지는 <strong>각 구루가 직전 공시 시점에 보유 중인 종목</strong>의 누적 스냅샷입니다. 13F는 분기 마감 후 45일 내 공시되어 가장 최신은 <strong>Q4 2025 (12/31)</strong>이며, Q1 2026 13F는 5/15부터 입수 가능. GLG Partners(Man Group)의 일본 주식만 SF 실시간 데이터로 <strong>2026/03/31</strong> 기준입니다. <strong>실제 3~5월에 매수한 종목은 옆 메뉴 "구루들의 선택"</strong>에서 확인하세요.
+      </div>
+      <div class="guru-grid" id="guru-grid"></div>
+    </div>
+
+    <!-- ⑥ 투자 구루들의 선택 (3~5월 매수) -->
+    <div class="page" id="page-pick">
+      <div class="page-header">
+        <div class="page-title-group">
+          <div class="page-eyebrow">Module 06 · Recent Picks · 2026.03 ~ 05</div>
+          <div class="page-title">투자 <em>구루들의</em> 선택</div>
+        </div>
+        <div class="page-stats">
+          <div class="ps"><div class="ps-v">2명</div><div class="ps-l">매수 활동</div></div>
+          <div class="ps"><div class="ps-v">40개</div><div class="ps-l">선별 종목</div></div>
+        </div>
+      </div>
+      <div class="guru-notice" style="background:rgba(34,211,160,.05);border-color:rgba(34,211,160,.2);border-left-color:var(--green);color:var(--green)">
+        ★ <strong>2026년 3~5월 실제 매수 종목</strong> — 누적 포트폴리오가 아닌 이 시점에 새로 매수했거나 증액한 종목입니다. 9명의 구루 중 <strong>AQR(Cliff Asness)와 GLG Partners(Man Group)</strong>만 이 시점 실시간 공시(SF·UK 소스)가 있어요. 나머지 7명은 13F 분기 보고만 있어 Q1 13F가 5/15부터 들어오면 추가될 예정입니다. 종목당 $5M 이상 매수만 표시 (TOP 20).
+      </div>
+      <div id="pick-content"></div>
     </div>
 
   </div><!-- /main -->
@@ -740,16 +834,118 @@ const CLUSTER_DATA=[
   {symbol:"ABBN_XSWX",name:"ABB, LTD",industry:"Electrical Equipment",institution_count:8,institutions:["BlackRock","GSAM","Invesco","JPM","SIM","State Street","UBS Switzerland AG","UBS UK"],total_value_change:171100339,total_value:10351135294},
   {symbol:"CPG_XLON",name:"Compass Group PLC",industry:"Restaurants",institution_count:8,institutions:["AQR","BlackRock","GSAM","Invesco","Lazard","State Street","The Vanguard Group","UBS UK"],total_value_change:110777691,total_value:4645937857},
   {symbol:"SIE_XFRA",name:"Siemens AG",industry:"Conglomerates",institution_count:8,institutions:["BlackRock","GSAM","Invesco","JPM","SIM","UBS Switzerland AG","UBS UK","UBS(US,LLC)"],total_value_change:56698846,total_value:7021146364},
+  {symbol:"HLMA_XLON",name:"Halma p.l.c",industry:"Building Materials",institution_count:8,institutions:["GSAM","Invesco","Lazard","SIM","The Vanguard Group","UBS UK","Wellington","국민연금"],total_value_change:40377276,total_value:1055592339},
   {symbol:"DTE_XFRA",name:"Deutsche Telekom AG",industry:"Telecommunication Services",institution_count:8,institutions:["BlackRock","GSAM","Invesco","JPM","SIM","UBS Switzerland AG","UBS UK","UBS(US,LLC)"],total_value_change:39121495,total_value:3791810133},
-  {symbol:"2330_XTAI",name:"TSMC",industry:"Semiconductors",institution_count:7,institutions:["BlackRock","GSAM","Invesco","JPM","State Street","UBS Switzerland AG","UBS UK"],total_value_change:580281715,total_value:49468373908},
+  {symbol:"ALV_XFRA",name:"Allianz SE",industry:"Diversified Insurance",institution_count:8,institutions:["BlackRock","GSAM","Invesco","JPM","SIM","UBS Switzerland AG","UBS UK","UBS(US,LLC)"],total_value_change:31466578,total_value:6291137868},
+  {symbol:"SAN_XPAR",name:"Sanofi S.A.",industry:"Pharmaceuticals",institution_count:8,institutions:["BlackRock","GSAM","Invesco","JPM","SIM","UBS Switzerland AG","UBS UK","UBS(US,LLC)"],total_value_change:31089504,total_value:4283865083},
+  {symbol:"LR_XPAR",name:"Legrand S.A.",industry:"Electrical Equipment",institution_count:8,institutions:["BlackRock","GSAM","Invesco","JPM","SIM","State Street","UBS Switzerland AG","UBS UK"],total_value_change:16589266,total_value:2408048186},
+  {symbol:"SAN_BMEX",name:"Banco Santander S.A.",industry:"Banks",institution_count:8,institutions:["BlackRock","GSAM","Invesco","JPM","SIM","UBS Switzerland AG","UBS UK","UBS(US,LLC)"],total_value_change:13876473,total_value:5843086808},
+  {symbol:"NOKIA_XHEL",name:"Nokia Oyj",industry:"Communications Equipment",institution_count:8,institutions:["BlackRock","GSAM","Invesco","JPM","SIM","State Street","UBS UK","UBS(US,LLC)"],total_value_change:11400737,total_value:1744181011},
+  {symbol:"KBC_XBRU",name:"KBC Group NV",industry:"Diversified Financial",institution_count:8,institutions:["BlackRock","GSAM","Invesco","JPM","SIM","State Street","UBS UK","UBS(US,LLC)"],total_value_change:6117694,total_value:1170869219},
+  {symbol:"2330_XTAI",name:"TSMC",industry:"Semiconductors",institution_count:7,institutions:["BlackRock","GSAM","Invesco","JPM","State Street","UBS Switzerland AG","UBS UK"],total_value_change:580281715,total_value:48892685471},
   {symbol:"NESN_XSWX",name:"Nestle S.A.",industry:"Packaged Foods",institution_count:7,institutions:["BlackRock","Invesco","JPM","SIM","State Street","UBS Switzerland AG","UBS UK"],total_value_change:300881947,total_value:17699012358},
   {symbol:"8306_XTKS",name:"Mitsubishi UFJ FG",industry:"Banks",institution_count:7,institutions:["BlackRock","GSAM","Invesco","JPM","SIM","State Street","UBS UK"],total_value_change:139862766,total_value:7610836793},
-  {symbol:"CFR_XSWX",name:"Richemont SA",industry:"Recreational Products",institution_count:7,institutions:["BlackRock","GSAM","Invesco","JPM","State Street","UBS Switzerland AG","UBS UK"],total_value_change:113400350,total_value:6476985167},
+  {symbol:"CFR_XSWX",name:"Richemont SA",industry:"Luxury Goods",institution_count:7,institutions:["BlackRock","GSAM","Invesco","JPM","State Street","UBS Switzerland AG","UBS UK"],total_value_change:113400350,total_value:6476985167},
   {symbol:"8316_XTKS",name:"Sumitomo Mitsui FG",industry:"Banks",institution_count:7,institutions:["BlackRock","GSAM","Invesco","JPM","SIM","State Street","UBS UK"],total_value_change:89277150,total_value:4690276743},
   {symbol:"6758_XTKS",name:"Sony Group",industry:"Consumer Electronics",institution_count:7,institutions:["BlackRock","GSAM","Invesco","JPM","SIM","State Street","UBS UK"],total_value_change:86140725,total_value:4801876975},
   {symbol:"1299_XHKG",name:"AIA Group",industry:"Life Insurance",institution_count:7,institutions:["BlackRock","GSAM","Invesco","JPM","SIM","State Street","UBS UK"],total_value_change:79394971,total_value:5813203953},
+  {symbol:"SREN_XSWX",name:"Swiss Re Ltd",industry:"Reinsurance",institution_count:7,institutions:["BlackRock","GSAM","Invesco","JPM","State Street","UBS Switzerland AG","UBS UK"],total_value_change:76468183,total_value:3932920357},
   {symbol:"8411_XTKS",name:"Mizuho Financial Group",industry:"Banks",institution_count:7,institutions:["BlackRock","GSAM","Invesco","JPM","SIM","State Street","UBS UK"],total_value_change:68938047,total_value:3587844412},
+  {symbol:"2308_XTAI",name:"Delta Electronics, Inc.",industry:"Electrical Equipment",institution_count:7,institutions:["BlackRock","GSAM","Invesco","JPM","State Street","UBS Switzerland AG","UBS UK"],total_value_change:60026341,total_value:4220923921},
+  {symbol:"ICG_XLON",name:"ICG PLC",industry:"Asset Management",institution_count:7,institutions:["BlackRock","GSAM","JPM","Norges Bank","SIM","The Vanguard Group","UBS UK"],total_value_change:52187397,total_value:661313389},
+  {symbol:"SU_XPAR",name:"Schneider Electric S.E.",industry:"Electrical Equipment",institution_count:7,institutions:["BlackRock","GSAM","Invesco","JPM","SIM","UBS Switzerland AG","UBS UK"],total_value_change:51184846,total_value:6216544912},
+  {symbol:"SAP_XFRA",name:"SAP SE",industry:"Software",institution_count:7,institutions:["BlackRock","GSAM","Invesco","JPM","SIM","UBS Switzerland AG","UBS UK"],total_value_change:47734433,total_value:6393137813},
+  {symbol:"A000660_XKRX",name:"SK Hynix, Inc.",industry:"Semiconductors",institution_count:7,institutions:["GSAM","Invesco","JPM","SIM","State Street","UBS Switzerland AG","UBS UK"],total_value_change:47256786,total_value:3271355970},
+  {symbol:"PGHN_XSWX",name:"Partners Group Holding AG",industry:"Asset Management",institution_count:7,institutions:["BlackRock","GSAM","Invesco","JPM","State Street","UBS Switzerland AG","UBS UK"],total_value_change:44530198,total_value:1779488152},
+  {symbol:"7741_XTKS",name:"Hoya Corporation",industry:"Medical Instruments",institution_count:7,institutions:["BlackRock","GSAM","Invesco","JPM","SIM","State Street","UBS UK"],total_value_change:43710040,total_value:2714264108},
+  {symbol:"CEMEX CPO_XMEX",name:"Cemex S.A.B. de C.V.",industry:"Building Materials",institution_count:7,institutions:["BlackRock","GSAM","Invesco","JPM","State Street","UBS Switzerland AG","UBS UK"],total_value_change:36616362,total_value:1133560469},
+  {symbol:"GFNORTE O_XMEX",name:"Grupo Financiero Banorte",industry:"Banks",institution_count:7,institutions:["BlackRock","GSAM","Invesco","JPM","State Street","UBS Switzerland AG","UBS UK"],total_value_change:51508825,total_value:1901230251},
+  {symbol:"NOVO B_XCSE",name:"Novo Nordisk A/S",industry:"Pharmaceuticals",institution_count:7,institutions:["BlackRock","GSAM","Invesco","JPM","SIM","State Street","UBS UK"],total_value_change:35493832,total_value:3791958080},
 ];
+const STOCK_ANALYSES = {
+  "BE": {overview:"Bloom Energy는 수소 연료전지 기반의 분산형 발전 시스템 전문기업으로, 데이터센터와 산업용 전력 수요 급증의 직접 수혜주입니다. AI 인프라 확장으로 <strong>무중단·청정 전력</strong>에 대한 기업 수요가 폭발적으로 증가하고 있습니다.",background:"AI 데이터센터의 전력 안정성 수요가 핵심 드라이버입니다. 전통 그리드가 감당하기 어려운 고밀도 전력 부하를 연료전지로 직접 공급하는 모델이 Microsoft·Google 등 빅테크 구매 계약으로 이어지고 있습니다. Duquesne·Bridgewater 등 Guru급 기관이 동시 진입한 것은 단순 섹터 배팅이 아닌 수익성 전환에 대한 컨빅션으로 해석됩니다.",points:"• AI 데이터센터 전력 공급 계약 급증 — 2026년 수주잔고 전년 대비 2배 이상\n• 천연가스 외 수소 혼소 전환으로 탈탄소 규제 선제 대응\n• 미국 IRA 세액공제로 설치 단가 경쟁력 지속 개선",risks:"수익성 개선 속도가 시장 기대 대비 느릴 경우 밸류에이션 부담. 수소 인프라 부족으로 순수 수소 전환 일정 지연 가능성."},
+  "MSFT": {overview:"Microsoft는 Azure 클라우드, Office 365, GitHub Copilot 등 AI를 전면에 내세운 엔터프라이즈 플랫폼으로, <strong>$848B</strong>의 기관 보유 포지션이 이를 방증합니다. AI 수익화가 실제 매출로 전환되는 첫 번째 구간에 진입했습니다.",background:"OpenAI 투자 이후 Copilot이 Microsoft 365 전 제품에 내장되며 ARPU 상승이 확인되고 있습니다. Azure의 AI 워크로드 점유율이 AWS를 빠르게 추격 중이며, 17개 기관의 동시 증액은 실적 가시성에 대한 광범위한 공감대를 반영합니다.",points:"• Copilot 유료 전환율 상승 — 엔터프라이즈 M365 ARPU 20%+ 개선 경로\n• Azure AI 인프라 투자 지속으로 클라우드 시장점유율 방어·확대\n• 주주환원 우선 정책 — 배당+자사주매입 연간 $60B 수준 유지",risks:"반독점 규제 리스크 (OpenAI 지분·Activision 시너지 관련). AI 투자 비용 증가로 단기 영업이익률 압박 가능성."},
+  "AMZN": {overview:"Amazon은 AWS 클라우드, 광고, 프라임 멤버십의 삼각 수익 구조를 갖춘 플랫폼으로, AI 인프라 수요의 핵심 공급자이자 수혜자입니다. AWS 영업이익이 전체 그룹 이익의 <strong>70% 이상</strong>을 차지합니다.",background:"AWS의 AI 전용 칩(Trainium·Inferentia) 출시로 NVIDIA 의존도를 낮추는 동시에 자체 마진을 극대화하는 구조입니다. 광고 부문이 연 $50B+ 규모로 성장하며 수익 다각화가 진행 중입니다. Duquesne·PSCM 등 집중 운용 펀드의 진입이 주목됩니다.",points:"• AWS 성장 재가속 — AI 워크로드 수요로 분기 성장률 20%+ 복귀\n• 광고 매출 고성장 지속 (연 +20%)로 리테일 사업 흑자 안정화\n• 물류 자동화·로보틱스 투자로 리테일 영업이익률 구조적 개선",risks:"리테일 부문의 인건비·물류비 상승 압박. 규제당국의 플랫폼 독점 심사 강화."},
+  "UAL": {overview:"United Airlines는 미국 최대 국제선 네트워크를 보유한 항공사로, 프리미엄 좌석 수요 증가와 비용 효율화가 동시에 진행 중입니다. Duquesne·Appaloosa 등 <strong>Guru급 기관</strong>이 대거 포함된 것이 특징입니다.",background:"팬데믹 이후 항공 수요 구조가 변했습니다. 비즈니스 여행이 완전 회복된 가운데 레저 여행도 견조하며, 특히 국제 프리미엄 클래스 수익(PRASM)이 경기 둔화에도 탄력적입니다. 유가 안정과 델타 대비 벨류에이션 할인이 기관 진입 타이밍의 배경입니다.",points:"• 프리미엄 국제선 수익률 지속 개선 — 비즈니스 클래스 탑승률 90%+\n• 연료 헷지·효율화로 단위당 비용(CASM) 개선 궤도\n• United Next 플랜 — 기단 현대화로 연료비·정비비 구조적 절감",risks:"유가 급등 시 이익 민감도 높음. 경기 침체 시 비즈니스 수요 급감 가능성."},
+  "NVDA": {overview:"NVIDIA는 AI 가속 컴퓨팅의 사실상 독점 공급자로, H100/H200/B200 GPU 수요는 공급을 2년 이상 초과하고 있습니다. 시가총액 <strong>$3.4조</strong>에도 16개 기관이 동시 증액한 것은 AI 인프라 사이클이 초기임을 시사합니다.",background:"단순 하드웨어 판매를 넘어 CUDA 소프트웨어 생태계, NIM 마이크로서비스, DGX Cloud 플랫폼으로 수직 통합이 진행 중입니다. 중국 수출 제한으로 일부 매출이 제한되지만, 미국·유럽·일본 데이터센터 수요가 이를 상쇄하고 있습니다.",points:"• Blackwell 아키텍처 전환으로 단가·마진 동시 개선 — ASP 50%+ 상승\n• CUDA 생태계 고착화 — AI 개발자의 90%가 CUDA 기반으로 경쟁 해자 견고\n• 소프트웨어·서비스 매출 비중 확대로 하드웨어 사이클 변동성 완충",risks:"AMD MI300·Intel Gaudi의 추격으로 시장점유율 잠식 가능성. 중국 수출 추가 제한 시 단기 매출 타격."},
+  "ORLY": {overview:"O'Reilly Automotive는 미국 자동차 부품 소매·유통의 과점 사업자로, 차량 노후화 심화라는 구조적 수혜를 받고 있습니다. <strong>16개 기관</strong>이 증액한 것은 경기 방어적 특성에 대한 공감대입니다.",background:"미국 차량 평균 연령이 13년을 돌파하며 유지보수 수요가 구조적으로 증가하고 있습니다. 신차 가격 상승으로 기존 차량 유지 경향이 강화되며 부품 수요가 내구적입니다. Bridgewater·Tudor 등 매크로 헷지 펀드의 진입은 경기 방어 포지셔닝으로 해석됩니다.",points:"• 미국 차량 노후화 구조적 심화 — DIY+DIFM 수요 모두 견조\n• 자사주 매입 프로그램 공격적 운영 — 주당 EPS 연 10%+ 성장 가시성\n• 경쟁사(AutoZone) 대비 프로페셔널 서비스 시장 점유율 확대",risks:"전기차 보급 가속 시 내연기관 부품 수요 장기 감소 리스크. 경기 침체 시 차량 교체 지연으로 부품 수요 단기 둔화."},
+  "DXCM": {overview:"DexCom은 연속혈당모니터(CGM) 세계 1위 기업으로, 당뇨 관리 패러다임을 손가락 채혈에서 실시간 모니터링으로 전환시키고 있습니다. <strong>G7 모델</strong> 확대와 비당뇨 웰니스 시장 진출이 성장 동력입니다.",background:"미국 내 CGM 보험 급여 확대와 GLP-1(오젬픽·위고비) 사용자 급증이 DexCom 수혜로 직결됩니다. GLP-1 투약 환자의 혈당 모니터링 필요성이 CGM 수요를 폭발적으로 확대하는 구조입니다.",points:"• GLP-1 약물 급증 → CGM 동반 수요 직접 연계 — 시너지 효과 구체화\n• G7 국제 출시 확대 (유럽·일본)로 매출 지리적 다각화\n• 비당뇨 시장(Stelo 제품) 진출로 TAM 3배 이상 확대 가능성",risks:"Abbott의 Libre 플랫폼과의 경쟁 심화. 보험사 급여 정책 변경 시 접근성 리스크."},
+  "GOOG": {overview:"Alphabet은 검색 광고의 절대적 독점력 위에 Google Cloud, YouTube, Waymo 등 차세대 사업을 구축하고 있습니다. AI 기반 검색(AI Overviews)이 광고 단가를 높이는 방향으로 작동하며 시장의 우려가 기회로 전환되고 있습니다.",background:"AI가 검색을 잠식한다는 우려와 달리, Alphabet의 Gemini가 자사 검색에 통합되며 광고 클릭당 수익(CPC)이 오히려 상승하고 있습니다. YouTube Shorts 수익화 본격화와 Google Cloud의 AI 워크로드 수주 증가가 동시에 진행 중입니다.",points:"• AI Overviews 광고 단가 개선 확인 — 검색 AI 전환이 매출 위협이 아닌 강화 요인\n• Google Cloud 성장 가속 (분기 +28%) — Azure·AWS 대비 AI 가격 경쟁력\n• Waymo 상업화 가속 — 로보택시 서비스 확장으로 신규 수익원 가시화",risks:"EU 반독점 제재 리스크 지속. Perplexity·OpenAI 검색 진출로 점유율 잠식 가능성."},
+  "AZN_XLON": {overview:"AstraZeneca는 종양학·희귀질환·심혈관 분야의 글로벌 TOP3 제약사로, <strong>$34B</strong>의 기관 보유 포지션은 빅파마 중 가장 높은 성장 기대를 반영합니다. 2030년 매출 $80B 목표를 공식화한 유일한 메가캡 제약사입니다.",background:"Tagrisso·Imfinzi·Calquence 등 베스트셀러 항암제 파이프라인이 적응증 확대 사이클에 있습니다. GLP-1 경쟁에서 비켜선 차별화된 포트폴리오와 신흥국 시장 침투율 확대가 기관 매수 배경입니다.",points:"• 종양학 포트폴리오 적응증 확장 — 매년 2-3개 신규 허가 예상\n• 중국 시장 리스크 완화 (매출 비중 감소·로컬 파트너십 전환)\n• ADC(항체-약물 복합체) 파이프라인 1위 — Enhertu 글로벌 확장",risks:"특허 절벽 리스크 (2028년 이후 일부 블록버스터 만료). 임상 실패 시 파이프라인 디스카운트."},
+  "CRH": {overview:"CRH는 세계 최대 건설자재 그룹으로 시멘트·골재·아스팔트의 수직 통합 모델을 운영합니다. 미국 인프라 투자법(IIJA) 지출이 본격화되며 <strong>미국 매출 비중 75%</strong>가 직접 수혜입니다.",background:"미국 뉴욕 증시 이전(2023년) 이후 기관 접근성이 대폭 개선되었습니다. 바이든·트럼프 정부 모두 인프라 지출에 초당적 합의가 있어 정치 리스크가 낮습니다. Duquesne이 포함된 것은 사이클 픽이 아닌 구조적 수혜에 대한 판단입니다.",points:"• 미국 인프라법 $1.2조 지출 본격화 — 도로·교량·상하수도 자재 수요 직결\n• M&A 전략 지속 — 연간 $2-3B 소규모 인수로 점유율 확대\n• 가격 결정력 강화 — 공급 과점으로 원가 상승분 제품 가격에 전가",risks:"금리 상승 지속 시 민간 건설 수요 둔화. 원자재(에너지·운송) 비용 변동성."},
+  "KGF_XLON": {overview:"Kingfisher는 영국 B&Q와 프랑스 Castorama를 보유한 유럽 1위 홈임프루브먼트 유통그룹입니다. 10개 기관의 <strong>만장일치 매수</strong>는 유럽 부동산 회복 사이클 초입에 대한 컨빅션입니다.",background:"ECB 금리 인하 사이클 진입으로 영국·프랑스의 주택 거래량이 회복되고 있습니다. 집을 팔고 사는 과정에서 리노베이션 수요가 급증하는 구조적 연결고리가 있습니다. 국민연금까지 포함된 광범위한 기관 매수는 유럽 소비재 리밸런싱 흐름과 일치합니다.",points:"• 유럽 금리 인하 사이클 → 주택 거래량 회복 → 리노베이션 수요 연쇄 증가\n• 자체 브랜드(PB) 비중 50%+ — 마진 방어력 우수\n• 디지털 전환 가속 — 온라인 매출 비중 20%로 옴니채널 경쟁력 확보",risks:"영국 소비자 신뢰 회복 지연. 경쟁사(Leroy Merlin) 공격적 확장으로 점유율 압박."},
+  "NOVN_XSWX": {overview:"Novartis는 심혈관·신경·면역 분야에 집중한 순수 의약품 기업으로 Sandoz 분사 이후 프리미엄 파이프라인 벨류에이션이 재평가받고 있습니다. Cosentyx·Entresto·Kesimpta가 <strong>3대 블록버스터</strong>로 안정적 수익 기반을 형성합니다.",background:"2023년 Sandoz 분사로 제네릭 리스크를 완전히 분리한 후 순수 혁신 의약품 플랫폼으로 재편되었습니다. 심혈관(Entresto)과 면역(Cosentyx)의 특허 보호 기간이 충분하며, 8개 기관 동시 매수는 파이프라인 가시성에 대한 공감대입니다.",points:"• Entresto 심부전 적응증 확대 — 연간 $5B+ 블록버스터 유지\n• 방사성리간드 치료제(RLT) 파이프라인 — 표적 암 치료의 차세대 플랫폼\n• 분사 후 자본배분 효율화 — 공격적 자사주 매입 프로그램",risks:"Cosentyx 바이오시밀러 경쟁 본격화(2025년 이후). 임상 3상 실패 시 파이프라인 재평가."},
+  "ROP_XSWX": {overview:"Roche는 진단(세계 1위)과 제약의 수직 통합 모델로 오노미케 AI 기반 동반진단이 치료제 판매를 직접 견인합니다. <strong>8개 기관</strong> 동시 매수는 파이프라인 재건에 대한 신뢰를 반영합니다.",background:"Avastin·Herceptin 등 구블록버스터의 특허 만료 충격을 딛고 Vabysmo·Columvi·Lunsumio 등 신약이 블록버스터 궤도에 진입하고 있습니다. 진단 부문의 AI 통합이 차별화 요인으로 부각되고 있습니다.",points:"• Vabysmo(습성황반변성) 시장 침투율 급상승 — Eylea 대체 가속화\n• 알츠하이머 파이프라인(Trontinemab) 긍정적 임상 결과\n• 진단-치료 통합 플랫폼 — 바이오마커 기반 동반진단으로 처방 접근성 확대",risks:"주요 블록버스터의 바이오시밀러 경쟁 지속. 스위스 프랑 강세로 달러 환산 수익 감소."},
+  "ULVR_XLON": {overview:"Unilever는 Dove·Hellmann's·Knorr 등 400개 브랜드를 보유한 글로벌 소비재 대기업으로 신흥국 비중 60%가 장기 성장 엔진입니다. Hein Schumacher CEO 취임 후 포트폴리오 정리와 수익성 집중 전략이 주목받고 있습니다.",background:"성장성 낮은 브랜드 매각(Rexona·Q-tips 등)과 프리미엄 스킨케어·영양 포트폴리오 집중이 마진 개선으로 이어지고 있습니다. 유럽 소비재 섹터 내 상대적 저평가와 배당 안정성이 기관 매수 배경입니다.",points:"• 구조조정 완료 → EBIT 마진 개선 가시화 (19%→22% 목표)\n• Ice Cream 사업 분사(Ben & Jerry's 등) — 시장 가치 재평가 트리거\n• 인도·동남아 시장 침투율 확대 — 신흥국 프리미엄화 수혜",risks:"브랜드 매각 과정의 실행 리스크. 원자재(팜유·코코아) 가격 급등 시 마진 압박."},
+  "ABBN_XSWX": {overview:"ABB는 산업 자동화·로봇공학·전력 인프라의 글로벌 리더로, 에너지 전환과 제조업 자동화라는 두 개의 메가트렌드에 동시 노출됩니다. <strong>8개 기관</strong>의 매수는 2025년 이후 사이클 개선 기대를 반영합니다.",background:"모터·드라이브·PLC 등 산업 자동화 핵심 부품의 글로벌 과점사업자입니다. 데이터센터 전력 인프라 수요 급증으로 전력 사업부 성장이 재가속화되고 있습니다. 구조조정 완료 후 4개 사업부로 집중된 포트폴리오가 마진 개선으로 이어지고 있습니다.",points:"• 데이터센터 전력 인프라 수주 급증 — 고압직류(HVDC)·변압기 수요 폭발\n• 제조업 자동화 사이클 회복 기대 (2025 하반기~2026)\n• 자본배분 효율화 — 배당+자사주매입 주주환원 강화",risks:"제조업 설비투자 사이클 회복 지연. 중국 로컬 경쟁사의 가격 경쟁 심화."},
+  "CPG_XLON": {overview:"Compass Group은 세계 최대 기업식당·케이터링 서비스 기업으로, <strong>50개국 100만명</strong> 이상을 직접 고용하는 노동집약적 사업을 효율화를 통해 고마진 구조로 전환했습니다.",background:"기업·의료·교육·군사 등 다양한 버티컬에서 아웃소싱 수요가 구조적으로 확대되고 있습니다. 인플레이션 환경에서 메뉴 가격 인상이 매출 성장으로 연결되며, 비용 통제 역량이 이익률 개선을 뒷받침합니다.",points:"• 북미 시장 침투율 확대 지속 — 아직 자체 운영 비중이 높아 아웃소싱 여지 충분\n• 마진 개선 궤도 지속 (7%→8%+ 목표)\n• M&A 통한 신규 버티컬 확장 (헬스케어·노인케어 케이터링)",risks:"인건비 상승 압박 지속. 기업 오피스 수요 감소(재택근무 확대) 시 식당 매출 타격."},
+  "SIE_XFRA": {overview:"Siemens는 디지털산업·스마트인프라·모빌리티 세 축으로 재편된 산업 디지털화의 핵심 플레이어입니다. Siemens Xcelerator 플랫폼이 제조업 디지털 트윈의 업계 표준으로 부상하고 있습니다.",background:"공장 자동화와 그리드 현대화에 대한 정부 보조금이 유럽·미국에서 동시 집행되고 있습니다. Siemens Energy 분사 이후 핵심 사업 집중도가 높아졌고, 소프트웨어 매출 비중 확대가 밸류에이션 재평가 요인입니다.",points:"• Xcelerator 디지털 플랫폼 — SaaS 형태의 반복 매출 비중 증가\n• 그리드 현대화 투자 사이클 — 유럽 에너지 전환 정책의 핵심 수혜\n• Siemens Healthineers 지분 가치 미반영 — 숨겨진 자산가치",risks:"산업 수주 사이클 둔화 시 수익성 변동. 유로화 강세로 수출 경쟁력 약화 가능성."},
+  "DTE_XFRA": {overview:"Deutsche Telekom은 독일 시장 지배력에 T-Mobile US(지분 51%) 성장이 더해진 구조로, <strong>미국 통신 시장의 가장 강력한 플레이어</strong>를 간접 보유하는 지주회사 가치가 핵심입니다.",background:"T-Mobile US가 AT&T·Verizon을 꺾고 미국 통신 1위 경쟁에서 우위를 점하고 있습니다. 독일 본업의 안정적 현금흐름과 T-Mobile의 고성장이 결합된 하이브리드 가치주로 재평가받고 있습니다.",points:"• T-Mobile US 성장 지속 — 포스트페이드 가입자 순증 업계 1위\n• 독일 FWA(고정무선접속) 확대로 브로드밴드 시장 점유율 상승\n• T-Mobile 지분 증가를 위한 주식 교환 옵션 보유 — 가치 재평가 트리거",risks:"T-Mobile 성장 둔화 시 주요 밸류에이션 드라이버 약화. 독일 경기 침체로 본업 수익 감소 가능성."},
+  "2330_XTAI": {overview:"TSMC는 AI 반도체 제조의 절대적 독점 파운드리로, NVIDIA·Apple·AMD·Qualcomm 모두 TSMC 없이는 칩을 만들 수 없습니다. <strong>2nm 공정</strong> 양산 임박으로 기술 격차가 오히려 확대되고 있습니다.",background:"AI 가속기 수요 폭발로 CoWoS 첨단 패키징 라인이 2년치 예약이 꽉 찬 상태입니다. 지정학 리스크(대만 해협)에도 불구하고 6개 HC 기관이 동시 매수한 것은 대안 부재에 대한 현실적 판단입니다.",points:"• N3/N2 공정 고객사 확대 — Apple·NVIDIA 외 인텔·퀄컴 추가\n• 미국·일본·독일 공장 건설로 지정학 리스크 분산 진행\n• CoWoS 첨단 패키징 캐파 2배 확장 — AI 칩 수익성 추가 개선",risks:"대만 해협 지정학 긴장 고조 시 밸류에이션 디스카운트 심화. 인텔 파운드리 사업 회복 시 일부 고객 이탈 가능성."},
+  "NESN_XSWX": {overview:"Nestlé는 Nespresso·Purina·KitKat 등 2,000개 브랜드를 보유한 세계 최대 식품기업으로, 구조조정과 가격 정상화가 동시에 진행 중입니다. <strong>Mark Schneider</strong> CEO의 포트폴리오 슬림화 전략이 핵심 관전 포인트입니다.",background:"팬데믹 이후 가격 인상 사이클이 마무리되며 물량 회복 국면에 진입했습니다. 커피(Nespresso·Nescafé)와 반려동물식품(Purina)이 프리미엄 성장 엔진이며, 저성장 사업 매각이 ROE 개선으로 이어지고 있습니다.",points:"• 가격 인상 완료 → 물량 회복 국면 전환 — 유기적 성장률 개선 가시화\n• 프리미엄 커피·펫케어 고성장 지속\n• 구조조정 수익 재투자 — 마케팅·혁신 지출 확대로 브랜드 경쟁력 강화",risks:"소비자의 저가 브랜드 다운트레이딩 지속. 원자재(코코아·커피) 가격 급등 시 이익률 압박."},
+  "8306_XTKS": {overview:"Mitsubishi UFJ FG(MUFG)는 일본 최대 은행그룹으로 국내 금리 정상화와 해외 사업 확대가 동시에 이익 성장을 견인합니다. <strong>일본 마이너스 금리 종료</strong>가 NIM 개선의 구조적 드라이버입니다.",background:"BOJ의 금리 인상 사이클 진입으로 은행 NIM이 10년만에 개선 국면에 있습니다. 해외 사업(동남아·미국 Morgan Stanley 지분)이 안정적 수익을 보충하며 복합 성장 구조를 형성합니다.",points:"• BOJ 금리 인상 → NIM 확대 직접 수혜 — EPS 10%+ 성장 가시성\n• Morgan Stanley 지분(약 10%) 가치 미반영 — 숨겨진 자산\n• 주주환원 강화 — 배당성향 40%+ 목표, 자사주 매입 확대",risks:"일본 경기 둔화 시 대출 성장 감소. 엔화 강세 전환 시 해외 사업 환산 손실."},
+  "CFR_XSWX": {overview:"Richemont는 Cartier·Van Cleef & Arpels·IWC 등 럭셔리 주얼리·시계 브랜드의 집합체로, 중국 회복과 미주 시장 구조적 성장의 수혜를 동시에 받고 있습니다. Cartier의 <strong>브랜드 가치는 전체 그룹의 70%</strong>를 차지합니다.",background:"럭셔리 주얼리는 핸드백 대비 진입 장벽이 높고 카테고리 확장성이 큽니다. 중국 경기 회복 지연에도 미주·중동의 HNW 수요가 견조하며, YNAP(온라인 명품 플랫폼) 매각 추진이 포트폴리오 집중 신호로 해석됩니다.",points:"• Cartier 주얼리 라인 강화 — Juste un Clou·Trinity 등 아이코닉 제품 수요 견조\n• 중국 회복 시 가장 높은 레버리지 — 중국 비중 30%로 회복 수혜 극대화 가능\n• YNAP 매각 완료 시 현금 유입 + 포트폴리오 집중 효과",risks:"중국 경기 회복 지연 장기화. 럭셔리 소비 심리 악화(경기 침체 시)."},
+  "8316_XTKS": {overview:"Sumitomo Mitsui FG(SMBC)는 일본 2위 은행그룹으로 MUFG 대비 소매금융 강점이 있으며, 금리 인상 사이클에서 NIM 개선 수혜가 동일합니다. 동남아 사업(인도네시아 BTPN 등) 성장도 부각됩니다.",background:"BOJ 통화정책 정상화로 장기간 억눌렸던 은행 수익성이 회복되는 구조입니다. SMBC는 국내 중소기업 대출 비중이 높아 금리 인상의 NIM 기여도가 MUFG보다 크다는 평가가 있습니다.",points:"• 국내 단기 금리 상승 → 변동금리 대출 NIM 즉각 개선\n• 인도·인도네시아 사업 확장 — 신흥국 고성장 익스포져\n• 자사주 매입·배당 강화 — ROE 8%+ 목표 설정",risks:"일본 부동산 시장 조정 시 담보 대출 부실화 리스크. 엔화 강세 전환 시 해외 수익 감소."},
+  "6758_XTKS": {overview:"Sony는 게임(PlayStation)·음악·반도체(이미지센서)·영화의 4각 포트폴리오를 보유한 엔터테인먼트 테크 기업으로, AI가 콘텐츠 제작 비용을 절감하면서 오히려 Sony의 <strong>IP 자산가치</strong>가 부각되고 있습니다.",background:"PlayStation Network의 월정액 서비스 전환이 가시성 높은 반복 매출을 창출합니다. 이미지센서는 iPhone·Android 스마트폰 카메라의 사실상 독점 공급자로 AI 카메라 기능 향상 수혜가 집중됩니다.",points:"• PS5 사이클 본궤도 + PS6 개발 확인 — 게임 구독 매출 구조화\n• 이미지센서(CMOS) 세계 1위 — AI 카메라·자율주행 수요 직접 수혜\n• Sony Music IP 자산 — AI 학습 데이터 라이선스 수익 부상 가능성",risks:"게임 타이틀 실패 시 PS 플랫폼 점유율 하락. 삼성전자의 이미지센서 추격으로 ASP 압박."},
+  "1299_XHKG": {overview:"AIA Group은 아시아 1위 생명보험사로 중국·홍콩·동남아의 중산층 확대와 보험 침투율 상승이 구조적 성장 드라이버입니다. <strong>VONB(신계약가치)</strong>의 꾸준한 성장이 장기 기관 보유의 근거입니다.",background:"중국 경기 회복 지연에도 AIA의 중국 본업(PICC와 합작) 외 홍콩·태국·말레이시아가 고성장을 견인합니다. 아시아 중산층의 보장성 보험 니즈가 구조적으로 증가하며 20년+ 성장 사이클이 지속됩니다.",points:"• 중국 외 시장(태국·말레이시아·호주) 성장 가속\n• VONB 마진 개선 — 보장성 상품 비중 확대로 수익성 구조 개선\n• 자사주 매입 프로그램 연장 — 주주환원 강화",risks:"홍콩 금융 허브 지위 약화 시 보험 영업 환경 악화. 중국 경기 침체 장기화 시 중국 내 신계약 감소."},
+  "SREN_XSWX": {overview:"Swiss Re는 뮌헨Re와 함께 글로벌 재보험 시장의 과점사업자로, 기후변화로 인한 자연재해 빈도 증가가 역설적으로 재보험료 상승을 통해 <strong>수익성 개선</strong>으로 작용합니다.",background:"2023년 이후 재보험료 사이클이 20년만의 하드 마켓(보험료 인상기)에 진입했습니다. 금리 인상으로 채권 투자수익률이 개선되며 보험업 특유의 이중 수혜 구조가 형성되어 있습니다.",points:"• 재보험료 하드 마켓 지속 — P&C 부문 결합비율 개선\n• 금리 상승 → 채권 포트폴리오 재투자 수익률 개선\n• 자본 효율화 — RoE 15%+ 목표 설정 및 초과 자본 환원",risks:"대형 허리케인·지진 등 이상기후 집중 발생 시 단기 손실 급증. 1차 보험사의 리텐션 증가로 재보험 수요 감소."},
+  "8411_XTKS": {overview:"Mizuho Financial Group은 일본 3대 은행그룹으로 IT·금융 디지털화에 가장 공격적으로 투자하고 있습니다. 기업금융과 글로벌 M&A 자문에서 상대적 강점을 보유합니다.",background:"BOJ 금리 인상 사이클이 3대 메가뱅크 모두에 수혜지만, Mizuho는 IT 인프라 현대화 비용이 집행 완료 단계에 접어들며 비용 효율화 효과가 가시화될 시점입니다.",points:"• 시스템 현대화 투자 마무리 → IT 비용 감소 + 디지털 서비스 수익화\n• 아시아 M&A 자문 시장에서 경쟁력 강화\n• BOJ 금리 인상 수혜 — NIM 개선 구조 동일",risks:"과거 대규모 IT 시스템 장애 이력 — 재발 시 규제·평판 리스크. 기업 대출 연체율 상승 가능성."},
+  "HLMA_XLON": {overview:"Halma는 안전·환경·의료 분야의 틈새 시장 독점 기업들을 수십 년간 인수해온 복합기업으로, M&A 규율과 유기적 성장의 조합이 <strong>장기 ROIC 15%+</strong>를 유지하는 비결입니다.",background:"개별 자회사는 작지만 해당 분야 1위 포지션을 유지하며, 규제 강화(안전·환경)가 구조적 수요 드라이버 역할을 합니다. 성장·퀄리티 주식에 대한 기관 수요가 높은 환경에서 프리미엄 밸류에이션이 지지됩니다.",points:"• 연간 5-7건 M&A 지속 — 독립 경영 모델로 피인수 기업 성장 가속\n• 규제 강화 수혜 — 화재감지·가스분석·의료진단 분야 필수 수요\n• 분권화 경영 — 각 자회사의 기업가 정신 유지로 혁신 지속",risks:"M&A 과열 시 밸류에이션 희석 리스크. 성장주 밸류에이션 조정 시 프리미엄 소멸 가능성."},
+  "ALV_XFRA": {overview:"Allianz SE는 독일 기반의 세계 1위 보험그룹으로 P&C·생명·자산운용(PIMCO)을 보유합니다. PIMCO의 채권 운용자산 <strong>$1.9조</strong>가 금리 환경 변화의 직접 수혜 포지션입니다.",background:"금리 정상화로 보험 준비금의 투자수익률이 개선되고, P&C 보험료 인상 사이클이 지속되고 있습니다. PIMCO의 채권 운용 실적 회복이 수수료 수익 증가로 이어지는 구조입니다.",points:"• P&C 보험 하드 마켓 지속 — 보험료 인상으로 결합비율 개선\n• PIMCO 채권 AUM 회복 → 운용보수 매출 증가\n• 배당 성장 정책 유지 — 5% 이상 배당성장 커밋",risks:"STRUCTURED3720 대규모 소송(미국 알리안츠 펀드 관련) 추가 충당금 가능성. 자연재해 손실 집중 발생 시 단기 이익 변동."},
+  "SAN_XPAR": {overview:"Sanofi는 면역·희귀질환·백신 포트폴리오를 보유한 프랑스 대형 제약사로, Dupixent(아토피·천식)가 <strong>연 $100억 블록버스터</strong>로 성장하며 회사를 재정의하고 있습니다.",background:"Dupixent의 적응증 확장(COPD·결절성 양진 등)이 지속되며 피크 매출 추정치가 계속 상향되고 있습니다. CNS·면역 파이프라인의 임상 결과가 긍정적이며 소비자 건강 사업 분사 검토가 가치 창출 트리거입니다.",points:"• Dupixent COPD 적응증 승인 — 전혀 새로운 대형 시장 개척\n• 소비자건강 사업(Ventolin·Allegra) 분사 시 순수 바이오 밸류에이션 적용\n• 면역 파이프라인 — itepekimab(천식)·tolebrutinib(MS) 임상 진행",risks:"Dupixent 의존도 과도 — 집중 리스크. 소비자건강 분사 지연 시 할인 지속."},
+  "LR_XPAR": {overview:"Legrand는 전기 설비·데이터 인프라 솔루션의 세계 2위 기업으로, 건물의 전기화·디지털화·데이터센터 확산의 수혜를 동시에 받습니다. 연간 <strong>10-15건 M&A</strong>로 포트폴리오를 지속 확장합니다.",background:"데이터센터 신설 붐이 UPS·PDU·케이블 트레이 등 Legrand의 핵심 제품군 수요를 폭발적으로 증가시키고 있습니다. 건물 자동화(빌딩 에너지 관리 시스템) 시장 성장도 동반합니다.",points:"• 데이터센터 전기 인프라 수요 급증 — 전체 매출의 25%+ 비중으로 성장\n• 점진적 M&A 전략 — 연간 EPS 5-8% 기여\n• 유럽 건물 에너지효율 규제 강화 수혜 — 리트로핏 수요 증가",risks:"건설 경기 사이클 둔화 시 전통 건물 설비 수요 감소. 중국 경쟁사의 가격 경쟁 심화."},
+  "SAN_BMEX": {overview:"Banco Santander는 스페인·영국·브라질·멕시코 등 10개국에서 균형 잡힌 사업을 영위하는 유럽 최대 소매은행입니다. 브라질·멕시코의 고금리 환경이 <strong>수익성 극대화</strong> 구간에 있습니다.",background:"유럽 금리 인상이 스페인·영국 본업 수익성을 개선하는 동시에, 중남미(특히 브라질 Santander Brasil)의 고금리 사이클이 그룹 전체 ROE를 견인합니다. 밸류에이션이 역사적 저점 대비 회복 중입니다.",points:"• 중남미 고금리 환경 유지 — 브라질·멕시코 NIM 확대 지속\n• 스페인·영국 NIM 개선 — 유럽 금리 인상 사이클 수혜\n• 디지털 뱅킹 전환 가속 — Openbank 글로벌 확장으로 비용 효율화",risks:"브라질 경기 둔화 시 부실 대출 증가. 유럽 금리 인하 가속 시 NIM 반전."},
+  "NOKIA_XHEL": {overview:"Nokia는 5G 네트워크 장비·특허 라이선스·엔터프라이즈 솔루션의 세 축으로 사업을 재편하고 있습니다. 통신사 5G 투자 사이클 회복과 <strong>AI 네트워크 최적화</strong> 수요가 새 성장 동력입니다.",background:"2023~2024년 통신사 CAPEX 사이클 조정이 마무리되고 2025~2026년 재개 국면에 있습니다. Infinera 인수로 광통신 네트워크 포트폴리오를 강화하며 클라우드·AI 인프라 수요를 직접 겨냥합니다.",points:"• 5G 투자 사이클 재개 — Verizon·AT&T 장비 수주 재가속\n• Infinera 인수 완료 — IP/광학 통합 솔루션으로 경쟁력 강화\n• 특허 라이선스 수익 안정화 — 스마트폰 제조사 계약 갱신 완료",risks:"Ericsson·Huawei와의 경쟁 심화로 가격 압박 지속. 통신사 CAPEX 재조정 시 수주 지연."},
+  "KBC_XBRU": {overview:"KBC Group은 벨기에·체코·슬로바키아 등 중동유럽 핵심 시장의 은행-보험 통합 모델로 운영되며, 유럽 은행 중 가장 높은 ROE(~16%)를 유지합니다. 중동유럽의 구조적 성장이 장기 드라이버입니다.",background:"체코·슬로바키아 등 중동유럽 시장의 경제 성장률이 서유럽 대비 높아 대출 성장과 보험 침투율 상승이 동시에 진행됩니다. 벨기에 본업의 안정성과 중동유럽 성장을 결합한 수익 구조가 기관의 선호를 받습니다.",points:"• 중동유럽 경제 성장 구조적 지속 — GDP 대비 대출 비율 여전히 낮아 성장 여지 충분\n• 은행+보험 통합 크로스셀링 — 고객당 수익성 업계 최고 수준\n• 초과 자본 활용 — 특별 배당·자사주 매입으로 주주환원 강화",risks:"체코·슬로바키아 경기 사이클 의존도 높음. EU 규제 강화 시 자본 요건 상향 가능성."},
+  "2308_XTAI": {overview:"Delta Electronics는 대만의 전력전자·산업 자동화·에너지 인프라 전문기업으로, <strong>데이터센터 전력공급장치(UPS·PSU)</strong>와 EV 충전 인프라의 핵심 부품 공급자입니다. AI 인프라 확장의 숨겨진 수혜주입니다.",background:"AI 데이터센터 1MW당 필요한 전력 변환 장치 수요가 폭발적으로 증가하고 있습니다. Delta는 전력 효율 95%+의 고성능 PSU로 NVIDIA GPU 서버 공급망에 깊숙이 연결되어 있습니다. Schneider Electric·ABB 대비 가격 경쟁력이 높아 신규 데이터센터 프로젝트에서 점유율을 확대하고 있습니다.",points:"• 데이터센터 PSU·UPS 수주 급증 — AI 인프라 확장 직접 수혜\n• EV 충전 인프라(Delta EVlink) 유럽·미국 확장으로 신성장 동력 추가\n• 공장 자동화 솔루션 확대 — 스마트팩토리 전환 수요 포착",risks:"NVIDIA 서버 수요 사이클 조정 시 PSU 수주 감소 가능성. 중국 경쟁사의 저가 공세로 단가 압박."},
+  "ICG_XLON": {overview:"ICG(Intermediate Capital Group)는 유럽 최대 사모부채·사모펀드 전문 운용사로 <strong>AUM £80B+</strong>를 운용합니다. 은행 대출 축소로 사모부채 시장이 구조적으로 확대되는 핵심 수혜자입니다.",background:"금리 상승 환경에서 사모부채 수익률이 10-12%로 전통 채권 대비 매력적입니다. 은행 규제 강화(바젤 IV)로 기업 대출이 사모 시장으로 이동하는 구조적 변화가 ICG의 AUM 성장을 견인합니다. Norges Bank급 소버린 펀드가 사모부채 배분을 늘리는 흐름이 ICG 자금 유입으로 직결됩니다.",points:"• 사모부채 시장 구조적 성장 — 은행 대출 공백을 사모 시장이 흡수\n• 성과보수(Carried Interest) 실현 사이클 진입 — 2026~2027년 현금 유입 가시화\n• 유럽 직접 대출(Direct Lending) 1위 플랫폼 경쟁 우위",risks:"고금리 장기화로 포트폴리오 기업 부실 증가 시 손실 가능성. 경쟁 심화로 신규 딜 스프레드 축소."},
+  "SU_XPAR": {overview:"Schneider Electric은 전력관리·산업 자동화·빌딩 에너지 효율의 글로벌 1위 기업으로, <strong>데이터센터 전력 인프라</strong>와 그리드 현대화의 핵심 공급자입니다. AI 인프라 붐의 직접 수혜주입니다.",background:"하이퍼스케일 데이터센터 1개 구축에 Schneider의 스위치기어·배전반·냉각 시스템이 수백억원 규모로 투입됩니다. 유럽 그린딜과 미국 IRA의 에너지 효율 투자 지원이 빌딩 자동화 수요를 폭발적으로 키우고 있습니다.",points:"• 데이터센터 전력 인프라 수주 2년치 백로그 형성\n• EcoStruxure 플랫폼 — 빌딩·그리드·산업 통합 소프트웨어 반복 매출\n• 유럽 에너지 효율 규제(EPBD) 수혜 — 빌딩 리트로핏 수요 장기 지속",risks:"산업 수주 사이클 조정 시 단기 성장 둔화. 데이터센터 투자 지연 시 백로그 소화 지연."},
+  "SAP_XFRA": {overview:"SAP는 글로벌 ERP·비즈니스 소프트웨어의 사실상 독점 기업으로, S/4HANA Cloud 전환 사이클이 <strong>반복 구독 매출</strong>로의 구조적 전환을 이끌고 있습니다. AI 기반 업무 자동화의 엔터프라이즈 플랫폼 역할로 재평가받고 있습니다.",background:"전 세계 기업의 핵심 재무·공급망·HR 데이터가 SAP 위에서 돌아갑니다. S/4HANA Cloud 마이그레이션이 라이선스 매출을 구독 매출로 전환하며 매출 가시성이 획기적으로 개선되고 있습니다. Joule AI 어시스턴트가 SAP 생태계에 내장되며 AI 기반 부가가치가 상승합니다.",points:"• S/4HANA Cloud 전환율 가속 — 구독 ARR 연 +25% 성장\n• Joule AI 통합 — ERP 데이터 기반 업무 자동화 차별화\n• 클라우드 전환 완료 시점(2027~) EPS 구조적 도약 예상",risks:"마이그레이션 지연으로 전환 비용 증가 가능성. Oracle NetSuite 등 SaaS 경쟁사의 중소기업 시장 잠식."},
+  "A000660_XKRX": {overview:"SK Hynix는 DRAM·NAND 시장을 양분하는 세계 2위 메모리 반도체 기업으로, <strong>HBM(고대역폭메모리)</strong> 시장에서 NVIDIA GPU의 사실상 독점 공급자 지위를 확보했습니다.",background:"AI 가속기의 핵심 부품인 HBM3E의 공급이 수요를 크게 밑돌며 가격·마진이 동시에 상승하고 있습니다. SK Hynix의 HBM 시장점유율은 50%+로 삼성전자·Micron 대비 기술 우위가 확인됩니다. NVIDIA B200·GB200에 SK Hynix HBM3E가 탑재되는 구조가 확정되어 있습니다.",points:"• HBM3E NVIDIA 독점 공급 → 고마진 구조 고착화\n• AI 메모리 수요 사이클 초기 — 2026~2027년 HBM4 전환으로 추가 성장\n• 일반 DRAM 가격 회복 동반 — 서버·모바일 수요 정상화",risks:"HBM 기술 격차 축소 시 삼성전자·Micron의 추격. 중국 규제 강화로 HBM 수출 제한 가능성."},
+  "PGHN_XSWX": {overview:"Partners Group은 스위스 바르에 본사를 둔 세계 최대 사모시장 통합 운용사로 <strong>AUM CHF 150B+</strong>를 운용합니다. 사모주식·사모부채·부동산·인프라를 원스톱으로 제공하는 플랫폼이 기관 자금 집중의 이유입니다.",background:"기관투자자의 사모시장 배분 비중이 지속 확대되며 AUM 성장이 구조적입니다. 성과보수 실현 사이클이 진입하며 현금흐름 가시성이 높아졌습니다. 스위스 본사의 안정적 지배구조와 창업자 지분 유지가 장기 투자자 선호 요인입니다.",points:"• 글로벌 기관 사모시장 배분 확대 — AUM 성장 구조적 지속\n• 성과보수(Carried Interest) 2026~2028년 대규모 실현 예상\n• 리테일·준기관 채널 확대 — 새로운 자금 풀 개척",risks:"사모시장 밸류에이션 조정 시 포트폴리오 평가손 발생. IPO·M&A 시장 침체로 엑싯 지연 및 성과보수 이연."},
+  "7741_XTKS": {overview:"Hoya Corporation은 의료용 렌즈·반도체 포토마스크·내시경 분야의 일본 정밀 광학 전문기업으로, AI 반도체 제조의 필수 소재인 <strong>EUV 포토마스크</strong> 시장을 독점합니다.",background:"EUV 리소그래피용 포토마스크는 TSMC·삼성·Intel이 모두 Hoya에 의존합니다. 진입 장벽이 극도로 높아 독과점이 유지되며, AI 반도체 수요 증가가 포토마스크 수요를 직접 견인합니다. 의료 렌즈 사업의 안정적 현금흐름이 R&D 투자를 뒷받침합니다.",points:"• EUV 포토마스크 독점 — TSMC 최첨단 공정 확대 직접 수혜\n• 의료 렌즈(IOL) 세계 1위 — 고령화 사회의 구조적 수요\n• 내시경(Pentax Medical) 사업 글로벌 점유율 확대",risks:"TSMC 공정 전환 지연 시 포토마스크 수주 감소. 의료기기 규제 강화로 신제품 승인 지연."},
+  "CEMEX CPO_XMEX": {overview:"Cemex는 멕시코 최대, 세계 3위 시멘트 그룹으로 미국·멕시코·유럽·중동에 걸친 글로벌 사업을 운영합니다. 미국 인프라 투자법과 <strong>니어쇼어링</strong> 붐으로 멕시코·미국의 건설 수요가 폭발적으로 증가하고 있습니다.",background:"멕시코로의 제조업 이전(중국+1 전략) 가속으로 공장·물류센터 건설 수요가 급증합니다. 미국 국경 인근 산업단지 개발이 Cemex의 핵심 시장과 정확히 겹칩니다. 부채 비율 개선과 자본배분 효율화로 밸류에이션 재평가가 진행 중입니다.",points:"• 멕시코 니어쇼어링 붐 — 공장·산업 인프라 건설 수요 구조적 급증\n• 미국 인프라 투자법 수혜 — 미국 남서부 사업이 직접 수혜\n• 탄소 중립 전략 — 저탄소 시멘트 제품으로 ESG 프리미엄 확보",risks:"멕시코·미국 금리 인상으로 주택 건설 수요 감소. 에너지 비용 급등 시 마진 압박."},
+  "GFNORTE O_XMEX": {overview:"Grupo Financiero Banorte는 멕시코 최대 국내 은행으로 <strong>예금 시장점유율 15%</strong>를 보유합니다. 멕시코 경제의 구조적 성장과 금융 포용 확대가 장기 성장 드라이버입니다.",background:"BBVA·Citigroup 등 외국계 은행 대비 로컬 기반이 강점으로, 정부·공공 부문 금융에서 독점적 지위를 유지합니다. 멕시코 금리 고공 환경(8%+)이 NIM 극대화로 직결되며 ROE 20%+의 고수익 구조가 지속됩니다.",points:"• 멕시코 고금리 환경 유지 — NIM 구조적 개선\n• 니어쇼어링 기업 대출·무역금융 수요 급증\n• 디지털 뱅킹 전환 — 비용 효율화로 ROE 20%+ 유지",risks:"멕시코 경기 사이클 의존도 높음. 페소화 약세 지속 시 달러 환산 수익 감소."},
+  "NOVO B_XCSE": {overview:"Novo Nordisk는 세계 인슐린 시장 50% 점유에 더해 <strong>GLP-1(오젬픽·위고비)</strong>으로 비만 치료 패러다임을 바꾸고 있는 덴마크 제약사입니다. 위고비 공급 부족이 해소되는 시점부터 매출 폭발이 예상됩니다.",background:"글로벌 비만 인구 10억명+의 잠재 시장에서 위고비가 최초로 유의미한 체중 감량을 입증한 약물입니다. 심혈관 보호 효과(SELECT 임상) 확인 이후 보험 급여 확대가 가속되고 있습니다. 공급 제약이 완화될 2026~2027년이 매출 성장의 변곡점입니다.",points:"• 위고비 공급 제약 해소 → 매출 급증 구간 진입\n• 경구용 세마글루타이드 출시로 주사제 거부감 해소\n• 알츠하이머·NASH 등 GLP-1 적응증 확장 파이프라인",risks:"일라이릴리(Zepbound)와의 경쟁 심화로 가격·점유율 압박. 비만약 보험 급여 제한 정책 변화 리스크."},
+
+  "RTO_XLON": {overview:"Rentokil Initial은 해충방제·위생·워크웨어 서비스의 세계 1위 기업으로, 2023년 Terminix 인수로 <strong>북미 시장 점유율 1위</strong>를 확보했습니다. 통합 시너지 실현이 본격화되는 시점입니다.",background:"Terminix 인수 후 2년간 시장이 실망했던 통합 비용·시너지 지연이 해소 국면에 접어들었습니다. BlackRock의 단독 대규모 매수는 인수 후 정상화 사이클 진입에 대한 높은 컨빅션으로 해석됩니다. 북미 해충방제 시장의 구조적 성장(기후변화→해충 활동 증가)이 장기 드라이버입니다.",points:"• Terminix 통합 완료 → 운영 시너지 $150M+ 실현 궤도\n• 북미 상업용 해충방제 가격 인상력 강화\n• 친환경 방제 솔루션으로 ESG 규제 수혜",risks:"통합 비용 예상 초과 시 이익 추정치 하향 가능성. 금리 고공으로 Terminix 인수 관련 부채 부담 지속.",sell_reason:""},
+  "COL_XASX": {overview:"Coles Group은 호주 2위 슈퍼마켓 체인으로 Woolworths와 과점 구조를 형성합니다. <strong>호주 인플레이션 완화</strong>와 함께 소비자 신뢰 회복이 수요 정상화로 이어지고 있습니다.",background:"호주 금리 인하 사이클 진입으로 소비 여건이 개선되고 있습니다. 자체 브랜드(PB) 확대로 마진이 개선되며, 디지털·배달 채널 투자가 결실을 맺는 시점입니다. JPM·GSAM·UBS UK 3개 HC기관 동시 매수가 확인된 실질 신호입니다.",points:"• 호주 금리 인하 → 소비 회복 → 식품 소매 수요 개선\n• PB 상품 비중 확대로 마진율 구조적 개선\n• e-Commerce 플랫폼 성장으로 고객 충성도 강화",risks:"Woolworths와의 가격 경쟁 심화. 호주 소비자 부채 부담이 예상보다 오래 지속될 경우.",sell_reason:""},
+  "AAPL": {overview:"Apple은 iPhone·Mac·서비스(App Store·Apple TV+·iCloud)의 생태계로 <strong>시총 $3.5조</strong>를 유지하는 세계 최대 기업입니다. AI 통합(Apple Intelligence)이 iPhone 교체 사이클의 새 트리거로 부상했습니다.",background:"Invesco의 단독 매수이나 규모가 크고, Apple Intelligence 출시 후 업그레이드 사이클이 확인되고 있습니다. 서비스 매출 연 $100B+ 진입으로 하드웨어 사이클 변동성이 완충됩니다.",points:"• Apple Intelligence로 iPhone 교체 사이클 재점화 (2025~2026)\n• 서비스 매출 $100B+ 진입 — 소프트웨어 기업급 마진\n• 인도 생산 이전으로 관세 리스크 부분 헷지",risks:"중국 시장 점유율 화웨이에게 지속 잠식. EU 디지털 시장법(DMA) 규제로 App Store 수수료 압박.",sell_reason:""},
+  "EQTL3_BVMF": {overview:"Equatorial Energia는 브라질 전력 배전망 운영사로, 인수한 Sabesp(상파울루 상하수도)와 함께 <strong>브라질 필수 인프라 독점</strong> 플랫폼으로 진화하고 있습니다.",background:"브라질 금리 인하 사이클이 인프라 자산의 할인율을 낮추며 밸류에이션이 재평가받고 있습니다. 배전망 손실률(ATC) 개선과 Sabesp 운영 효율화가 이익 성장을 견인합니다. 5개 HC기관 동시 매수는 브라질 인프라 사이클 회복에 대한 광범위한 공감대입니다.",points:"• 브라질 금리 인하 → 인프라 자산 밸류에이션 재평가\n• Sabesp 효율화 — 상파울루 상하수도 운영 개선으로 EBITDA 성장\n• 배전망 ATC 손실 감소 → 마진 개선 가시화",risks:"브라질 헤알화 약세 지속 시 달러 기준 수익 감소. 규제당국의 배전 요금 인상 제한 가능성.",sell_reason:""},
+  "PRIO3_BVMF": {overview:"Prio S.A.(구 PetroRio)는 브라질 독립계 최대 원유 E&P 기업으로, 해상 유전 운영 효율을 극대화하며 <strong>업계 최저 수준의 생산비($8~10/bbl)</strong>를 달성했습니다.",background:"유가 대비 생산비 스프레드가 업계 최상위이며, 새 유전 인수로 생산량을 공격적으로 확장하고 있습니다. BlackRock·JPM·State Street 3개 HC기관 동시 매수는 높은 원가 경쟁력과 성장 가시성에 대한 확신으로 해석됩니다.",points:"• 생산비 $8~10/bbl — 유가 하락 시에도 수익성 방어\n• Wahoo·Seat 유전 생산 본격화로 총 생산량 급증\n• 브라질 인플레 완화 → 헤알화 안정으로 달러 환산 수익 개선",risks:"유가 급락 시 투자 규모 조정 가능성. 브라질 원유 규제·세제 변경 리스크.",sell_reason:""},
+  "9988_XHKG": {overview:"Alibaba는 중국 이커머스·클라우드(Alibaba Cloud)·물류의 복합 플랫폼으로, 분할 검토와 구조조정 이후 <strong>핵심 사업 밸류에이션 재평가</strong> 국면에 있습니다.",background:"중국 소비 회복 기대와 함께 정부의 플랫폼 기업 규제 완화 신호가 투자 심리를 개선하고 있습니다. Alibaba Cloud의 AI 수요 수혜와 국제 이커머스(Lazada·Trendyol) 성장이 새 성장 동력입니다. 4개 HC기관 매수, 1개 매도의 엇갈린 신호는 여전한 불확실성을 반영합니다.",points:"• 중국 소비 부양책 효과 기대 — 이커머스 GMV 회복\n• Alibaba Cloud AI 수요 급증 — 국내 AI 컴퓨팅 수요 수혜\n• 적극적 자사주 매입 — $35B 이상 프로그램 집행 중",risks:"중국 규제 재강화 리스크 상존. 징동·핀둬둬(테무)와의 가격 경쟁 지속.",sell_reason:""},
+  "META": {overview:"Meta는 Facebook·Instagram·WhatsApp을 보유한 글로벌 소셜 미디어 제국으로, AI 기반 광고 타겟팅 고도화가 <strong>광고 수익률(ROAS) 구조적 개선</strong>을 만들고 있습니다.",background:"Advantage+ 자동화 광고 시스템이 광고주 ROAS를 30%+ 개선하며 광고 단가 상승과 물량 증가가 동시에 일어나고 있습니다. Llama AI를 무료 오픈소스로 배포하며 생태계를 선점하는 전략이 중장기 경쟁 해자를 형성합니다. Invesco 단독 매수이나 Meta의 실적 개선 방향성은 명확합니다.",points:"• AI 광고 최적화 → ROAS 30%+ 개선 → 광고 단가·물량 동반 상승\n• Threads 성장 가속 — Twitter/X 이탈 광고주 흡수\n• Reality Labs 메타버스 손실 축소 — 2026년 흑자 전환 가시성",risks:"EU 규정 준수 비용 급증(GDPR·DMA). 틱톡 금지 해제 시 인스타그램 Reels 경쟁 심화.",sell_reason:""},
+  "EDV_XASX": {overview:"Endeavour Group은 호주 최대 주류 소매(Dan Murphy's·BWS)·호텔·포커머신 사업자로, 스핀오프(Woolworths에서 분리) 이후 독립 경영 최적화가 진행 중입니다.",background:"BlackRock·GSAM·State Street 3개 HC기관이 매수하고 Invesco가 매도하는 구조입니다. 호주 소비 회복과 주류 소매 가격 인상력, 그리고 포커머신 사업의 안정적 현금흐름이 HC기관 매수의 배경입니다.",points:"• 호주 소비 회복 → 주류 소매 수요 개선\n• 안정적 현금흐름 — 포커머신·호텔 사업 방어적 특성\n• 자사주 매입·배당으로 주주환원 강화",risks:"호주 규제당국의 포커머신 규제 강화 가능성. 소비자 절주 트렌드 장기화.",sell_reason:""},
+  "2688_XHKG": {overview:"ENN Energy는 중국 최대 민간 도시가스 배급회사로 <strong>LNG 수입·터미널</strong>까지 수직 통합한 에너지 플랫폼입니다. 중국 탄소 중립 정책에서 석탄을 대체하는 천연가스 수요가 구조적 성장 동력입니다.",background:"중국 정부의 석탄→가스 전환 정책이 도시가스 보급률 확대를 견인합니다. BlackRock·GSAM·JPM·State Street·Wellington 5개 HC기관 동시 매수는 중국 내 에너지 전환 수혜주에 대한 확신을 보여줍니다.",points:"• 중국 탈석탄 정책 → 가스 수요 구조적 증가\n• LNG 수입 터미널 보유 — 업스트림 수익성 추가\n• 도시 신규 가스 연결 건수 성장 지속",risks:"중국 LNG 가격 급등 시 하류 마진 압박. 중국 경기 둔화로 산업용 가스 수요 감소 가능성.",sell_reason:""},
+
+  "TELIA_XSTO": {overview:"Telia Company는 스웨덴·핀란드·노르웨이·덴마크에서 통신 서비스를 제공하는 북유럽 2위 통신사입니다. 비핵심 자산 매각과 비용 절감으로 수익성 개선을 추구하고 있으나 성장 모멘텀이 제한적입니다.",background:"4개 기관이 동시에 매도하는 강한 Exit 신호입니다. 북유럽 통신 시장의 치열한 가격 경쟁, ARPU 정체, 배당 삭감 우려가 매도 배경으로 꼽힙니다. Deutsche Telekom(T-Mobile 성장)·Vodafone 대비 성장 스토리가 취약해 로테이션이 발생하고 있습니다.",points:"• 북유럽 통신 시장 가격 경쟁 심화 — ARPU 정체\n• 배당 지속 가능성에 대한 시장 의구심\n• 자산 매각 완료 후 성장 동력 불명확",risks:"",sell_reason:"• 북유럽 통신 가격 경쟁 심화 → ARPU 하락 압박\n• Deutsche Telekom·Elisa 대비 성장 스토리 열위로 로테이션\n• 배당 지속 가능성 불확실성 — 4개 기관 동시 Exit"},
+  "BEZ_XLON": {overview:"Beazley는 전문 손해보험(사이버·의료과실·D&O) 특화 로이즈 시장 참여자입니다. 사이버 보험 시장의 경쟁 심화와 손해율 상승이 수익성 우려를 낳고 있습니다.",background:"Wellington의 대규모 단독 매도입니다. 사이버 보험 요율이 피크에 도달했다는 인식과 대형 사이버 사고 발생 시 집중 손실 리스크, 그리고 D&O 보험의 소송 환경 악화가 매도 배경으로 분석됩니다.",points:"• 사이버 보험 요율 피크아웃 인식 — 신계약 수익성 약화\n• AI 사이버 공격 급증으로 손해율 상승 리스크\n• D&O 소송 환경 악화로 준비금 적립 부담",risks:"",sell_reason:"• 사이버 보험 가격 주기 피크 → 수익성 하락 전망\n• 대형 사이버 사고 집중 발생 시 손실 급증 우려\n• D&O 소송 환경 악화로 준비금 과소 리스크"},
+  "GSK_XLON": {overview:"GSK는 백신·전문의약품·소비자 헬스케어(Haleon 분사 완료) 포트폴리오의 영국 대형 제약사입니다. Zantac(라니티딘) 관련 미국 소송이 가장 큰 불확실성입니다.",background:"11개 기관 동시 매도는 이번 분석에서 가장 강한 Exit 신호입니다. Zantac 소송의 합의 규모 불확실성, RSV 백신 Arexvy 시장 경쟁 심화, 파이프라인 우려가 동시에 작용하고 있습니다. 국민연금까지 포함된 광범위한 매도는 단순 밸류에이션 문제가 아닌 사업 리스크 재평가를 시사합니다.",points:"• Zantac 소송 합의 규모 — 최악 시나리오 미반영 가능성\n• RSV 백신 경쟁 심화 — Pfizer·Moderna 추격\n• HIV 핵심 약물 특허 만료 임박",risks:"",sell_reason:"• Zantac 소송 불확실성 — 11개 기관 동시 Exit의 핵심 배경\n• RSV·독감 백신 시장 경쟁 격화로 성장 전망 하향\n• 파이프라인 가시성 부족 대비 밸류에이션 부담"},
+  "SU_XTSE": {overview:"Suncor Energy는 캐나다 최대 오일샌드 기업으로 업스트림-다운스트림 수직 통합 모델을 운영합니다. 오일샌드 특유의 높은 생산비와 캐나다 헤비오일 할인 폭이 수익성 핵심 변수입니다.",background:"BlackRock의 단독 대규모 매도입니다. 유가 하락 우려와 함께 오일샌드 생산비($30~35/bbl)가 일반 원유 대비 높아 유가 민감도가 크다는 판단입니다. ESG 포트폴리오 조정으로 오일샌드 비중을 줄이는 글로벌 흐름도 매도 배경입니다.",points:"• 유가 하락 시 오일샌드 마진 급격히 악화\n• 탄소세 부담 — 캐나다 탄소 가격 상승으로 비용 증가\n• ESG 규제 강화로 오일샌드 자산 좌초 리스크",risks:"",sell_reason:"• 유가 하락 우려 — 높은 생산비 구조($30~35/bbl)로 민감도 큼\n• 캐나다 탄소세 인상으로 비용 부담 구조적 증가\n• ESG 포트폴리오 조정 — 오일샌드 비중 축소 트렌드"},
+  "TEAM": {overview:"Atlassian은 Jira·Confluence·Trello 등 소프트웨어 개발 협업 도구의 글로벌 1위 SaaS 기업입니다. 데이터센터 제품 지원 종료(2024년 2월)로 클라우드 전환이 완료됐으나 성장 둔화가 우려됩니다.",background:"Invesco 단독 매도입니다. 클라우드 전환 완료 후 성장률 둔화가 확인되고 있으며, GitHub Copilot·Linear 등 AI 네이티브 도구의 도전이 심화되고 있습니다. 고평가 SaaS 밸류에이션이 금리 환경에서 조정받는 흐름과도 연결됩니다.",points:"",risks:"",sell_reason:"• 클라우드 전환 완료 후 성장 모멘텀 급감\n• AI 네이티브 경쟁자(Linear·GitHub Copilot) 도전 심화\n• 고밸류에이션 SaaS 재평가 — 금리 환경 부담"},
+  "SSE_XLON": {overview:"SSE는 영국·아일랜드의 전력망 운영·재생에너지 발전 기업입니다. 영국 전력 인프라의 핵심 플레이어이나 규제 환경과 금리 부담이 투자 매력을 제한합니다.",background:"Invesco·JPM·Norges Bank 3개 기관이 매도하고 4개 기관이 매수하는 엇갈린 신호입니다. 영국 전력망 규제(Ofgem)의 허용 수익률 하향 우려, 재생에너지 프로젝트 비용 상승, 높은 부채 부담이 매도 측 논거입니다.",points:"",risks:"",sell_reason:"• Ofgem 규제 수익률 하향 우려 — 전력망 수익 상한 압박\n• 재생에너지 프로젝트 비용 인플레로 ROI 악화\n• 고부채 구조 — 금리 장기 고공 시 이자 부담"},
+  "A064350_XKRX": {overview:"현대로템은 철도차량(KTX·전동차)·방산(K2 전차·자주포)·플랜트 사업을 영위하는 현대차그룹 계열사입니다. 방산 수출 급증으로 밸류에이션이 급격히 상승했습니다.",background:"BlackRock·Invesco 2개 기관이 매도하고 JPM·State Street·GSAM·UBS 5개 HC기관이 매수하는 혼재 신호입니다. 매도 측은 폴란드·루마니아 K2 수출 계약 기반 밸류에이션이 과도하게 선반영됐다는 판단으로 해석됩니다. 매수 측은 추가 수출 계약 기대를 유지합니다.",points:"",risks:"",sell_reason:"• K2 전차 수출 계약 기반 밸류에이션 과도 선반영 우려\n• 방산 수출 사이클 피크아웃 가능성 — 유럽 재무장 예산 현실화 지연\n• 원화 강세 전환 시 수출 수익 감소"},
+  "AGN_XAMS": {overview:"Aegon은 네덜란드 기반의 글로벌 보험·자산운용 그룹으로 미국·유럽·아시아에서 생명보험과 연금을 운영합니다. 미국 사업(Transamerica) 매각 완료 후 포트폴리오 재편 중입니다.",background:"Invesco·Norges Bank 2개 기관이 매도하고 GSAM·State Street·UBS UK 3개 기관이 매수합니다. 매도 측은 미국 사업 매각 완료 후 성장 스토리가 약화됐다는 판단과 배당 정책 불확실성을 우려합니다.",points:"",risks:"",sell_reason:"• 미국 Transamerica 매각 후 성장 동력 약화\n• 배당 지속 가능성 불확실성 — Norges Bank 등 인컴 투자자 이탈\n• 유럽 저성장 환경에서 보험 신계약 성장 제한"},
+  "PRU_XLON": {overview:"Prudential plc는 홍콩 상장 아시아 생명보험 전문 기업으로, 동남아·인도·중국에서 의미있는 보험 성장을 추구합니다. 중국 회복 지연과 홍콩 금융 허브 우려가 밸류에이션 압박 요인입니다.",background:"7개 기관이 매도하고 5개 기관이 매수하는 복잡한 신호입니다. 매도 측은 중국 회복 지연, 홍콩 규제 환경 변화, 아시아 신흥국 통화 약세를 우려합니다. 매수 측(JPM·BlackRock)은 아시아 보험 침투율 상승의 장기 스토리를 유지합니다.",points:"",risks:"",sell_reason:"• 중국 경기 회복 지연 — 아시아 신계약 성장 둔화\n• 홍콩 금융 허브 지위 약화 우려로 운영 환경 불확실\n• 아시아 통화 약세 → 달러 환산 수익 감소"},
+
+  "A005935_XKRX": {overview:"삼성전자 우선주는 삼성전자 보통주 대비 의결권이 없는 대신 배당에서 우선권을 갖습니다. 보통주 대비 <strong>15~20% 할인</strong> 거래되며, HBM 경쟁력 회복 기대와 배당 매력이 기관 매수 배경입니다.",background:"보유 기관 11개 중 10개가 동시에 증액한 91%의 극단적 집중도는 특정 이벤트 기대를 반영합니다. HBM3E 품질 인증 통과 기대, 메모리 사이클 회복, 우선주 할인 축소 기대가 복합적으로 작용합니다.",points:"• HBM3E NVIDIA 공급망 재진입 기대 — 품질 인증 완료 시 재평가\n• 반도체 업사이클 초입 — DRAM 가격 회복으로 수익성 개선\n• 우선주 할인 15~20% — 보통주 대비 배당 수익률 우위",risks:"HBM 기술 격차 회복 지연 시 기대 실망. SK Hynix 대비 HBM 경쟁력 약화 지속 가능성.",sell_reason:""},
+  "LISN_XSWX": {overview:"Lindt & Sprüngli는 세계 최고 프리미엄 초콜릿 브랜드로, 코코아 가격 급등이라는 역풍 속에서도 <strong>가격 전가력</strong>을 입증하고 있습니다. Ghirardelli·Russell Stover 등 미국 포트폴리오가 성장 엔진입니다.",background:"보유 기관 8개 중 7개가 증액한 87.5%의 집중도입니다. 코코아 가격 급등에도 제품 가격 인상이 소비자에게 수용되며 프리미엄 포지셔닝의 힘을 확인했습니다. 코코아 가격 안정화 시 마진 개선 폭발이 예상되는 시점입니다.",points:"• 코코아 가격 안정화 국면 진입 — 마진 회복 속도 가파를 것\n• 미국 프리미엄 초콜릿 시장 점유율 지속 확대\n• 이스터·밸런타인 시즌 매출 고성장 지속",risks:"코코아 가격 재급등 시 마진 재악화. 미국 소비자 경기 침체로 프리미엄 제품 다운트레이딩.",sell_reason:""},
+  "6861_XTKS": {overview:"Keyence는 팩토리 자동화용 센서·바코드 리더·비전 시스템의 세계 최고 마진 기업으로 <strong>영업이익률 50%+</strong>를 유지합니다. 직판 비즈니스 모델과 압도적 기술력이 해자를 형성합니다.",background:"보유 기관 14개 중 12개가 증액한 86% 집중도입니다. 제조업 자동화 수요 회복 기대와 일본 기업 거버넌스 개선(자사주 매입·배당 확대)이 글로벌 기관 자금 유입을 견인합니다.",points:"• 제조업 자동화 사이클 회복 — 글로벌 생산라인 디지털화 수혜\n• 일본 기업 거버넌스 개선 — PBR 1배 이하 해소 정책 직접 수혜\n• 엔화 약세 유지 시 해외 수출 가격 경쟁력 추가 확보",risks:"글로벌 제조업 설비투자 둔화 장기화. 엔화 강세 전환 시 수출 경쟁력 약화.",sell_reason:""},
+  "VOLV B_XSTO": {overview:"Volvo AB는 상용차(트럭·버스)·건설기계·선박엔진의 글로벌 2위 기업입니다. 유럽 상용차 전기화 의무화와 인프라 투자 회복이 신규 모델 수요를 견인합니다.",background:"보유 기관 13개 중 11개가 증액한 85% 집중도입니다. 유럽 탄소 규제(CO₂ 기준 강화)로 트럭 업체들의 전기 트럭 발주가 가속화되고, Volvo는 전기 트럭에서 선도적 포지션을 확보했습니다.",points:"• 유럽 전기 트럭 의무화 — 선도 포지션으로 초기 시장 장악\n• 인프라 투자 사이클 회복 — 건설기계 수요 개선\n• 북미 전기 트럭 파일럿 수주 — 미국 시장 조기 진입",risks:"전기 트럭 배터리 비용 하락 속도가 고객 수요를 뒤처질 경우. 상용차 경기 사이클 둔화 시 주문 취소.",sell_reason:""},
+  "FORTUM_XHEL": {overview:"Fortum은 핀란드 국영 에너지 기업으로 북유럽 수력·원자력 발전과 독일 Uniper 지분 관련 구조조정이 핵심 이슈입니다. 에너지 가격 정상화와 Uniper 리스크 해소가 재평가 트리거입니다.",background:"보유 기관 12개 중 10개가 증액한 83% 집중도입니다. Uniper 국유화 완료로 Fortum의 최대 불확실성이 제거됐습니다. 북유럽 수력·원자력의 저탄소 전력 프리미엄과 핀란드 정부 지원이 안전망을 형성합니다.",points:"• Uniper 리스크 완전 제거 — 최대 불확실성 해소로 재평가\n• 북유럽 수력·원자력 — 탄소 비용 면제로 구조적 원가 우위\n• 핀란드 정부 지원 — 국영기업 신용 안정성",risks:"북유럽 강수량 부족 시 수력 발전량 감소. 유럽 에너지 가격 급락 시 수익성 악화.",sell_reason:""},
+  "BAX": {overview:"Baxter International은 신장 투석·IV솔루션·의료기기를 전문으로 하는 미국 의료기기 기업입니다. 2022년 Hillrom 인수 후 부채 부담이 크게 늘었으나 사업 분리(Vantive 스핀오프)로 밸류에이션 재평가가 진행 중입니다.",background:"보유 기관 17개 중 14개가 증액한 82% 집중도입니다. Vantive(신장 투석) 분사 완료로 핵심 의료기기 사업이 고평가 받을 여건이 마련됐습니다. 부채 축소와 마진 개선의 복합 효과가 EPS를 구조적으로 끌어올리는 국면입니다.",points:"• Vantive 스핀오프 완료 — 핵심 IV·의료기기 사업 순수 플레이 재평가\n• 부채 상환 가속으로 이자 비용 감소 → EPS 개선\n• 병원 환경 정상화로 일회용 의료소모품 수요 회복",risks:"스핀오프 후 규모 축소로 협상력 약화 가능성. 의료기기 가격 압박(병원 구매연합 강화).",sell_reason:""},
+  "AMX B_XMEX": {overview:"America Movil는 Carlos Slim 소유의 중남미 최대 통신그룹으로 멕시코·콜롬비아·브라질·아르헨티나에서 통신 서비스를 제공합니다. <strong>중남미 통신 과점</strong>의 안정적 현금흐름이 매력입니다.",background:"보유 기관 11개 중 9개가 증액한 82% 집중도입니다. 멕시코 페소화 안정과 니어쇼어링 수혜로 중산층이 확대되며 모바일 데이터·광대역 수요가 성장합니다. 고배당(시가배당률 5%+)과 자사주 매입이 인컴 투자자를 견인합니다.",points:"• 중남미 중산층 확대 — 모바일·브로드밴드 수요 구조적 성장\n• 니어쇼어링 수혜 — 멕시코 기업·산업 통신 수요 급증\n• 고배당(5%+) + 자사주 매입으로 주주환원 매력",risks:"중남미 통화(헤알·페소) 약세 지속 시 달러 환산 수익 감소. 아르헨티나 경제 불안정 지속.",sell_reason:""},
+  "PETR3_BVMF": {overview:"Petrobras는 브라질 국영 석유기업으로 세계 최대 심해 유전(프리솔트)의 핵심 운영자입니다. 브라질 정부의 배당 정책과 정치적 개입이 밸류에이션의 핵심 변수입니다.",background:"보유 기관 11개 중 9개가 증액한 82% 집중도입니다. 프리솔트 원유의 낮은 생산비($3~5/bbl)와 초고배당(시가배당률 15%+)이 글로벌 기관의 포지션 확대 배경입니다. 룰라 정부의 배당 정책이 안정화되는 방향으로 시장이 해석하고 있습니다.",points:"• 프리솔트 생산비 $3~5/bbl — 최저 수준의 원가 경쟁력\n• 초고배당 매력 — 배당성향 45% + 특별배당 지속 가능성\n• 새 유전 개발로 생산량 장기 성장 가시성",risks:"브라질 정부의 배당 삭감·사업 다각화 요구 재등장 리스크. 유가 급락 시 특별배당 취소 가능성.",sell_reason:""},
+  "MBG_XFRA": {overview:"Mercedes-Benz Group은 프리미엄·럭셔리 자동차의 글로벌 리더로, 전기차 전환 속도 조절과 이익 방어 사이에서 전략적 균형을 추구하고 있습니다.",background:"보유 기관 15개 중 12개가 증액한 80% 집중도입니다. EV 수요 둔화로 ICE 고수익 모델에 집중하는 전략이 단기 이익 방어에 효과적입니다. 밸류에이션이 역사적 저점(PER 4~5배)에서 반등 중이며, 자사주 매입이 주당 가치를 지지합니다.",points:"• EQ 전략 속도 조절 — 고수익 ICE 모델 집중으로 단기 마진 방어\n• 공격적 자사주 매입 — 저PBR에서 주당 가치 개선\n• 럭셔리 세그먼트 강화 — Maybach·AMG 고마진 믹스",risks:"중국 BYD 등 로컬 프리미엄 브랜드의 빠른 성장. EV 전환 지연 시 2030년 이후 경쟁력 약화.",sell_reason:""},
+  "ZBRA": {overview:"Zebra Technologies는 산업용 바코드 스캐너·RFID·프린터·위치추적 솔루션의 세계 1위 기업입니다. 리테일·물류·헬스케어의 디지털 전환에서 핵심 인프라 역할을 합니다.",background:"보유 기관 19개 중 15개가 증액한 79% 집중도입니다. 2023~2024년 고객의 재고 조정으로 수주가 부진했던 것이 해소되며 주문이 정상화되고 있습니다. AI 기반 기업 모빌리티 솔루션 확장이 새 성장 축입니다.",points:"• 고객 재고 조정 완료 → 수주 회복 사이클 진입\n• RFID·컴퓨터 비전 솔루션 확장 — 웨어하우스 자동화 수혜\n• 헬스케어 버티컬 성장 가속 — 병원 자산 추적 수요",risks:"경기 침체 시 리테일·물류 고객의 설비 투자 연기. Honeywell·Datalogic과의 경쟁 심화.",sell_reason:""},
+  "GALD_XSWX": {overview:"Galderma는 스위스 바젤 상장의 피부과 전문 제약·미용 기업으로 보톡스 경쟁제품(Dysport)·필러·스킨케어 브랜드를 보유합니다. <strong>의료 미용 시장의 구조적 성장</strong>이 장기 드라이버입니다.",background:"보유 기관 14개 중 11개가 증액한 79% 집중도입니다. 2024년 IPO 이후 처음으로 다기관 증액이 확인된 것은 실적 가시성에 대한 공감대 형성을 의미합니다. 중국·아시아 의료 미용 시장 침투율 확대가 핵심 성장 스토리입니다.",points:"• 의료 미용 시장 구조적 성장 — 중국·아시아 침투율 확대\n• Dysport(보툴리눔 톡신) 적응증 확장 — 신시장 개척\n• 스킨케어 처방 채널(dermatologist-recommended) 강화",risks:"Allergan(AbbVie) Botox와의 경쟁. 중국 의료 미용 규제 강화로 성장 둔화 가능성.",sell_reason:""},
+  "DELL": {overview:"Dell Technologies는 PC·서버·스토리지·네트워킹의 통합 IT 인프라 기업으로, AI 서버(PowerEdge) 수요 급증이 새 성장 축입니다.",background:"보유 기관 18개 중 14개가 증액한 78% 집중도입니다. NVIDIA GPU 탑재 AI 서버의 최대 ODM 파트너로서 AI 인프라 붐의 직접 수혜를 받고 있습니다. PC 교체 사이클 회복까지 겹치며 전방위 수요 개선이 확인됩니다.",points:"• AI 서버(PowerEdge) 수주 급증 — NVIDIA 공급망 핵심 파트너\n• PC 업사이클 회복 — AI PC 교체 수요로 상업용 PC 성장\n• VMware 분사 후 스토리지·네트워킹 수익성 개선",risks:"AI 서버 마진이 전통 서버 대비 낮아 수익성 희석 가능성. PC 시장 회복 지연.",sell_reason:""},
+  "CRWD": {overview:"CrowdStrike는 차세대 엔드포인트·클라우드 보안의 글로벌 선두주자로, Falcon 플랫폼의 AI 기반 탐지 능력이 업계 최고 수준으로 평가받습니다. 2024년 대규모 아웃티지 이후 고객 신뢰 회복이 핵심 관전 포인트입니다.",background:"보유 기관 18개 중 14개가 증액한 78% 집중도입니다. 2024년 7월 소프트웨어 업데이트 오류로 인한 글로벌 IT 장애 이후 고객 이탈 우려가 있었으나, 실제 해지율이 낮게 유지되며 플랫폼 고착화(stickiness)가 확인됐습니다.",points:"• Falcon 플랫폼 고착화 확인 — 아웃티지 이후에도 Net Retention Rate 120%+\n• AI 기반 위협 탐지 선도 — Adversary Intelligence 차별화\n• 정부·금융 대형 계약 수주 지속으로 ARR 성장 가속",risks:"아웃티지 관련 소송 리스크 — 손해배상 규모 불확실. SentinelOne·Microsoft Defender와의 경쟁 심화.",sell_reason:""},
+  "A034020_XKRX": {overview:"두산에너빌리티는 원자력·가스터빈·해상풍력·수소 분야의 중공업 기업으로, 한국 원전 르네상스와 글로벌 SMR(소형모듈원자로) 사업의 핵심 수혜주입니다.",background:"보유 기관 13개 중 10개가 증액한 77% 집중도입니다. 한국 정부의 원전 확대 정책 복귀와 체코·폴란드 원전 수주 기대, AI 데이터센터 전력 수요로 인한 원전 재평가가 동시에 작용합니다.",points:"• 한국 원전 확대 정책 — 신한울 3·4호기 등 국내 수주 가시화\n• 체코·폴란드 해외 원전 수주 기대 — 팀 코리아 컨소시엄\n• SMR 사업 진출 — 글로벌 SMR 붐의 핵심 부품 공급자",risks:"원전 수주 지연 또는 취소 시 밸류에이션 급락. 중공업 부문 수익성 변동성.",sell_reason:""},
+  "ROP": {overview:"Roper Technologies는 니치마켓 소프트웨어·측정·분석 기업들을 인수하는 복합기업으로, <strong>FCF 마진 30%+</strong>의 높은 현금창출 능력이 핵심 매력입니다.",background:"보유 기관 17개 중 13개가 증액한 76% 집중도입니다. ICG(사모투자)·Keyence와 유사한 분권화 운영 모델로 피인수 기업의 가치를 극대화합니다. 소프트웨어 비중 확대로 SaaS 기업급 밸류에이션 적용 기대가 높아지고 있습니다.",points:"• FCF 마진 30%+ 유지 — 복합기업 중 최고 수준 현금창출력\n• 소프트웨어 비중 75%+ — SaaS 밸류에이션 프리미엄 적용 가능\n• 연간 1~2건 M&A로 EPS 성장 복리 효과",risks:"M&A 환경 악화(금리 인상) 시 인수 가격 부담 증가. 고PER 복합기업 밸류에이션 조정 리스크.",sell_reason:""},
+};
+
+
 
 const FLOW_BUY=[
   {symbol:"RTO_XLON",name:"Rentokil Initial",industry:"Business Support Services",total_vc:1176732459,total_val:1774530752,buyer_count:1,seller_count:0,hc_buyer_count:1,buyer_institutions:["BlackRock"],seller_institutions:[],hc_buyers:["BlackRock"],confidence:"LOW"},
@@ -1070,30 +1266,63 @@ function drawInstBar(){
 clusterPanel = i => {
   const data = CLUSTER_DATA.filter(d=>d.institution_count>=(clusterMin||0));
   const d = data[i];
-  openPanel(`<div class="p-eye" style="color:var(--green)">군집 매수 상세</div>
-    <div class="p-name">${d.name}</div><div class="p-sym">${d.symbol} · ${d.industry}</div>
+  const a = STOCK_ANALYSES[d.symbol] || null;
+  const chips = d.institutions.map(inst=>`<span class="chip chip-accent">${inst}</span>`).join('');
+  const analysisHtml = a ? `
+    <div class="p-sec" style="margin-top:20px">기업 개요</div>
+    <div style="font-size:12px;color:var(--muted2);line-height:1.8;margin-bottom:12px">${a.overview}</div>
+    <div class="p-sec">기관 매수 배경</div>
+    <div style="font-size:12px;color:var(--muted2);line-height:1.8;margin-bottom:12px">${a.background}</div>
+    <div class="p-sec">핵심 투자 포인트</div>
+    <div style="font-size:12px;color:var(--muted2);line-height:1.9;margin-bottom:12px">${a.points.replace(/•/g,'<span style="color:var(--accent)">•</span>')}</div>
+    <div class="p-sec">주요 리스크</div>
+    <div style="font-size:12px;color:rgba(240,86,106,.8);line-height:1.8;margin-bottom:12px">${a.risks}</div>
+  ` : '';
+  openPanel(`
+    <div class="p-eye" style="color:var(--green)">군집 매수 · 종목 분석</div>
+    <div class="p-name">${d.name}</div>
+    <div class="p-sym">${d.symbol} · ${d.industry}</div>
     <div class="p-grid">
       <div class="p-box"><div class="p-box-l">동시 매수 기관</div><div class="p-box-v" style="color:var(--green)">${d.institution_count}개</div></div>
       <div class="p-box"><div class="p-box-l">매수 금액</div><div class="p-box-v" style="color:var(--green)">+${fmtAbs(d.total_value_change)}</div></div>
       <div class="p-box"><div class="p-box-l">총 보유</div><div class="p-box-v">${fmtAbs(d.total_value)}</div></div>
     </div>
+    ${analysisHtml}
     <div class="p-sec">참여 기관 (${d.institution_count})</div>
-    <div class="p-chips">${d.institutions.map(inst=>`<span class="chip chip-accent">${inst}</span>`).join('')}</div>`);
+    <div class="p-chips">${chips}</div>
+  `);
 };
 
 flowPanel = i => {
   const raw = flowType==='buy'?FLOW_BUY:FLOW_SELL;
   const data = raw.filter(d=>flowConf==='ALL'?true:flowConf==='HIGH'?d.confidence==='HIGH':d.confidence!=='SINGLE');
   const d = data[i], isBuy = flowType==='buy';
-  openPanel(`<div class="p-eye" style="color:${isBuy?'var(--green)':'var(--red)'}">
-      ${isBuy?'▲ 순매수':'▼ 순매도'} 상세</div>
-    <div class="p-name">${d.name}</div><div class="p-sym">${d.symbol} · ${d.industry}</div>
+  const a = STOCK_ANALYSES[d.symbol] || null;
+  const colour = isBuy ? 'var(--green)' : 'var(--red)';
+
+  const analysisHtml = a ? `
+    <div class="p-sec" style="margin-top:20px">기업 개요</div>
+    <div style="font-size:12px;color:var(--muted2);line-height:1.8;margin-bottom:12px">${a.overview}</div>
+    <div class="p-sec">${isBuy ? '매수 배경' : '매도 배경'}</div>
+    <div style="font-size:12px;color:var(--muted2);line-height:1.8;margin-bottom:12px">${isBuy ? a.background : (a.background || a.overview)}</div>
+    <div class="p-sec">${isBuy ? '핵심 투자 포인트' : '매도 근거'}</div>
+    <div style="font-size:12px;line-height:1.9;margin-bottom:12px;color:${isBuy?'var(--muted2)':'rgba(240,86,106,.85)'}">
+      ${isBuy ? (a.points||'').replace(/•/g,'<span style="color:var(--accent)">•</span>') : (a.sell_reason||a.points||'').replace(/•/g,'<span style="color:var(--red)">•</span>')}
+    </div>
+    ${a.risks && isBuy ? `<div class="p-sec">주요 리스크</div><div style="font-size:12px;color:rgba(240,86,106,.8);line-height:1.8;margin-bottom:12px">${a.risks}</div>` : ''}
+  ` : '';
+
+  openPanel(`
+    <div class="p-eye" style="color:${colour}">${isBuy?'▲ 순매수':'▼ 순매도'} · 종목 분석</div>
+    <div class="p-name">${d.name}</div>
+    <div class="p-sym">${d.symbol} · ${d.industry}</div>
     <div class="p-grid">
       <div class="p-box"><div class="p-box-l">신뢰도</div><div class="p-box-v"><span class="pill pill-${d.confidence.toLowerCase()}">${d.confidence}</span></div></div>
-      <div class="p-box"><div class="p-box-l">${isBuy?'순매수':'순매도'}</div><div class="p-box-v" style="color:${isBuy?'var(--green)':'var(--red)'}">${fmt(d.total_vc)}</div></div>
-      <div class="p-box"><div class="p-box-l">HC 매수기관</div><div class="p-box-v" style="color:var(--green)">${d.hc_buyer_count}개</div></div>
+      <div class="p-box"><div class="p-box-l">${isBuy?'순매수':'순매도'}</div><div class="p-box-v" style="color:${colour}">${fmt(d.total_vc)}</div></div>
+      <div class="p-box"><div class="p-box-l">HC 기관</div><div class="p-box-v" style="color:var(--green)">${d.hc_buyer_count}개</div></div>
       <div class="p-box"><div class="p-box-l">총 보유</div><div class="p-box-v">${fmtAbs(d.total_val)}</div></div>
     </div>
+    ${analysisHtml}
     ${d.buyer_institutions.length?`<div class="p-sec">▲ 매수 기관</div><div class="p-chips">${d.buyer_institutions.map(b=>`<span class="chip chip-buy">${b}</span>`).join('')}</div>`:''}
     ${d.seller_institutions.length?`<div class="p-sec">▼ 매도 기관</div><div class="p-chips">${d.seller_institutions.map(b=>`<span class="chip chip-sell">${b}</span>`).join('')}</div>`:''}
     ${d.hc_buyers.length?`<div class="p-sec">★ HC 확인</div><div class="p-chips">${d.hc_buyers.map(b=>`<span class="chip chip-accent">${b}</span>`).join('')}</div>`:''}
@@ -1110,19 +1339,444 @@ ratioPanel = i => {
   else if(ratioSecF==='TECH') data=data.filter(d=>/Software|Internet|Cyber/i.test(d.industry));
   const d = data[i];
   const tier=getTier(d.increment_ratio), color=getRatioColor(d.increment_ratio);
-  openPanel(`<div class="p-eye" style="color:${color}">증액 집중도 상세</div>
-    <div class="p-name">${d.name}</div><div class="p-sym">${d.symbol} · ${d.industry}</div>
-    <div style="display:flex;align-items:center;gap:16px;padding:16px;background:var(--s2);border-radius:8px;margin-bottom:16px">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:40px;font-weight:700;color:${color}">${Math.round(d.increment_ratio*100)}%</div>
-      <div style="font-size:12px;color:var(--muted2);line-height:1.8">보유기관 <span style="color:var(--text);font-weight:700">${d.total_holders}개</span> 중<br>증액기관 <span style="color:var(--text);font-weight:700">${d.buyer_count}개</span><br><span class="pill pill-${tier.toLowerCase()}">${tier}등급</span></div>
+  const a = STOCK_ANALYSES[d.symbol] || null;
+
+  const analysisHtml = a ? `
+    <div class="p-sec" style="margin-top:20px">기업 개요</div>
+    <div style="font-size:12px;color:var(--muted2);line-height:1.8;margin-bottom:12px">${a.overview}</div>
+    <div class="p-sec">증액 배경</div>
+    <div style="font-size:12px;color:var(--muted2);line-height:1.8;margin-bottom:12px">${a.background}</div>
+    <div class="p-sec">핵심 투자 포인트</div>
+    <div style="font-size:12px;color:var(--muted2);line-height:1.9;margin-bottom:12px">${(a.points||'').replace(/•/g,'<span style="color:var(--accent)">•</span>')}</div>
+    ${a.risks ? `<div class="p-sec">주요 리스크</div><div style="font-size:12px;color:rgba(240,86,106,.8);line-height:1.8;margin-bottom:12px">${a.risks}</div>` : ''}
+  ` : '';
+
+  openPanel(`
+    <div class="p-eye" style="color:${color}">증액 집중도 · 종목 분석</div>
+    <div class="p-name">${d.name}</div>
+    <div class="p-sym">${d.symbol} · ${d.industry}</div>
+    <div style="display:flex;align-items:center;gap:16px;padding:14px;background:var(--s2);border-radius:8px;margin-bottom:14px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:36px;font-weight:700;color:${color}">${Math.round(d.increment_ratio*100)}%</div>
+      <div style="font-size:12px;color:var(--muted2);line-height:1.8">보유기관 <strong style="color:var(--text)">${d.total_holders}개</strong> 중<br>증액기관 <strong style="color:var(--text)">${d.buyer_count}개</strong> · <span class="pill pill-${tier.toLowerCase()}">${tier}등급</span></div>
     </div>
     <div class="p-grid">
       <div class="p-box"><div class="p-box-l">증액금액</div><div class="p-box-v" style="color:var(--green)">+${fmtAbs(d.total_vc)}</div></div>
       <div class="p-box"><div class="p-box-l">총 보유</div><div class="p-box-v">${fmtAbs(d.total_val)}</div></div>
     </div>
+    ${analysisHtml}
     <div class="p-sec">증액 기관 (${d.buyer_count})</div>
-    <div class="p-chips">${d.buyers.map(b=>`<span class="chip chip-accent">${b}</span>`).join('')}</div>`);
+    <div class="p-chips">${d.buyers.map(b=>`<span class="chip chip-accent">${b}</span>`).join('')}</div>
+  `);
 };
+
+// ═══════════════════════════════════════════════
+// GURU DATA
+// ═══════════════════════════════════════════════
+const GURU_DATA = [
+  {office:"Duquesne", name_kr:"드러켄밀러", name_en:"Stan Druckenmiller", aum:"$3.7B", style:"매크로 헷지펀드", latest:"2026-01-23", source:"13F + 13G",
+   holdings:[
+    {symbol:"XLF",name:"금융 섹터 ETF (XLF)",industry:"Financial Sector ETF",value:300994012,vc:300994012,pdate:"2025-12-31",source:"13F"},
+    {symbol:"RSP",name:"S&P 500 동일가중 ETF",industry:"Equal Weight ETF",value:224877073,vc:224877073,pdate:"2025-12-31",source:"13F"},
+    {symbol:"AMZN",name:"Amazon.com",industry:"Online Retail",value:170331311,vc:69446813,pdate:"2025-12-31",source:"13F"},
+    {symbol:"CPNG",name:"Coupang",industry:"Online Retail",value:159772923,vc:50477528,pdate:"2025-12-31",source:"13F"},
+    {symbol:"GOOGL",name:"Alphabet Class A",industry:"Internet Software",value:120505000,vc:88516400,pdate:"2025-12-31",source:"13F"},
+    {symbol:"SE",name:"Sea Limited (Shopee)",industry:"Internet Software",value:120441388,vc:85461694,pdate:"2025-12-31",source:"13F"},
+    {symbol:"EWZ",name:"브라질 ETF (EWZ)",industry:"Brazil Equity ETF",value:112865308,vc:112865308,pdate:"2025-12-31",source:"13F"},
+    {symbol:"TBBB",name:"BBB Foods",industry:"Mexican Discount Retail",value:109972475,vc:15352349,pdate:"2026-01-23",source:"13G"},
+   ]},
+  {office:"Berkshire Hathaway", name_kr:"워렌 버핏", name_en:"Warren Buffett", aum:"$348B", style:"가치투자 본진", latest:"2025-12-31", source:"13F",
+   holdings:[
+    {symbol:"CVX",name:"Chevron",industry:"Diversified Oil & Gas",value:19837131132,vc:1233236184,pdate:"2025-12-31",source:"13F"},
+    {symbol:"CB",name:"Chubb",industry:"P&C Insurance",value:10689854998,vc:910231811,pdate:"2025-12-31",source:"13F"},
+    {symbol:"DPZ",name:"Domino's Pizza",industry:"Restaurants",value:1396347000,vc:153412685,pdate:"2025-12-31",source:"13F"},
+    {symbol:"NYT",name:"New York Times",industry:"Publishing",value:351663948,vc:351663948,pdate:"2025-12-31",source:"13F"},
+    {symbol:"LAMR",name:"Lamar Advertising",industry:"Outdoor Advertising REIT",value:152201058,vc:37974,pdate:"2025-12-31",source:"13F"},
+   ]},
+  {office:"Bridgewater Associates", name_kr:"레이 달리오", name_en:"Ray Dalio (founder)", aum:"$130B", style:"매크로 분산", latest:"2025-12-31", source:"13F",
+   holdings:[
+    {symbol:"SPY",name:"S&P 500 ETF (SPY)",industry:"US Equity ETF",value:3038235233,vc:1289050424,pdate:"2025-12-31",source:"13F"},
+    {symbol:"IVV",name:"iShares Core S&P 500 ETF",industry:"US Equity ETF",value:2866877330,vc:93349788,pdate:"2025-12-31",source:"13F"},
+    {symbol:"NVDA",name:"NVIDIA",industry:"Semiconductors",value:720860733,vc:252792171,pdate:"2025-12-31",source:"13F"},
+    {symbol:"AMZN",name:"Amazon.com",industry:"Online Retail",value:449695988,vc:190028797,pdate:"2025-12-31",source:"13F"},
+    {symbol:"ADBE",name:"Adobe",industry:"Software",value:446256499,vc:4325526,pdate:"2025-12-31",source:"13F"},
+    {symbol:"GEV",name:"GE Vernova",industry:"Power Equipment",value:435275659,vc:9741461,pdate:"2025-12-31",source:"13F"},
+    {symbol:"BKNG",name:"Booking Holdings",industry:"Travel",value:431254014,vc:14978858,pdate:"2025-12-31",source:"13F"},
+    {symbol:"AVGO",name:"Broadcom",industry:"Semiconductors",value:403462614,vc:110872789,pdate:"2025-12-31",source:"13F"},
+   ]},
+  {office:"AQR Capital Management", name_kr:"클리프 애스니스", name_en:"Cliff Asness", aum:"$120B+", style:"퀀트 가치 + 모멘텀", latest:"2026-04-16", source:"13F + UK",
+   holdings:[
+    {symbol:"NVDA",name:"NVIDIA",industry:"Semiconductors",value:4677564538,vc:739519871,pdate:"2025-12-31",source:"13F"},
+    {symbol:"AAPL",name:"Apple",industry:"Computers",value:3217659383,vc:451916140,pdate:"2025-12-31",source:"13F"},
+    {symbol:"MSFT",name:"Microsoft",industry:"Software",value:2861903082,vc:9723664,pdate:"2025-12-31",source:"13F"},
+    {symbol:"AMZN",name:"Amazon.com",industry:"Online Retail",value:1948780022,vc:433073486,pdate:"2025-12-31",source:"13F"},
+    {symbol:"AVGO",name:"Broadcom",industry:"Semiconductors",value:1485445279,vc:71429156,pdate:"2025-12-31",source:"13F"},
+    {symbol:"BMY",name:"Bristol Myers Squibb",industry:"Pharmaceuticals",value:1373198371,vc:872234343,pdate:"2025-12-31",source:"13F"},
+    {symbol:"GOOG",name:"Alphabet Class C",industry:"Internet Software",value:1357468675,vc:198124534,pdate:"2025-12-31",source:"13F"},
+    {symbol:"WMT",name:"Walmart",industry:"Discount Retail",value:1342690258,vc:85693898,pdate:"2025-12-31",source:"13F"},
+   ]},
+  {office:"Appaloosa Management", name_kr:"데이비드 테퍼", name_en:"David Tepper", aum:"$5B+", style:"디스트레스트 + 매크로", latest:"2025-12-31", source:"13F",
+   holdings:[
+    {symbol:"GOOG",name:"Alphabet Class C",industry:"Internet Software",value:560738948,vc:125341448,pdate:"2025-12-31",source:"13F"},
+    {symbol:"MU",name:"Micron Technology",industry:"Semiconductors",value:428115000,vc:285410000,pdate:"2025-12-31",source:"13F"},
+    {symbol:"META",name:"Meta Platforms",industry:"Internet Software",value:396054000,vc:151820700,pdate:"2025-12-31",source:"13F"},
+    {symbol:"TSM",name:"TSMC ADR",industry:"Semiconductors",value:343395700,vc:21272300,pdate:"2025-12-31",source:"13F"},
+    {symbol:"MSFT",name:"Microsoft",industry:"Software",value:241810000,vc:18135750,pdate:"2025-12-31",source:"13F"},
+    {symbol:"AAL",name:"American Airlines",industry:"Passenger Airlines",value:216919500,vc:75117000,pdate:"2025-12-31",source:"13F"},
+    {symbol:"EWY",name:"한국 ETF (EWY)",industry:"South Korea Equity ETF",value:182287500,vc:182287500,pdate:"2025-12-31",source:"13F"},
+    {symbol:"OC",name:"Owens Corning",industry:"Building Materials",value:106314500,vc:88241035,pdate:"2025-12-31",source:"13F"},
+   ]},
+  {office:"Pershing Square (PSCM)", name_kr:"빌 애크먼", name_en:"Bill Ackman", aum:"$18B", style:"활동주의 집중투자", latest:"2025-12-31", source:"13F",
+   holdings:[
+    {symbol:"AMZN",name:"Amazon.com",industry:"Online Retail",value:2217677936,vc:873540137,pdate:"2025-12-31",source:"13F"},
+    {symbol:"META",name:"Meta Platforms",industry:"Internet Software",value:1764796161,vc:1764796161,pdate:"2025-12-31",source:"13F"},
+   ]},
+  {office:"GLG Partners (Man Group)", name_kr:"GLG", name_en:"Man Group", aum:"$170B", style:"글로벌 멀티스트래티지", latest:"2026-04-02", source:"SF (실시간)",
+   holdings:[
+    {symbol:"8309_XTKS",name:"Sumitomo Mitsui Trust",industry:"일본 신탁은행",value:346210274,vc:64087813,pdate:"2026-03-31",source:"SF"},
+    {symbol:"3382_XTKS",name:"Seven & i Holdings",industry:"일본 편의점/리테일",value:339157572,vc:50752723,pdate:"2026-03-31",source:"SF"},
+    {symbol:"9433_XTKS",name:"KDDI",industry:"일본 통신",value:333143144,vc:44802868,pdate:"2026-03-31",source:"SF"},
+    {symbol:"8604_XTKS",name:"Nomura Holdings",industry:"일본 IB",value:332290127,vc:36437920,pdate:"2026-03-31",source:"SF"},
+    {symbol:"7267_XTKS",name:"Honda Motor",industry:"일본 완성차",value:309136935,vc:126031442,pdate:"2026-03-31",source:"SF"},
+    {symbol:"9432_XTKS",name:"NTT",industry:"일본 통신",value:303044310,vc:70121690,pdate:"2026-03-31",source:"SF"},
+    {symbol:"7201_XTKS",name:"Nissan Motor",industry:"일본 완성차",value:282812616,vc:39153626,pdate:"2026-03-31",source:"SF"},
+    {symbol:"8750_XTKS",name:"Daiichi Life",industry:"일본 생명보험",value:265385568,vc:62263966,pdate:"2026-03-31",source:"SF"},
+   ]},
+  {office:"Two Sigma Investments", name_kr:"데이비드 시겔·존 오버덱", name_en:"David Siegel · John Overdeck", aum:"$60B", style:"퀀트 시스템", latest:"2025-12-31", source:"13F",
+   holdings:[
+    {symbol:"XLY",name:"임의소비재 ETF (XLY)",industry:"Consumer Discretionary ETF",value:403990300,vc:319868343,pdate:"2025-12-31",source:"13F"},
+    {symbol:"XLK",name:"기술 섹터 ETF (XLK)",industry:"Technology Sector ETF",value:403338722,vc:393606350,pdate:"2025-12-31",source:"13F"},
+    {symbol:"IWF",name:"Russell 1000 성장주 ETF",industry:"Growth ETF",value:385166334,vc:107406916,pdate:"2025-12-31",source:"13F"},
+    {symbol:"VNQ",name:"부동산 REIT ETF",industry:"REIT ETF",value:316210166,vc:316210166,pdate:"2025-12-31",source:"13F"},
+    {symbol:"TSM",name:"TSMC ADR",industry:"Semiconductors",value:263912967,vc:1222246,pdate:"2025-12-31",source:"13F"},
+    {symbol:"MSFT",name:"Microsoft",industry:"Software",value:260300727,vc:11135351,pdate:"2025-12-31",source:"13F"},
+    {symbol:"ABNB",name:"Airbnb",industry:"Travel",value:259699541,vc:1740066,pdate:"2025-12-31",source:"13F"},
+   ]},
+  {office:"Tudor Investment", name_kr:"폴 튜더 존스", name_en:"Paul Tudor Jones", aum:"$13B", style:"매크로 트레이딩", latest:"2026-02-11", source:"13F",
+   holdings:[
+    {symbol:"IVV",name:"iShares S&P 500 ETF",industry:"US Equity ETF",value:956718712,vc:943412383,pdate:"2025-12-31",source:"13F"},
+    {symbol:"NVDA",name:"NVIDIA",industry:"Semiconductors",value:397869962,vc:178476770,pdate:"2025-12-31",source:"13F"},
+    {symbol:"QQQ",name:"Invesco QQQ ETF",industry:"Nasdaq 100 ETF",value:370841746,vc:18823687,pdate:"2025-12-31",source:"13F"},
+    {symbol:"AMZN",name:"Amazon.com",industry:"Online Retail",value:360604316,vc:174962945,pdate:"2025-12-31",source:"13F"},
+    {symbol:"MSFT",name:"Microsoft",industry:"Software",value:347568505,vc:170186362,pdate:"2025-12-31",source:"13F"},
+    {symbol:"GOOGL",name:"Alphabet Class A",industry:"Internet Software",value:238943574,vc:238943574,pdate:"2025-12-31",source:"13F"},
+    {symbol:"GLD",name:"SPDR Gold ETF",industry:"Gold ETF",value:189568944,vc:62393857,pdate:"2025-12-31",source:"13F"},
+   ]},
+];
+
+const GURU_ANALYSES = {
+ "Duquesne|XLF":"드러켄밀러는 4분기에 금융 섹터 ETF에 신규 진입했습니다. 연준 금리 인하 사이클이 본격화되면 은행의 NIM이 회복되고 자본시장 활동이 살아난다는 매크로 베팅입니다. 개별 은행 종목보다 ETF로 분산해 베팅하는 것은 매크로에서 흔한 표현 방식이고, 대선 후 규제 완화 기대도 함께 반영했을 가능성이 높습니다.",
+ "Duquesne|RSP":"S&P 500 동일가중 ETF는 시총 가중 SPY와 달리 빅테크 7개 쏠림을 분산하는 베팅입니다. 드러켄밀러가 시장 강세에는 베팅하되 빅테크 집중도에는 신중하다는 의미로 해석됩니다. 동일가중 시장이 시총가중 시장을 이기는 사이클 진입 예측입니다.",
+ "Duquesne|AMZN":"드러켄밀러는 AWS의 AI 인프라 수혜와 광고 부문 고성장을 동시에 베팅하고 있습니다. AWS 영업이익이 그룹 이익의 70%를 차지하는 구조에서 AI 워크로드 수요가 성장률을 재가속시키는 시점입니다. 광고 매출 연 +20% 성장으로 리테일 사업 흑자 기반도 안정화되고 있습니다.",
+ "Duquesne|CPNG":"한국 이커머스 1위 쿠팡에 대한 베팅입니다. 흑자 전환 가속화와 대만 진출 후 신시장 확장 모멘텀이 핵심 논거입니다. 미국 상장 한국 기업 중 가장 빠른 성장률을 보이고 있어 신흥 아시아 소비 노출에 매력적입니다.",
+ "Duquesne|GOOGL":"AI 검색 광고 단가가 회복세에 있고 Google Cloud의 AI 워크로드 수주가 가속화되고 있습니다. AI Overviews 도입 후 광고 매출이 위협받는 우려가 있었지만 실제로는 클릭당 단가가 오히려 상승했다는 데이터가 확인되며 드러켄밀러가 매수 타이밍으로 판단한 것으로 보입니다.",
+ "Duquesne|SE":"동남아 슈퍼앱 Sea Limited(Shopee·Garena·SeaMoney)에 대한 베팅입니다. 인도네시아·태국·베트남 등 동남아 디지털 경제의 구조적 성장 노출이며, 흑자 전환 후 실적 모멘텀 가속화 시점으로 매수했습니다.",
+ "Duquesne|EWZ":"브라질 주식 ETF에 신규 진입한 것은 브라질 금리 인하 사이클 시작에 대한 베팅입니다. 브라질 중앙은행이 정책금리를 단계적으로 낮추면서 주식·통화 동시 상승 시나리오에 베팅하는 클래식한 매크로 트레이드입니다.",
+ "Duquesne|TBBB":"멕시코 디스카운트 식료품 체인 BBB Foods에 대한 13G 신고(5% 이상 보유)는 의미있는 컨빅션을 보여줍니다. 멕시코 니어쇼어링과 중산층 확대로 디스카운터 모델이 성장하는 구조적 베팅입니다.",
+
+ "berkshire|CVX":"버핏의 Chevron 보유는 에너지 섹터의 안전망입니다. 통합 석유 메이저로서 업스트림(원유 생산) + 다운스트림(정제) 자연 헷지 구조와 7%+의 배당 수익률이 매력 포인트입니다. Permian 분지 자산 효율화로 자본 효율성이 개선되고 있습니다.",
+ "berkshire|CB":"Chubb는 글로벌 P&C 보험 1위로, 보험료 인상 사이클(하드 마켓) 지속 수혜를 받고 있습니다. 결합비율 90% 미만의 업계 최고 수준 인수 규율과 금리 상승으로 채권 운용 수익률이 개선되는 이중 수혜 구조입니다.",
+ "berkshire|DPZ":"버핏이 4분기에 추가한 도미노피자는 글로벌 프랜차이즈 모델의 자본 효율성과 가격 결정력을 보여주는 케이스입니다. 미국 외식 시장의 가격 인상 흡수력과 글로벌 매장 확장(국제 매장 비중 증가)이 장기 성장 스토리입니다.",
+ "berkshire|NYT":"NY Times 신규 매수는 디지털 구독 비즈니스의 안정성에 대한 베팅입니다. 팟캐스트·요리·게임 번들로 ARPU가 상승하고 있으며, 광고 의존도가 낮아 경기 방어적입니다. 1,100만 디지털 구독자가 핵심 자산입니다.",
+ "berkshire|LAMR":"옥외 광고 REIT인 Lamar는 인플레이션 헷지 자산입니다. 제한된 옥외 광고판 공급(zoning 규제로 신규 설치 제한)과 디지털 전환으로 단가 상승력을 확보합니다. REIT 구조라 90% 이상 배당 의무가 있어 안정적 인컴 자산입니다.",
+
+ "Bridgewater|SPY":"Bridgewater는 SPY를 13억 달러 추가 매수하며 미국 주식에 대한 매크로 베타 노출을 확대했습니다. All Weather 포트폴리오의 일부로 다른 자산군 헷지와 함께 운용되는 구조입니다.",
+ "Bridgewater|IVV":"iShares Core S&P 500 ETF는 SPY와 동일한 노출이지만 운용보수가 더 낮은 ETF입니다. 대규모 펀드는 ETF 두 종목을 분산해 보유하는 경우가 많습니다. 미국 주식 매크로 노출 확대 일환입니다.",
+ "Bridgewater|NVDA":"AI 사이클의 대표 종목 NVIDIA를 분기말 시점에 추가 매수했습니다. CUDA 생태계의 압도적 해자와 Blackwell 아키텍처 전환에 따른 ASP 상승이 핵심 베팅 포인트입니다. 매크로 펀드에서도 빠질 수 없는 AI 인프라 노출입니다.",
+ "Bridgewater|AMZN":"AWS의 AI 워크로드 가속화와 광고 매출 고성장이라는 이중 성장 동력에 베팅합니다. 클라우드 시장 점유율 1위로서 AI 인프라 수요의 직접 수혜를 받습니다.",
+ "Bridgewater|ADBE":"Adobe는 Creative Cloud + Document Cloud + Experience Cloud의 SaaS 플랫폼으로 AI 통합(Firefly·GenStudio)이 ARR 가속의 새 동력입니다. 4분기 매수는 AI 수익화 가시화에 대한 베팅으로 해석됩니다.",
+ "Bridgewater|GEV":"GE Vernova는 2024년 GE에서 분사한 전력 인프라 회사입니다. 데이터센터 전력 수요 폭발과 그리드 현대화 투자 사이클의 가장 직접적인 수혜주로, 가스터빈·풍력·전력기기 모두 강한 수주 잔고를 보유합니다.",
+ "Bridgewater|BKNG":"Booking Holdings는 글로벌 여행 회복 + 디지털 광고 효율 + 대안 숙박(에어비앤비형) 진출의 복합 성장 스토리입니다. 4분기 추가 매수는 여행 수요 견조성에 대한 컨빅션입니다.",
+ "Bridgewater|AVGO":"Broadcom은 AI 반도체(맞춤형 ASIC) + VMware 인수 통합 시너지의 결합입니다. Hyperscaler 맞춤형 칩 수주(Google TPU·Meta MTIA)로 NVIDIA 외 AI 반도체 노출의 핵심 종목입니다.",
+
+ "AQR|NVDA":"AQR의 NVIDIA $4.7B 보유는 시장 가중 노출이지만 직전 분기 +$740M 매수는 모멘텀 + 가치 두 팩터에서 동시에 매수 신호가 나왔다는 의미입니다. AQR의 시스템적 매매에서 NVIDIA가 모멘텀 + 퀄리티 + 가치 모두 상위에 들어왔습니다.",
+ "AQR|AAPL":"애플 추가 매수는 AI 통합(Apple Intelligence) + 서비스 매출 성장 + 인도 생산 다각화의 결합 베팅입니다. 시스템적 운용에서 가치 팩터가 다시 매력적인 가격대에 들어왔다는 신호입니다.",
+ "AQR|MSFT":"AQR은 마이크로소프트를 코어 보유로 유지하며 Azure 성장과 Copilot 수익화에 노출됩니다. 시장 대비 베타 1.0 수준의 안정적 코어 포지션입니다.",
+ "AQR|AMZN":"4억 달러 추가 매수는 AWS AI 모멘텀 + 광고 성장 + 리테일 마진 회복의 트리플 모멘텀 시그널을 모두 담고 있습니다. AQR의 멀티팩터 모델에서 강한 매수 신호로 잡혔습니다.",
+ "AQR|AVGO":"Broadcom은 VMware 통합 후 마진 개선과 AI 맞춤형 ASIC 수주가 동시에 진행되며 가치 + 모멘텀 양 팩터 모두 매력적인 종목으로 나타났습니다.",
+ "AQR|BMY":"Bristol Myers Squibb $1.4B 매수 중 +$870M 증액은 강한 컨빅션입니다. 가치주 회복 베팅 + 신규 항암제(Cobenfy 조현병 치료제) 파이프라인 가시화 + 특허 절벽 우려 과대 평가 해소가 복합 작용했습니다.",
+ "AQR|GOOG":"Alphabet 매수는 AQR의 가치 + 퀄리티 시스템에서 매력적인 가격 대비 현금흐름과 ROIC가 신호로 잡힌 것입니다. AI 검색 우려 해소와 함께 멀티플 회복 베팅입니다.",
+ "AQR|WMT":"Walmart는 디스카운트 리테일의 안정성 + 광고 사업 성장 + AI 매장 효율화의 복합 성장 스토리입니다. 인플레이션 환경에서 트레이드다운 수혜를 받는 방어 + 성장 동시 노출입니다.",
+
+ "Appaloosa|GOOG":"테퍼는 4분기에 Alphabet을 추가 매수하며 검색 광고 단가 회복과 Google Cloud 성장 가속에 베팅했습니다. 매크로 디스트레스트 투자자로 알려진 테퍼가 빅테크 가치 회복 사이클을 노린 것으로 해석됩니다.",
+ "Appaloosa|MU":"Micron Technology +$285M 추가 매수는 메모리 사이클 회복 + HBM 성장의 복합 베팅입니다. 테퍼는 사이클의 변곡점에서 베팅하는 스타일로, 메모리 가격 상승이 본격화되는 시점에 컨빅션 매수했습니다.",
+ "Appaloosa|META":"Meta 추가 매수는 AI 광고 ROAS 개선 + 효율성 모드 지속 + Reality Labs 손실 축소라는 삼중 호재에 베팅입니다. 테퍼의 활동주의 성격(2017년 자사주 매입 압박)이 다시 반영되는 종목입니다.",
+ "Appaloosa|TSM":"TSMC ADR은 AI 파운드리 독점 + 첨단 패키징 캐파 확대의 직접 베팅입니다. 지정학 리스크는 있지만 대안 부재라는 현실론에 따라 핵심 보유로 유지됩니다.",
+ "Appaloosa|MSFT":"Microsoft는 코어 보유로 유지하며 AI 수익화 가시화에 노출됩니다. 테퍼의 빅테크 비중 안정 유지 전략의 일환입니다.",
+ "Appaloosa|AAL":"American Airlines $217M 보유 중 +$75M 추가 매수는 항공 수요 회복 + 부채 축소 진행에 대한 컨빅션입니다. 테퍼는 역사적으로 항공주 디스트레스트 베팅을 즐겼고, 항공 사이클 정상화 시점에 매수한 것입니다.",
+ "Appaloosa|EWY":"한국 ETF 신규 진입은 테퍼의 글로벌 가치 발굴 일환입니다. 한국 시장의 'Korea Discount' 해소 정책(밸류업 프로그램) + 반도체 사이클 회복 + 저PBR 가치주 매력에 베팅한 것으로 해석됩니다.",
+ "Appaloosa|OC":"Owens Corning $106M 매수 중 +$88M 증액은 미국 주택 시장 회복 + 건자재 가격 결정력에 대한 강한 베팅입니다. 금리 인하 사이클에서 주택 관련주의 첫 번째 수혜 카테고리에 해당합니다.",
+
+ "PSCM|AMZN":"애크먼은 4분기에 Amazon을 +$870M 추가 매수했습니다. AWS 클라우드 가치 재평가 + 광고 매출 고성장 + 리테일 마진 정상화를 동시에 베팅하는 집중 포지션입니다. 'Quality at a Reasonable Price' 원칙에 부합하는 진입입니다.",
+ "PSCM|META":"Meta 신규 진입 $1.76B는 PSCM의 두 번째 핵심 신규 포지션입니다. AI 광고 효율 + Reality Labs 손실 축소 + Threads 성장의 복합 베팅으로, 애크먼이 좋아하는 '강한 해자 + 자본 효율성' 조합입니다.",
+
+ "GLG Partners|8309_XTKS":"Sumitomo Mitsui Trust는 일본 최대 신탁은행으로 BOJ 금리 인상 수혜 + 자산운용 수익 성장의 복합 베팅입니다. GLG는 일본 금융주의 PBR 1배 회복 정책 수혜를 노립니다.",
+ "GLG Partners|3382_XTKS":"세븐&i 홀딩스는 Couche-Tard의 인수 제안 거절 후 자체 구조조정(이토요카도 분사)을 진행 중입니다. GLG는 자산 매각과 핵심 편의점 사업 재평가에 베팅하고 있습니다.",
+ "GLG Partners|9433_XTKS":"KDDI는 일본 통신 2위 사업자로 안정적 현금흐름 + 자사주 매입 강화에 베팅합니다. 일본 기업 거버넌스 개선의 모범 사례로 평가받습니다.",
+ "GLG Partners|8604_XTKS":"Nomura는 일본 최대 IB로 일본 자본시장 활성화(NISA 제도 확대)와 글로벌 IB 회복의 동시 수혜를 노립니다. 자기자본수익률(ROE) 개선이 진행 중입니다.",
+ "GLG Partners|7267_XTKS":"Honda는 EV + 하이브리드 듀얼 전략으로 GM과의 EV 협력 종료 후 자체 모델 가속화 중입니다. 하이브리드 수요 급증의 직접 수혜와 자사주 매입 확대 베팅입니다.",
+ "GLG Partners|9432_XTKS":"NTT는 일본 통신 1위 + 글로벌 데이터센터 사업 확장 + 자사주 매입의 복합 스토리입니다. AI 인프라 수요 수혜와 자본 효율화 동시 진행입니다.",
+ "GLG Partners|7201_XTKS":"Nissan은 르노와의 지분 재조정 후 독립성 강화와 구조조정 진행 중입니다. 밸류에이션 저점에서 턴어라운드 베팅으로 해석됩니다.",
+ "GLG Partners|8750_XTKS":"제일생명(Daiichi Life)은 일본 금리 인상 + 보험료 인상 + 자사주 매입의 삼중 호재 종목입니다. 일본 금융 노출의 헷지 역할도 합니다.",
+
+ "Two Sigma|XLY":"임의소비재 ETF $404M 신규 진입은 Two Sigma의 시스템 모델에서 소비 회복 신호가 잡혔음을 의미합니다. 인플레 완화 + 실질소득 회복 사이클 진입 베팅입니다.",
+ "Two Sigma|XLK":"기술 섹터 ETF 신규 진입 $403M은 AI 사이클 모멘텀 + 가치 회복 시그널이 동시에 작동했음을 시사합니다. 시스템적 매매에서 강한 매수 신호로 잡혔습니다.",
+ "Two Sigma|IWF":"Russell 1000 성장주 ETF는 대형 성장주 노출입니다. 모멘텀 팩터가 강하게 작동하는 시점의 시스템 매매입니다.",
+ "Two Sigma|VNQ":"부동산 REIT ETF 신규 진입은 금리 인하 사이클 진입 베팅입니다. 시스템 모델에서 금리 민감도 자산의 매수 신호가 잡혔습니다.",
+ "Two Sigma|TSM":"TSMC ADR은 AI 파운드리 독점 + 모멘텀 팩터의 결합 매수입니다.",
+ "Two Sigma|MSFT":"Microsoft는 시스템 매매의 코어 보유로 모멘텀 + 퀄리티 팩터에서 매수 신호가 유지됩니다.",
+ "Two Sigma|ABNB":"Airbnb는 여행 회복 + 대안 숙박 성장 + 글로벌 확장의 복합 베팅입니다. 시스템 모델에서 모멘텀 팩터가 작동했습니다.",
+
+ "Tudor|IVV":"S&P 500 ETF $957M 신규 진입은 매크로 베타 노출입니다. 폴 튜더 존스의 매크로 트레이딩 스타일에 부합하는 대규모 ETF 베팅입니다.",
+ "Tudor|NVDA":"NVIDIA +$178M 추가 매수는 AI 사이클 노출 핵심 포지션입니다. 매크로 + 모멘텀 두 측면에서 모두 매력적인 종목입니다.",
+ "Tudor|QQQ":"Nasdaq 100 ETF는 빅테크 + 성장주 집중 노출의 ETF 베팅입니다. 전체 빅테크 사이클에 대한 매크로 베팅입니다.",
+ "Tudor|AMZN":"Amazon 추가 매수 +$175M은 AWS AI 수혜 + 광고 성장 + 리테일 마진 회복의 결합 베팅입니다.",
+ "Tudor|MSFT":"Microsoft 추가 매수 +$170M은 AI 수익화 가시화에 대한 컨빅션입니다.",
+ "Tudor|GOOGL":"Alphabet $239M 신규 진입은 AI 검색 우려 해소 + Cloud 성장 가속의 베팅입니다.",
+ "Tudor|GLD":"폴 튜더 존스의 트레이드마크 — 금 ETF 보유 +$62M 증액. 인플레이션 헷지 + 지정학 리스크 헷지 + 달러 약세 베팅의 복합 헷지 자산입니다. Tudor가 'Old reliable'이라 부르는 자산입니다.",
+};
+
+function fmtGV(v){const a=Math.abs(v);if(a>=1e9)return '$'+(a/1e9).toFixed(1)+'B';if(a>=1e6)return '$'+Math.round(a/1e6)+'M';return '$'+Math.round(a/1e3)+'K';}
+
+function renderGuru() {
+  const grid = document.getElementById('guru-grid');
+  grid.innerHTML = GURU_DATA.map((g, gi) => {
+    const holdings = g.holdings.map((h, hi) => `
+      <div class="gh-item" onclick="guruPanel(${gi}, ${hi})">
+        <div class="gh-rank">${hi+1}</div>
+        <div>
+          <div class="gh-name">${h.name}</div>
+          <div class="gh-sub">${h.symbol} · ${h.industry} · ${h.pdate}<span class="gh-source">${h.source}</span></div>
+        </div>
+        <div>
+          <div class="gh-value">${fmtGV(h.value)}</div>
+          ${h.vc > 0 ? `<div class="gh-vc" style="color:var(--green)">+${fmtGV(h.vc)}</div>` : ''}
+        </div>
+      </div>
+    `).join('');
+    return `<div class="guru-card" style="animation-delay:${gi*.04}s">
+      <div class="guru-header">
+        <div class="guru-office">
+          <span class="guru-office-name">${g.office}</span>
+          <span class="guru-name-kr">· ${g.name_kr}</span>
+        </div>
+        <div class="guru-name-en">${g.name_en}</div>
+        <div class="guru-meta">
+          <div class="guru-meta-item"><span class="guru-meta-label">AUM</span><span class="guru-meta-val">${g.aum}</span></div>
+          <div class="guru-meta-item"><span class="guru-meta-label">스타일</span><span class="guru-meta-val">${g.style}</span></div>
+          <div class="guru-meta-item"><span class="guru-meta-label">최신</span><span class="guru-meta-val">${g.latest}</span></div>
+          <div class="guru-meta-item"><span class="guru-meta-label">소스</span><span class="guru-meta-val">${g.source}</span></div>
+        </div>
+      </div>
+      <div class="guru-holdings">${holdings}</div>
+    </div>`;
+  }).join('');
+}
+
+function guruPanel(gi, hi) {
+  const g = GURU_DATA[gi];
+  const h = g.holdings[hi];
+  const key = `${g.office}|${h.symbol}`;
+  const reason = GURU_ANALYSES[key] || '이 종목에 대한 상세 분석은 준비 중입니다. 기관 매수 신호 자체로 컨빅션을 유지하세요.';
+
+  openPanel(`
+    <div class="p-eye" style="color:var(--accent)">★ ${g.office} · ${g.name_kr}</div>
+    <div class="p-name">${h.name}</div>
+    <div class="p-sym">${h.symbol} · ${h.industry}</div>
+
+    <div class="p-grid">
+      <div class="p-box"><div class="p-box-l">보유 가치</div><div class="p-box-v" style="color:var(--green)">${fmtGV(h.value)}</div></div>
+      <div class="p-box"><div class="p-box-l">증액 금액</div><div class="p-box-v" style="color:var(--green)">+${fmtGV(h.vc)}</div></div>
+      <div class="p-box"><div class="p-box-l">Position Date</div><div class="p-box-v" style="font-size:13px">${h.pdate}</div></div>
+      <div class="p-box"><div class="p-box-l">Source</div><div class="p-box-v" style="font-size:13px">${h.source}</div></div>
+    </div>
+
+    <div class="p-sec">${g.name_kr}의 매수 이유</div>
+    <div style="font-size:12px;color:var(--muted2);line-height:1.8;margin-bottom:14px">${reason}</div>
+
+    <div class="p-sec">구루 프로필</div>
+    <div style="background:var(--s2);border:1px solid var(--border);border-radius:6px;padding:12px;font-size:11px;color:var(--muted2);line-height:1.8">
+      <div><strong style="color:var(--text)">${g.office}</strong> · ${g.name_en}</div>
+      <div>AUM: <span style="color:var(--text)">${g.aum}</span> · 스타일: <span style="color:var(--text)">${g.style}</span></div>
+      <div>직전 공시: <span style="color:var(--text)">${g.latest}</span></div>
+    </div>
+  `);
+}
+
+renderGuru();
+
+// ═══════════════════════════════════════════════
+// PICK DATA (2026.03~05 실제 매수 종목)
+// ═══════════════════════════════════════════════
+const PICK_DATA = [
+  {office:"AQR Capital", name_kr:"클리프 애스니스", name_en:"Cliff Asness", style:"퀀트 멀티팩터 (Value+Momentum+Quality)", aum:"$120B+",
+   intro:"AQR은 시스템적 가치·모멘텀·퀄리티 팩터 모델로 운용합니다. 3월 31일 SF 공시에 매수가 집중된 것은 분기말 리밸런싱 결과로, <strong>모델이 동시에 매수 신호를 보낸 종목들</strong>이라는 의미입니다. 유럽 산업·방산·금융과 일본 자동차·소재 가치주에 큰 비중을 두고 있으며, 4월 1일 UK 공시에서는 영국 은행·소비재가 추가됐습니다.",
+   picks:[
+    {symbol:"ENR_XFRA",name:"Siemens Energy AG",industry:"전력 인프라",vc:154e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"SAN_XPAR",name:"Sanofi S.A.",industry:"제약",vc:105e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"ASML_XAMS",name:"ASML Holding N.V.",industry:"반도체 장비",vc:97e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"NESN_XSWX",name:"Nestle S.A.",industry:"식품",vc:50e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"CA_XPAR",name:"Carrefour S.A.",industry:"리테일",vc:42e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"RHM_XFRA",name:"Rheinmetall AG",industry:"방산",vc:41e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"S32_XASX",name:"South32, Ltd",industry:"자원·광산",vc:41e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"4503_XTKS",name:"Astellas Pharma",industry:"일본 제약",vc:38e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"ZURN_XSWX",name:"Zurich Insurance Group",industry:"보험",vc:37e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"SPM_XMIL",name:"Saipem S.p.A.",industry:"오일·가스 서비스",vc:37e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"KBC_XBRU",name:"KBC Group NV",industry:"벨기에 은행",vc:36e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"ADS_XFRA",name:"adidas AG",industry:"스포츠웨어",vc:35e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"ITX_BMEX",name:"Inditex (Zara)",industry:"패스트패션",vc:34e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"ALV_XFRA",name:"Allianz SE",industry:"보험",vc:34e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"ENEL_XMIL",name:"Enel S.p.A.",industry:"전력 유틸리티",vc:32e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"BARC_XLON",name:"Barclays plc",industry:"영국 IB",vc:32e6,pdate:"2026-03-02",source:"UK"},
+    {symbol:"5411_XTKS",name:"JFE Holdings",industry:"일본 철강",vc:31e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"FCT_XMIL",name:"Fincantieri S.p.A.",industry:"조선",vc:30e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"6981_XTKS",name:"Murata Manufacturing",industry:"전자부품",vc:29e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"DSFIR_XAMS",name:"DSM-Firmenich AG",industry:"식품·향료",vc:28e6,pdate:"2026-03-31",source:"SF"},
+   ]},
+  {office:"GLG Partners (Man Group)", name_kr:"GLG", name_en:"Man Group", style:"글로벌 멀티스트래티지", aum:"$170B",
+   intro:"GLG는 <strong>일본 거버넌스 개혁(PBR 1배 회복) 베팅</strong>에 가장 명확한 포지션을 잡고 있습니다. 3월 31일 일본 자동차·금융·인프라에 집중 매수했고, 4월 초 UK 공시에서는 영국 부동산·재생에너지가 보강됐습니다. 과반수가 일본 메가캡 가치주로 도쿄증권거래소의 PBR 1배 회복 정책 + 엔저 환경 + 자사주 매입 강화의 삼중 모멘텀에 베팅합니다.",
+   picks:[
+    {symbol:"7267_XTKS",name:"Honda Motor",industry:"일본 완성차",vc:126e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"9020_XTKS",name:"East Japan Railway (JR East)",industry:"일본 철도",vc:104e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"7974_XTKS",name:"Nintendo",industry:"게임",vc:102e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"6701_XTKS",name:"NEC Corporation",industry:"일본 IT",vc:79e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"6758_XTKS",name:"Sony Group",industry:"전자·엔터",vc:77e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"9101_XTKS",name:"Nippon Yusen (NYK)",industry:"해운",vc:75e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"9432_XTKS",name:"NTT, Inc.",industry:"일본 통신",vc:70e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"8309_XTKS",name:"Sumitomo Mitsui Trust",industry:"일본 신탁은행",vc:64e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"8750_XTKS",name:"Daiichi Life",industry:"일본 생명보험",vc:62e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"6326_XTKS",name:"Kubota Corporation",industry:"일본 농기계",vc:61e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"1925_XTKS",name:"Daiwa House Industry",industry:"일본 건설",vc:54e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"3382_XTKS",name:"Seven & i Holdings",industry:"편의점",vc:51e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"5401_XTKS",name:"Nippon Steel",industry:"일본 철강",vc:51e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"5411_XTKS",name:"JFE Holdings",industry:"일본 철강",vc:50e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"9005_XTKS",name:"Tokyu Corporation",industry:"일본 부동산·철도",vc:49e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"JMAT_XLON",name:"Johnson Matthey",industry:"특수 화학",vc:48e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"9433_XTKS",name:"KDDI Corporation",industry:"일본 통신",vc:45e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"MNDI_XLON",name:"Mondi plc",industry:"패키징",vc:40e6,pdate:"2026-03-02",source:"UK"},
+    {symbol:"7201_XTKS",name:"Nissan Motor",industry:"일본 완성차",vc:39e6,pdate:"2026-03-31",source:"SF"},
+    {symbol:"8604_XTKS",name:"Nomura Holdings",industry:"일본 IB",vc:36e6,pdate:"2026-03-31",source:"SF"},
+   ]},
+];
+
+const PICK_ANALYSES = {
+ // ── AQR ──────────────────────────
+ "AQR|ENR_XFRA":"Siemens Energy는 GE Vernova와 함께 글로벌 그리드 인프라·가스터빈·풍력의 양대 플레이어입니다. AQR이 분기말에 $154M으로 가장 크게 매수한 것은 데이터센터 전력 수요 폭발에 따른 가스터빈 수주 백로그 급증 + 풍력 사업 부문(Gamesa) 손실 정상화의 두 가지 모멘텀이 멀티팩터 모델에서 동시에 잡혔다는 의미입니다. 2024년 한때 적자였던 Gamesa 풍력 부문이 가격 정상화로 흑자 전환 궤도에 진입한 게 핵심 변곡점입니다.",
+ "AQR|SAN_XPAR":"Sanofi에 $105M 매수는 Dupixent의 적응증 확장(COPD·결절성 양진)과 소비자 건강 사업 분사 검토의 가치 창출 트리거에 베팅한 것입니다. 가치 + 퀄리티 팩터 둘 다 매력적인 가격대에 들어왔다는 시그널입니다.",
+ "AQR|ASML_XAMS":"ASML은 EUV 리소그래피의 사실상 독점 공급자로 AI 반도체 제조의 병목입니다. AQR의 모멘텀 + 퀄리티 팩터에서 동시에 매수 신호가 나오는 종목으로, 중국 수출 제한 우려가 해소되는 국면에서 멀티플 회복 베팅이 작동했습니다.",
+ "AQR|NESN_XSWX":"Nestle 매수는 가격 인상 사이클 종료 + 물량 회복 전환 + 코코아 가격 안정화 시점이라는 가치 회복 베팅입니다. AQR의 가치 팩터에서 강한 매수 신호가 잡혔습니다.",
+ "AQR|CA_XPAR":"Carrefour에 $42M은 유럽 디스카운트 식료품 수요 회복 + 자체 브랜드(PB) 마진 개선 베팅입니다. 퀀트 모델에서 가치 팩터가 압도적으로 매력적인 가격대로 평가됐습니다.",
+ "AQR|RHM_XFRA":"Rheinmetall은 유럽 재무장 정책의 가장 직접적 수혜주로 탱크·포탄·방공 시스템 수주가 폭발적으로 증가하고 있습니다. AQR의 모멘텀 팩터 + 퀄리티 팩터(높은 ROIC) 모두 매력적입니다.",
+ "AQR|S32_XASX":"South32는 호주의 다각화 광산기업으로 망간·알루미늄·니켈 등 EV 전환 핵심 자원에 노출됩니다. 퀀트 가치 베팅 + 자원 사이클 회복 모멘텀의 조합입니다.",
+ "AQR|4503_XTKS":"Astellas는 일본 4대 제약사로 항암제·전립선암 치료제 Xtandi가 핵심입니다. 일본 가치주 + 신약 파이프라인 가시성의 결합 베팅입니다.",
+ "AQR|ZURN_XSWX":"Zurich Insurance에 $37M은 P&C 보험 하드 마켓 지속 + 금리 상승 채권 운용 수익률 개선의 이중 수혜 베팅입니다. AQR의 가치 + 퀄리티 팩터가 동시에 매력적으로 평가했습니다.",
+ "AQR|SPM_XMIL":"Saipem은 이탈리아 오일·가스 서비스 기업으로 글로벌 LNG·해상 풍력 프로젝트 수주가 가속화되고 있습니다. 모멘텀 팩터 매수 신호로 잡혔습니다.",
+ "AQR|KBC_XBRU":"KBC Group은 벨기에·체코·슬로바키아 은행-보험 통합 모델로 유럽 은행 중 ROE 16%로 최고 수준입니다. AQR의 퀄리티 팩터에서 매력적으로 잡혔습니다.",
+ "AQR|ADS_XFRA":"adidas는 Yeezy 재고 정리 완료 + Samba·Gazelle 레트로 라인 호조 + 중국 회복으로 턴어라운드 사이클에 진입했습니다. AQR의 가치 + 모멘텀 팩터에서 동시에 매수 신호입니다.",
+ "AQR|ITX_BMEX":"Inditex(Zara)는 스페인 패스트패션 글로벌 1위로 가격 결정력과 공급망 효율성이 압도적입니다. 퀄리티 팩터에서 지속적으로 매력적인 종목입니다.",
+ "AQR|ALV_XFRA":"Allianz는 P&C 보험 + PIMCO($1.9조 채권 운용)의 결합으로 금리 환경 수혜를 양쪽에서 받습니다. 가치 + 퀄리티 팩터 동시 매수 신호입니다.",
+ "AQR|ENEL_XMIL":"Enel은 이탈리아·스페인 전력 유틸리티 1위로 재생에너지 전환 사이클 + 금리 인하 수혜의 결합 베팅입니다. 인컴 + 가치 팩터에서 매력적입니다.",
+ "AQR|BARC_XLON":"Barclays는 영국 5대 은행 중 IB 사업이 가장 큰 곳입니다. 영국 금리 인하 사이클 진입 + IB 수익 회복의 이중 베팅입니다. AQR의 4월 1일 UK 공시에 포함됐습니다.",
+ "AQR|5411_XTKS":"JFE Holdings는 일본 2위 철강사로 PBR 0.6배 수준의 깊은 가치 디스카운트 + 거버넌스 개혁 + 일본 인프라 투자 사이클 회복의 결합입니다. 가치 팩터에서 강한 신호입니다.",
+ "AQR|FCT_XMIL":"Fincantieri는 이탈리아 조선사로 군용 함정 + LNG선 + 크루즈선의 다각화 포트폴리오를 보유합니다. 유럽 방산 사이클 + 글로벌 해운 수요 수혜의 모멘텀 베팅입니다.",
+ "AQR|6981_XTKS":"Murata Manufacturing은 적층세라믹콘덴서(MLCC) 세계 1위로 AI 서버 + 자동차 전장화의 핵심 부품 공급자입니다. AQR의 퀄리티 + 모멘텀 팩터 매수입니다.",
+ "AQR|DSFIR_XAMS":"DSM-Firmenich는 합병으로 탄생한 식품 향료·영양제 기업으로 합병 시너지 실현이 본격화되는 시점입니다. 가치 팩터에서 매력적으로 평가됐습니다.",
+
+ // ── GLG Partners ────────────────
+ "GLG Partners|7267_XTKS":"Honda Motor에 $126M 매수는 GLG의 일본 자동차 베팅 중 최대 규모입니다. EV 전환에서 GM과의 협력 종료 후 자체 모델 가속화 + 하이브리드 호조 + 자사주 매입 확대의 세 가지가 동시 작동하는 시점입니다. 일본 거버넌스 개혁(자본 효율성 개선) 베팅의 대표 종목이기도 합니다.",
+ "GLG Partners|9020_XTKS":"East Japan Railway에 $104M은 일본 인바운드 관광 회복 + 부동산 자산 가치 재평가 + 자사주 매입의 결합 베팅입니다. PBR 1배 회복 정책의 직접 수혜주로 평가됩니다.",
+ "GLG Partners|7974_XTKS":"Nintendo에 $102M은 Switch 2 출시 사이클 + 모바일 게임·테마파크·영화 IP 확장에 베팅한 것입니다. 일본 IP 비즈니스의 글로벌 확장 모멘텀이 핵심입니다.",
+ "GLG Partners|6701_XTKS":"NEC Corporation은 일본 IT 시스템 통합 + AI 솔루션 제공자로 일본 정부·기업 디지털 전환 수요의 직접 수혜주입니다. 일본 IT 가치주 베팅으로 해석됩니다.",
+ "GLG Partners|6758_XTKS":"Sony Group에 $77M 매수는 PlayStation 5 사이클 + 이미지센서 AI 카메라 수혜 + Sony Music IP 가치 재평가의 결합 베팅입니다. 일본 글로벌 엔터테인먼트 1위 기업으로 GLG의 핵심 보유 중 하나입니다.",
+ "GLG Partners|9101_XTKS":"NYK(닛폰유센)는 일본 최대 해운사로 글로벌 컨테이너 운임 정상화 + LNG선 사업 확대 + 자사주 매입의 복합 베팅입니다. 해운 사이클 회복 종목입니다.",
+ "GLG Partners|9432_XTKS":"NTT는 일본 통신 1위 + 글로벌 데이터센터 사업 확장의 복합 스토리입니다. AI 인프라 수요 수혜와 자본 효율화 동시 진행입니다.",
+ "GLG Partners|8309_XTKS":"Sumitomo Mitsui Trust는 일본 최대 신탁은행으로 BOJ 금리 인상 수혜 + 자산운용 수익 성장의 복합 베팅입니다. 일본 금융주의 PBR 1배 회복 정책 수혜 대표 종목입니다.",
+ "GLG Partners|8750_XTKS":"제일생명은 일본 금리 인상 + 보험료 인상 + 자사주 매입의 삼중 호재 종목입니다. 일본 금융 노출의 헷지 역할도 합니다.",
+ "GLG Partners|6326_XTKS":"Kubota는 일본 농기계 글로벌 1위로 인도·동남아 농업 기계화 + 미국 소형 트랙터 시장 점유율 확대의 신흥국 + 미국 듀얼 베팅입니다.",
+ "GLG Partners|1925_XTKS":"Daiwa House는 일본 1위 건설·주택 기업으로 일본 부동산 사이클 회복 + 산업 인프라 수요 + 데이터센터 건설 수주에 베팅한 것입니다.",
+ "GLG Partners|3382_XTKS":"세븐&i 홀딩스는 Couche-Tard 인수 제안 거절 후 자체 구조조정(이토요카도 분사 + 7-Eleven 글로벌 IPO 검토) 진행 중입니다. 자산 매각과 핵심 편의점 사업 재평가에 베팅합니다.",
+ "GLG Partners|5401_XTKS":"Nippon Steel은 USS(US Steel) 인수 시도 + 일본 인프라 투자 사이클 + 전기강판 EV 수요의 복합 베팅입니다. 일본 거버넌스 개혁의 대표 PBR 회복 종목입니다.",
+ "GLG Partners|5411_XTKS":"JFE Holdings는 일본 2위 철강사로 PBR 0.6배 수준의 깊은 가치 디스카운트입니다. AQR과 GLG가 동시에 매수한 일본 거버넌스 개혁 베팅의 공통 종목입니다.",
+ "GLG Partners|9005_XTKS":"Tokyu Corporation은 도쿄 시부야 부동산 + 철도 + 호텔의 복합 자산 보유 기업입니다. 도쿄 부동산 가치 재평가 + 인바운드 관광 회복의 결합 베팅입니다.",
+ "GLG Partners|JMAT_XLON":"Johnson Matthey는 영국 특수 화학 기업으로 자동차 배기 촉매 + 수소 연료전지 기술 보유사입니다. 사업부 매각·구조조정 진행 중인 턴어라운드 베팅으로 해석됩니다.",
+ "GLG Partners|9433_XTKS":"KDDI는 일본 통신 2위로 안정적 현금흐름 + 자사주 매입 강화에 베팅합니다. 일본 기업 거버넌스 개선의 모범 사례로 평가받습니다.",
+ "GLG Partners|MNDI_XLON":"Mondi는 영국 패키징 기업으로 e-Commerce 포장 수요 회복 + 가격 인상 사이클 종료 + 자사주 매입의 결합입니다. GLG의 4월 UK 공시에 포함된 큰 포지션입니다.",
+ "GLG Partners|7201_XTKS":"Nissan은 르노와의 지분 재조정 + Foxconn 투자 검토 등 구조조정 진행 중입니다. 깊은 가치 디스카운트에서의 턴어라운드 베팅입니다.",
+ "GLG Partners|8604_XTKS":"Nomura는 일본 최대 IB로 일본 자본시장 활성화(NISA 제도 확대) + 글로벌 IB 회복의 이중 수혜를 노립니다. ROE 개선이 진행 중입니다.",
+};
+
+function renderPick() {
+  const wrap = document.getElementById('pick-content');
+  wrap.innerHTML = PICK_DATA.map((g, gi) => {
+    const rows = g.picks.map((p, hi) => `
+      <div class="pick-row" onclick="pickPanel(${gi}, ${hi})">
+        <div class="pick-rk">${hi+1}</div>
+        <div class="pick-date">${p.pdate}</div>
+        <div class="pick-source">${p.source}</div>
+        <div>
+          <div class="pick-stock-name">${p.name}</div>
+          <div class="pick-stock-sub">${p.symbol} · ${p.industry}</div>
+        </div>
+        <div class="pick-vc">+${fmtGV(p.vc)}</div>
+      </div>
+    `).join('');
+    return `<div class="pick-section" style="animation-delay:${gi*.1}s">
+      <div class="pick-section-header">
+        <div>
+          <div class="pick-guru-name">${g.office} <em>· ${g.name_kr}</em></div>
+          <div class="pick-guru-sub">${g.name_en}</div>
+        </div>
+        <div class="pick-guru-meta">
+          <div>AUM <strong>${g.aum}</strong></div>
+          <div>${g.style}</div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:var(--muted2);line-height:1.7;margin-bottom:14px">${g.intro}</div>
+      <div class="pick-table-wrap">
+        <div class="pick-row header">
+          <div class="pick-h">#</div>
+          <div class="pick-h">매수일</div>
+          <div class="pick-h">소스</div>
+          <div class="pick-h">종목</div>
+          <div class="pick-h" style="text-align:right">매수액</div>
+        </div>
+        ${rows}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function pickPanel(gi, hi) {
+  const g = PICK_DATA[gi];
+  const p = g.picks[hi];
+  const key = `${g.office.split(' ')[0] === 'AQR' ? 'AQR' : 'GLG Partners'}|${p.symbol}`;
+  const reason = PICK_ANALYSES[key] || '이 종목에 대한 상세 매수 논리는 준비 중입니다. 매수 시점·소스·금액 정보를 참고하세요.';
+
+  openPanel(`
+    <div class="p-eye" style="color:var(--green)">⚡ ${g.office} · ${g.name_kr}</div>
+    <div class="p-name">${p.name}</div>
+    <div class="p-sym">${p.symbol} · ${p.industry}</div>
+
+    <div class="p-grid">
+      <div class="p-box"><div class="p-box-l">매수 금액</div><div class="p-box-v" style="color:var(--green)">+${fmtGV(p.vc)}</div></div>
+      <div class="p-box"><div class="p-box-l">매수일</div><div class="p-box-v" style="font-size:13px">${p.pdate}</div></div>
+      <div class="p-box"><div class="p-box-l">소스</div><div class="p-box-v" style="font-size:13px;color:var(--accent)">${p.source}</div></div>
+      <div class="p-box"><div class="p-box-l">유형</div><div class="p-box-v" style="font-size:11px">${p.source==='SF'?'실시간 공시':'영국 공시'}</div></div>
+    </div>
+
+    <div class="p-sec">${g.name_kr}의 매수 논리</div>
+    <div style="font-size:12px;color:var(--muted2);line-height:1.85;margin-bottom:16px">${reason}</div>
+
+    <div class="p-sec">구루 컨텍스트</div>
+    <div style="background:var(--s2);border:1px solid var(--border);border-radius:6px;padding:12px;font-size:11px;color:var(--muted2);line-height:1.8">
+      <div><strong style="color:var(--text)">${g.office}</strong> · ${g.name_en}</div>
+      <div>운용 스타일: <span style="color:var(--text)">${g.style}</span></div>
+      <div>AUM: <span style="color:var(--text)">${g.aum}</span></div>
+      <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);font-size:10px;color:var(--muted)">${g.intro.replace(/<[^>]+>/g,'')}</div>
+    </div>
+  `);
+}
+
+renderPick();
 
 // resize
 window.addEventListener('resize',()=>{if(bubbleReady)drawBubble();});
