@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BD Corporate Intelligence</title>
+<style>
+/* ── PASSWORD GATE ── */
+#pw-gate { position:fixed; inset:0; background:#07080d; z-index:9999; display:flex; align-items:center; justify-content:center; }
+#pw-gate.hidden { display:none; }
+.pw-box { background:#0d1019; border:1px solid #242840; border-radius:14px; padding:40px 36px; width:360px; text-align:center; }
+.pw-logo { font-family:'Bebas Neue',sans-serif; font-size:28px; letter-spacing:.12em; color:#e4e8f5; margin-bottom:4px; }
+.pw-logo span { color:#5b7fff; }
+.pw-sub { font-family:'JetBrains Mono',monospace; font-size:10px; color:#3d4560; letter-spacing:.12em; text-transform:uppercase; margin-bottom:28px; }
+.pw-input { width:100%; background:#111520; border:1px solid #1a1f30; border-radius:8px; padding:11px 14px; font-family:'JetBrains Mono',monospace; font-size:14px; color:#e4e8f5; outline:none; text-align:center; letter-spacing:.2em; margin-bottom:10px; transition:border-color .15s; }
+.pw-input:focus { border-color:#5b7fff; }
+.pw-input.error { border-color:#f0566a; animation:shake .3s ease; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+.pw-btn { width:100%; background:#5b7fff; color:#fff; border:none; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; padding:11px; border-radius:8px; cursor:pointer; letter-spacing:.08em; transition:opacity .15s; margin-bottom:10px; }
+.pw-btn:hover { opacity:.85; }
+.pw-err { font-family:'JetBrains Mono',monospace; font-size:10px; color:#f0566a; height:14px; }
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap');
+
+:root {
+  --bg: #080a10;
+  --s1: #0d1019;
+  --s2: #111520;
+  --border: #1a1f30;
+  --border2: #242840;
+  --text: #e4e8f5;
+  --muted: #3d4560;
+  --muted2: #5a6480;
+  --accent: #5b7fff;
+  --accent2: #a78bfa;
+  --green: #22d3a0;
+  --red: #f0566a;
+  --amber: #f5a623;
+  --sidebar-w: 220px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html,body { height:100%; overflow:hidden; }
+body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; display:flex; flex-direction:column; }
+
+/* ── TOP BAR ──────────────────────────────────── */
+.topbar {
+  height:52px;
+  background:var(--s1);
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  padding:0 20px;
+  gap:20px;
+  flex-shrink:0;
+  position:relative;
+  z-index:50;
+}
+.logo {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:20px;
+  letter-spacing:.12em;
+  color:var(--text);
+  white-space:nowrap;
+}
+.logo span { color:var(--accent); }
+.topbar-divider { width:1px; height:24px; background:var(--border2); flex-shrink:0; }
+.topbar-meta {
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  color:var(--muted2);
+  letter-spacing:.06em;
+}
+.topbar-right { margin-left:auto; display:flex; align-items:center; gap:10px; }
+.status-dot { width:6px; height:6px; border-radius:50%; background:var(--green); box-shadow:0 0 6px var(--green); animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+.status-text { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--green); }
+.export-btn {
+  background:var(--accent);
+  color:#fff;
+  border:none;
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  font-weight:700;
+  padding:6px 14px;
+  border-radius:5px;
+  cursor:pointer;
+  letter-spacing:.06em;
+  transition:opacity .15s;
+}
+.export-btn:hover { opacity:.85; }
+
+/* ── BODY LAYOUT ───────────────────────────────── */
+.body-wrap { display:flex; flex:1; overflow:hidden; }
+
+/* ── SIDEBAR ───────────────────────────────────── */
+.sidebar {
+  width:var(--sidebar-w);
+  background:var(--s1);
+  border-right:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  flex-shrink:0;
+  overflow-y:auto;
+  padding:16px 0;
+}
+.sidebar-section-label {
+  font-family:'JetBrains Mono',monospace;
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  color:var(--muted);
+  padding:0 16px 8px;
+}
+.nav-item {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 16px;
+  cursor:pointer;
+  transition:all .15s;
+  border-left:2px solid transparent;
+  margin-bottom:2px;
+}
+.nav-item:hover { background:var(--s2); color:var(--text); }
+.nav-item.active {
+  background:rgba(91,127,255,.1);
+  border-left-color:var(--accent);
+  color:var(--text);
+}
+.nav-icon { font-size:15px; flex-shrink:0; width:20px; text-align:center; }
+.nav-label { font-size:13px; font-weight:500; }
+.nav-badge {
+  margin-left:auto;
+  font-family:'JetBrains Mono',monospace;
+  font-size:9px;
+  padding:2px 6px;
+  border-radius:3px;
+  background:var(--border2);
+  color:var(--muted2);
+}
+.nav-item.active .nav-badge { background:rgba(91,127,255,.2); color:var(--accent); }
+
+.sidebar-divider { height:1px; background:var(--border); margin:12px 0; }
+
+.sidebar-footer {
+  margin-top:auto;
+  padding:16px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  color:var(--muted);
+  line-height:1.8;
+  border-top:1px solid var(--border);
+}
+
+/* ── MAIN CONTENT ──────────────────────────────── */
+.main { flex:1; overflow-y:auto; position:relative; }
+
+/* ── PAGES ─────────────────────────────────────── */
+.page { display:none; padding:24px 28px; animation:fadein .25s ease; min-height:100%; }
+.page.active { display:block; }
+@keyframes fadein { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── PAGE HEADER ───────────────────────────────── */
+.page-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  margin-bottom:24px;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--border);
+}
+.page-title-group {}
+.page-eyebrow {
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  color:var(--accent);
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
+.page-title { font-size:22px; font-weight:700; letter-spacing:-.02em; }
+.page-title em { color:var(--accent); font-style:normal; }
+.page-stats { display:flex; gap:20px; }
+.ps { text-align:right; }
+.ps-v { font-size:18px; font-weight:700; color:var(--accent); line-height:1; }
+.ps-l { font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--muted2); text-transform:uppercase; letter-spacing:.08em; margin-top:3px; }
+
+/* ── CARDS GRID ────────────────────────────────── */
+.card-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; }
+.card {
+  background:var(--s1);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:18px;
+  cursor:pointer;
+  transition:all .15s;
+  animation:fadein .3s ease both;
+  position:relative;
+  overflow:hidden;
+}
+.card::before { content:''; position:absolute; top:0;left:0;right:0;height:2px; }
+.card.tier-s::before { background:var(--accent2); }
+.card.tier-a::before { background:var(--green); }
+.card.tier-b::before { background:var(--amber); }
+.card:hover { border-color:var(--accent); transform:translateY(-2px); box-shadow:0 8px 24px rgba(91,127,255,.1); }
+
+/* ── FILTER BAR ────────────────────────────────── */
+.filter-bar { display:flex; gap:6px; margin-bottom:20px; flex-wrap:wrap; align-items:center; }
+.filter-label { font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--muted2); text-transform:uppercase; letter-spacing:.12em; }
+.fbtn {
+  background:var(--s1);
+  border:1px solid var(--border);
+  color:var(--muted2);
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  padding:5px 13px;
+  border-radius:4px;
+  cursor:pointer;
+  transition:.12s;
+}
+.fbtn:hover { border-color:var(--accent); color:var(--accent); }
+.fbtn.on { background:var(--accent); border-color:var(--accent); color:#fff; font-weight:700; }
+
+/* ── TABLE ─────────────────────────────────────── */
+.tbl-wrap { overflow-x:auto; }
+.tbl { width:100%; border-collapse:collapse; }
+.tbl thead tr { border-bottom:1px solid var(--text); }
+.tbl th {
+  font-family:'JetBrains Mono',monospace; font-size:9px;
+  text-transform:uppercase; letter-spacing:.1em; color:var(--muted2);
+  padding:8px 10px; text-align:left; white-space:nowrap; cursor:pointer;
+}
+.tbl th:hover { color:var(--accent); }
+.tbl th.r { text-align:right; }
+.tbl tbody tr { border-bottom:1px solid var(--border); transition:background .1s; cursor:pointer; }
+.tbl tbody tr:hover { background:var(--s1); }
+.tbl td { padding:10px 10px; vertical-align:middle; }
+
+/* ── SHARED COMPONENTS ─────────────────────────── */
+.pill {
+  display:inline-block;
+  font-family:'JetBrains Mono',monospace;
+  font-size:9px; font-weight:700;
+  padding:2px 8px; border-radius:3px;
+  letter-spacing:.05em; white-space:nowrap;
+}
+.pill-s  { background:rgba(167,139,250,.15); color:var(--accent2); border:1px solid rgba(167,139,250,.3); }
+.pill-a  { background:rgba(34,211,160,.12);  color:var(--green);   border:1px solid rgba(34,211,160,.25); }
+.pill-b  { background:rgba(245,166,35,.1);   color:var(--amber);   border:1px solid rgba(245,166,35,.2); }
+.pill-high { background:rgba(34,211,160,.12); color:var(--green); border:1px solid rgba(34,211,160,.25); }
+.pill-med  { background:rgba(245,166,35,.1);  color:var(--amber); border:1px solid rgba(245,166,35,.2); }
+.pill-low  { background:rgba(91,127,255,.12); color:var(--accent); border:1px solid rgba(91,127,255,.25); }
+.pill-single { background:rgba(61,69,96,.3);  color:var(--muted2); border:1px solid var(--border2); }
+
+.chip { font-family:'JetBrains Mono',monospace; font-size:9px; padding:2px 6px; border-radius:3px; }
+.chip-buy { background:rgba(34,211,160,.08); color:var(--green); border:1px solid rgba(34,211,160,.15); }
+.chip-sell { background:rgba(240,86,106,.08); color:var(--red); border:1px solid rgba(240,86,106,.15); }
+.chip-accent { background:rgba(91,127,255,.1); color:var(--accent); border:1px solid rgba(91,127,255,.2); }
+
+.ratio-wrap { display:flex; align-items:center; gap:8px; }
+.ratio-track { flex:1; height:5px; background:var(--border); border-radius:3px; overflow:hidden; min-width:60px; }
+.ratio-fill { height:100%; border-radius:3px; }
+.ratio-num { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; width:38px; text-align:right; flex-shrink:0; }
+
+.bar-cell { min-width:100px; }
+
+/* ── SLIDE PANEL ───────────────────────────────── */
+.overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:98; backdrop-filter:blur(3px); }
+.overlay.open { display:block; }
+.panel {
+  display:none; position:fixed; right:0; top:0; bottom:0; width:400px;
+  background:#0a0d16; border-left:1px solid var(--border);
+  padding:28px; z-index:99; overflow-y:auto;
+  animation:slideIn .2s ease;
+}
+.panel.open { display:block; }
+@keyframes slideIn { from{transform:translateX(30px);opacity:0} to{transform:translateX(0);opacity:1} }
+.panel-close { position:absolute; top:16px; right:16px; background:none; border:1px solid var(--border); color:var(--muted2); width:28px; height:28px; border-radius:4px; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; }
+.panel-close:hover { border-color:var(--accent); color:var(--accent); }
+.p-eye { font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:.15em; text-transform:uppercase; margin-bottom:8px; }
+.p-name { font-size:20px; font-weight:700; margin-bottom:2px; padding-right:36px; line-height:1.2; }
+.p-sym { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--muted2); margin-bottom:20px; }
+.p-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px; }
+.p-box { background:var(--s2); border:1px solid var(--border); border-radius:6px; padding:12px; }
+.p-box-l { font-family:'JetBrains Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted2); margin-bottom:4px; }
+.p-box-v { font-size:16px; font-weight:700; }
+.p-sec { font-family:'JetBrains Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:.14em; color:var(--accent); margin-bottom:8px; margin-top:16px; padding-bottom:5px; border-bottom:1px solid var(--border); }
+.p-chips { display:flex; flex-wrap:wrap; gap:5px; }
+
+/* ── HEATMAP ───────────────────────────────────── */
+.hm-tbl { border-collapse:collapse; width:100%; font-family:'JetBrains Mono',monospace; }
+.hm-tbl th { font-size:9px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted2); padding:5px 8px; text-align:center; border-bottom:1px solid var(--border); white-space:nowrap; }
+.hm-tbl th.inst-h { text-align:left; min-width:130px; }
+.hm-tbl tr { border-bottom:1px solid rgba(26,31,48,.5); }
+.hm-cell { border-radius:4px; height:32px; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; cursor:pointer; transition:transform .1s; min-width:65px; }
+.hm-cell:hover { transform:scale(1.06); }
+.hm-inst { font-size:11px; font-weight:600; padding:6px 8px; white-space:nowrap; }
+
+/* ── BUBBLE SVG ────────────────────────────────── */
+#bbl-svg { width:100%; border-radius:10px; background:var(--s1); border:1px solid var(--border); }
+
+/* ── INST BARS ─────────────────────────────────── */
+.ib-row { display:grid; grid-template-columns:130px 1fr 1fr 90px; gap:10px; align-items:center; margin-bottom:8px; }
+.ib-hdr { font-family:'JetBrains Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted2); padding-bottom:8px; border-bottom:1px solid var(--border); }
+.ib-label { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; }
+.ib-track { background:var(--border); border-radius:3px; height:18px; position:relative; overflow:hidden; }
+.ib-fill-buy { height:100%; border-radius:3px; background:linear-gradient(90deg,var(--green),rgba(34,211,160,.4)); }
+.ib-fill-sell { height:100%; border-radius:3px; background:linear-gradient(90deg,var(--red),rgba(240,86,106,.4)); margin-left:auto; }
+.ib-lbl { position:absolute; right:6px; top:50%; transform:translateY(-50%); font-family:'JetBrains Mono',monospace; font-size:9px; font-weight:700; }
+.net { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; padding:3px 8px; border-radius:4px; text-align:right; }
+.net-p { color:var(--green); background:rgba(34,211,160,.08); border:1px solid rgba(34,211,160,.15); }
+.net-n { color:var(--red); background:rgba(240,86,106,.08); border:1px solid rgba(240,86,106,.15); }
+
+/* ── PPT MODAL ─────────────────────────────────── */
+.ppt-modal-bg { display:none; position:fixed; inset:0; background:rgba(0,0,0,.65); z-index:200; backdrop-filter:blur(4px); align-items:center; justify-content:center; }
+.ppt-modal-bg.open { display:flex; }
+.ppt-modal { background:#0d1019; border:1px solid var(--border2); border-radius:14px; width:520px; max-width:92vw; padding:32px; animation:pop .2s ease; position:relative; }
+@keyframes pop { from{transform:scale(.95);opacity:0} to{transform:scale(1);opacity:1} }
+.ppt-modal-close { position:absolute; top:16px; right:16px; background:none; border:1px solid var(--border2); color:var(--muted2); width:28px; height:28px; border-radius:6px; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; }
+.ppt-modal-close:hover { border-color:var(--accent); color:var(--accent); }
+.ppt-eyebrow { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--accent); letter-spacing:.16em; text-transform:uppercase; margin-bottom:8px; }
+.ppt-title { font-size:20px; font-weight:700; margin-bottom:4px; }
+.ppt-sub { font-size:13px; color:var(--muted2); margin-bottom:20px; line-height:1.6; }
+.ppt-plan-badge { display:inline-flex; align-items:center; gap:6px; background:rgba(34,211,160,.08); border:1px solid rgba(34,211,160,.2); border-radius:4px; padding:4px 10px; font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--green); margin-bottom:20px; }
+.ppt-steps { display:flex; flex-direction:column; gap:16px; margin-bottom:20px; }
+.ppt-step { display:flex; gap:14px; align-items:flex-start; }
+.ppt-step-num { width:22px; height:22px; border-radius:50%; background:var(--accent); color:#fff; font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; }
+.ppt-step-title { font-size:13px; font-weight:700; margin-bottom:3px; }
+.ppt-step-desc { font-size:12px; color:var(--muted2); line-height:1.6; }
+.ppt-code { font-family:'JetBrains Mono',monospace; font-size:11px; background:var(--s2); border:1px solid var(--border2); border-radius:5px; padding:8px 12px; margin-top:6px; color:var(--accent); display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.ppt-copy-btn { background:none; border:1px solid var(--border2); color:var(--muted2); font-family:'JetBrains Mono',monospace; font-size:9px; padding:3px 8px; border-radius:3px; cursor:pointer; flex-shrink:0; white-space:nowrap; }
+.ppt-copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+.ppt-tip { background:rgba(91,127,255,.06); border:1px solid rgba(91,127,255,.2); border-radius:8px; padding:14px 16px; }
+.ppt-tip-label { font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--accent); text-transform:uppercase; letter-spacing:.12em; margin-bottom:8px; }
+.ppt-tip-body { font-size:12px; color:var(--muted2); line-height:1.8; }
+.ppt-tip-body strong { color:var(--text); }
+.ppt-prompt-box { background:var(--s2); border:1px solid var(--border2); border-radius:8px; padding:14px 16px; margin-top:12px; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text); line-height:1.8; position:relative; }
+.ppt-prompt-copy { position:absolute; top:10px; right:10px; background:none; border:1px solid var(--border2); color:var(--muted2); font-family:'JetBrains Mono',monospace; font-size:9px; padding:2px 8px; border-radius:3px; cursor:pointer; }
+.ppt-prompt-copy:hover { border-color:var(--accent); color:var(--accent); }
+
+/* ── TOOLTIP ───────────────────────────────────── */
+.tooltip {
+  position:fixed; background:#111828; border:1px solid var(--border2);
+  border-radius:8px; padding:12px 16px;
+  font-family:'JetBrains Mono',monospace; font-size:11px;
+  pointer-events:none; z-index:200; max-width:260px; line-height:1.8;
+  display:none; box-shadow:0 8px 32px rgba(0,0,0,.6);
+}
+.tt-title { font-size:12px; font-weight:700; color:var(--text); margin-bottom:6px; font-family:'DM Sans',sans-serif; }
+.tt-row { display:flex; justify-content:space-between; gap:14px; }
+.tt-l { color:var(--muted2); } .tt-v { font-weight:700; }
+
+/* ── VIZ TABS ──────────────────────────────────── */
+.viz-tabs { display:flex; gap:4px; margin-bottom:20px; background:var(--s2); border:1px solid var(--border); border-radius:8px; padding:3px; width:fit-content; }
+.vt { background:none; border:none; color:var(--muted2); font-family:'JetBrains Mono',monospace; font-size:10px; padding:6px 16px; border-radius:5px; cursor:pointer; transition:.15s; }
+.vt:hover { color:var(--text); }
+.vt.active { background:var(--accent); color:#fff; font-weight:700; }
+
+.vsec { display:none; animation:fadein .2s ease; }
+.vsec.active { display:block; }
+
+/* ── NOTICE BOX ────────────────────────────────── */
+.notice {
+  background:rgba(245,166,35,.05);
+  border:1px solid rgba(245,166,35,.2);
+  border-left:3px solid var(--amber);
+  border-radius:4px;
+  padding:10px 14px;
+  margin-bottom:16px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px; color:var(--amber); line-height:1.7;
+}
+
+/* ── FLOW TABLE SPECIFIC ────────────────────────── */
+.flow-row { display:grid; align-items:center; gap:8px; padding:10px 8px; border-bottom:1px solid var(--border); cursor:pointer; border-radius:4px; transition:background .1s; }
+.flow-row:hover { background:var(--s1); }
+.flow-row.buy-row { grid-template-columns:22px 1fr 80px 78px 120px; }
+.flow-row.sell-row { grid-template-columns:22px 1fr 78px 110px; }
+.flow-hdr { font-family:'JetBrains Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted2); border-bottom:1px solid var(--text); padding-bottom:8px; }
+.rk { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted); }
+.sname-sm { font-size:12px; font-weight:700; }
+.ssym-sm { font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--muted2); margin-top:1px; }
+.flow-bar { height:5px; background:var(--border); border-radius:3px; overflow:hidden; }
+.flow-bar-fill { height:100%; border-radius:3px; }
+.flow-amt { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; text-align:right; }
+.fa-buy { color:var(--green); } .fa-sell { color:var(--red); }
+
+/* ── CLUSTER CARDS ──────────────────────────────── */
+.inst-tags { display:flex; flex-wrap:wrap; gap:4px; }
+.conv-num { font-size:28px; font-weight:700; line-height:1; }
+.conv-bar { position:absolute; top:0; left:0; right:0; height:2px; border-radius:2px 2px 0 0; }
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div id="pw-gate">
+  <div class="pw-box">
+    <div class="pw-logo">BD<span>·</span>INTEL</div>
+    <div class="pw-sub">Institutional Intelligence · Private</div>
+    <input class="pw-input" id="pw-input" type="password" placeholder="· · · ·" maxlength="20"
+      onkeydown="if(event.key==='Enter')checkPw()" autofocus />
+    <button class="pw-btn" onclick="checkPw()">입장</button>
+    <div class="pw-err" id="pw-err"></div>
+  </div>
+</div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="logo">BD<span>·</span>INTEL</div>
+  <div class="topbar-divider"></div>
+  <div class="topbar-meta">BD Corporate Intelligence System · 2026.04–05 · 25개 기관 추적</div>
+  <div class="topbar-right">
+    <div class="status-dot"></div>
+    <div class="status-text">LIVE DATA</div>
+    <div class="topbar-divider"></div>
+    <button class="export-btn" onclick="document.getElementById('ppt-modal').classList.add('open')">↗ PPT 내보내기</button>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body-wrap">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-section-label">분석 모듈</div>
+
+    <div class="nav-item active" onclick="goPage('cluster',this)">
+      <span class="nav-icon">⬡</span>
+      <span class="nav-label">군집 매수</span>
+      <span class="nav-badge">24</span>
+    </div>
+    <div class="nav-item" onclick="goPage('flow',this)">
+      <span class="nav-icon">⇅</span>
+      <span class="nav-label">자금 흐름</span>
+      <span class="nav-badge">v2</span>
+    </div>
+    <div class="nav-item" onclick="goPage('ratio',this)">
+      <span class="nav-icon">◎</span>
+      <span class="nav-label">증액 집중도</span>
+      <span class="nav-badge">편향제거</span>
+    </div>
+    <div class="nav-item" onclick="goPage('viz',this)">
+      <span class="nav-icon">▣</span>
+      <span class="nav-label">포트폴리오 시각화</span>
+      <span class="nav-badge">3뷰</span>
+    </div>
+
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-label">데이터 현황</div>
+    <div style="padding:0 16px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted2);line-height:2">
+      <div>기관수 <span style="color:var(--text);float:right">25개</span></div>
+      <div>실시간 <span style="color:var(--text);float:right">17개</span></div>
+      <div>13F <span style="color:var(--text);float:right">8개</span></div>
+      <div>추적종목 <span style="color:var(--text);float:right">24,383개</span></div>
+    </div>
+
+    <div class="sidebar-footer">
+      소스: SF · UK · NRCW<br>
+      ANC · CWS · SHL<br>
+      13F (분기 스냅샷)<br>
+      <br>
+      <span style="color:var(--accent)">v4.0</span> · 2026.05.07
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main" id="main">
+
+    <!-- ①  군집 매수 레이더 -->
+    <div class="page active" id="page-cluster">
+      <div class="page-header">
+        <div class="page-title-group">
+          <div class="page-eyebrow">Module 01 · Cluster Buying Radar</div>
+          <div class="page-title">기관 <em>군집 매수</em> 레이더</div>
+        </div>
+        <div class="page-stats">
+          <div class="ps"><div class="ps-v">24</div><div class="ps-l">분석 종목</div></div>
+          <div class="ps"><div class="ps-v">10</div><div class="ps-l">최대 기관수</div></div>
+        </div>
+      </div>
+      <div class="filter-bar">
+        <span class="filter-label">필터</span>
+        <button class="fbtn on" onclick="clusterFilter('ALL',this)">ALL</button>
+        <button class="fbtn" onclick="clusterFilter(10,this)">★ 10개</button>
+        <button class="fbtn" onclick="clusterFilter(8,this)">8개+</button>
+        <button class="fbtn" onclick="clusterFilter(7,this)">7개+</button>
+        <button class="fbtn" onclick="clusterFilterSector(this,'Pharma')">제약</button>
+        <button class="fbtn" onclick="clusterFilterSector(this,'Banks')">은행</button>
+        <button class="fbtn" onclick="clusterFilterSector(this,'Telecom')">통신</button>
+      </div>
+      <div class="card-grid" id="cluster-grid"></div>
+    </div>
+
+    <!-- ② 자금 흐름 -->
+    <div class="page" id="page-flow">
+      <div class="page-header">
+        <div class="page-title-group">
+          <div class="page-eyebrow">Module 02 · Money Flow · SF/실시간 소스 기준</div>
+          <div class="page-title">글로벌 <em>자금 흐름</em> TOP</div>
+        </div>
+        <div class="page-stats">
+          <div class="ps"><div class="ps-v">+$1.2B</div><div class="ps-l">최대 단일 매수</div></div>
+          <div class="ps"><div class="ps-v">GSK 11개</div><div class="ps-l">최다 동시 매도</div></div>
+        </div>
+      </div>
+      <div class="notice">⚠ 신뢰도 등급: HIGH = HC기관 5개+ 동시 매수 / MEDIUM = 3~4개 / LOW = 1~2개 / SINGLE = Invesco 단독 (누적 포함 가능)</div>
+      <div class="filter-bar">
+        <button class="fbtn on" onclick="flowTab('buy',this)" id="flow-buy-btn">▲ 순매수 TOP 20</button>
+        <button class="fbtn" onclick="flowTab('sell',this)" id="flow-sell-btn">▼ 순매도 TOP 12</button>
+        <span style="margin-left:8px"></span>
+        <button class="fbtn on" onclick="flowConfFilter('ALL',this)">ALL</button>
+        <button class="fbtn" onclick="flowConfFilter('HIGH',this)">HIGH만</button>
+        <button class="fbtn" onclick="flowConfFilter('NO_SINGLE',this)">SINGLE제외</button>
+      </div>
+      <div id="flow-list"></div>
+    </div>
+
+    <!-- ③ 증액 집중도 -->
+    <div class="page" id="page-ratio">
+      <div class="page-header">
+        <div class="page-title-group">
+          <div class="page-eyebrow">Module 03 · Increment Ratio · 시총편향 제거</div>
+          <div class="page-title">기관 <em>증액 집중도</em></div>
+        </div>
+        <div class="page-stats">
+          <div class="ps"><div class="ps-v">삼성전자우</div><div class="ps-l">S등급 1위 91%</div></div>
+          <div class="ps"><div class="ps-v">4개</div><div class="ps-l">S등급 종목</div></div>
+        </div>
+      </div>
+      <div class="filter-bar">
+        <button class="fbtn on" onclick="ratioFilter('ALL',this)">ALL</button>
+        <button class="fbtn" onclick="ratioFilter('S',this)">S ≥85%</button>
+        <button class="fbtn" onclick="ratioFilter('A',this)">A ≥75%</button>
+        <button class="fbtn" onclick="ratioFilter('AB',this)">A+B ≥70%</button>
+        <button class="fbtn" onclick="ratioSector('KR',this)">한국주</button>
+        <button class="fbtn" onclick="ratioSector('JP',this)">일본주</button>
+        <button class="fbtn" onclick="ratioSector('TECH',this)">테크</button>
+      </div>
+      <div class="tbl-wrap">
+        <table class="tbl"><thead><tr>
+          <th>#</th><th>등급</th><th>종목</th><th>섹터</th>
+          <th>증액비율</th><th class="r">증액금액</th><th class="r">증액/보유</th><th>기관</th>
+        </tr></thead><tbody id="ratio-body"></tbody></table>
+      </div>
+    </div>
+
+    <!-- ④ 포트폴리오 시각화 -->
+    <div class="page" id="page-viz">
+      <div class="page-header">
+        <div class="page-title-group">
+          <div class="page-eyebrow">Module 04 · Portfolio Visualization</div>
+          <div class="page-title">기관 <em>포트폴리오</em> 시각화</div>
+        </div>
+      </div>
+      <div class="viz-tabs">
+        <button class="vt active" onclick="vizTab('heatmap',this)">① 섹터 히트맵</button>
+        <button class="vt" onclick="vizTab('bubble',this)">② 버블차트</button>
+        <button class="vt" onclick="vizTab('instbar',this)">③ 기관별 매수/매도</button>
+      </div>
+      <div class="vsec active" id="vs-heatmap">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted2);margin-bottom:14px">기관별 섹터 순매수 집중도 — 색이 진할수록 매수 집중</div>
+        <div style="overflow-x:auto"><table class="hm-tbl" id="hm-tbl"></table></div>
+      </div>
+      <div class="vsec" id="vs-bubble">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted2);margin-bottom:12px">X=총보유 / Y=순매수 / 크기=기관수 / 색=섹터 · 버블 hover 시 상세</div>
+        <div class="filter-bar" style="margin-bottom:12px" id="bubble-sector-filters">
+          <button class="fbtn on" onclick="bubbleFilter('ALL',this)">전체</button>
+          <button class="fbtn" onclick="bubbleFilter('테크·SW',this)">테크·SW</button>
+          <button class="fbtn" onclick="bubbleFilter('반도체',this)">반도체</button>
+          <button class="fbtn" onclick="bubbleFilter('제약·바이오',this)">제약</button>
+          <button class="fbtn" onclick="bubbleFilter('금융',this)">금융</button>
+          <button class="fbtn" onclick="bubbleFilter('에너지·유틸',this)">에너지</button>
+        </div>
+        <svg id="bbl-svg" height="480"></svg>
+      </div>
+      <div class="vsec" id="vs-instbar">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted2);margin-bottom:14px">기관별 순매수(초록) vs 순매도(빨강) 절대 규모</div>
+        <div id="ib-chart"></div>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /body-wrap -->
+
+<!-- PPT MODAL -->
+<div class="ppt-modal-bg" id="ppt-modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="ppt-modal">
+    <button class="ppt-modal-close" onclick="document.getElementById('ppt-modal').classList.remove('open')">×</button>
+    <div class="ppt-eyebrow">Export · Microsoft 365</div>
+    <div class="ppt-title">PPT 내보내기 설정</div>
+    <div class="ppt-sub">Claude for PowerPoint 애드인을 설치하면 이 대시보드 데이터를 PPT로 바로 내보낼 수 있습니다.</div>
+
+    <div class="ppt-plan-badge">
+      <span>✓</span> Max $100 플랜 — 즉시 사용 가능
+    </div>
+
+    <div class="ppt-steps">
+      <div class="ppt-step">
+        <div class="ppt-step-num">1</div>
+        <div>
+          <div class="ppt-step-title">PowerPoint 열기 → 애드인 설치</div>
+          <div class="ppt-step-desc">PowerPoint → <strong>Insert → Add-ins → AppSource</strong> 검색창에 "Claude" 입력 후 <strong>Claude by Anthropic for PowerPoint</strong> 설치. Mac/Windows 동일.</div>
+          <div class="ppt-code">
+            <span>Insert → Add-ins → "Claude" 검색</span>
+            <button class="ppt-copy-btn" onclick="copyText('Insert → Add-ins → Claude 검색',this)">복사</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ppt-step">
+        <div class="ppt-step-num">2</div>
+        <div>
+          <div class="ppt-step-title">Claude 계정으로 로그인</div>
+          <div class="ppt-step-desc">설치 후 PowerPoint 홈 탭 리본에 Claude 패널이 생깁니다. Max 계정으로 로그인하면 바로 활성화.</div>
+        </div>
+      </div>
+
+      <div class="ppt-step">
+        <div class="ppt-step-num">3</div>
+        <div>
+          <div class="ppt-step-title">이 대시보드 데이터로 슬라이드 생성</div>
+          <div class="ppt-step-desc">Claude 패널에 아래 프롬프트 붙여넣기. 현재 활성화된 분석 모듈 데이터를 슬라이드로 자동 생성합니다.</div>
+          <div class="ppt-prompt-box" id="ppt-prompt-text">
+            BD Corporate Intelligence 2026년 4~5월 분석 결과를 바탕으로 경영전략실 보고용 PPT를 만들어줘.<br><br>
+            1. 표지: "글로벌 기관 자금흐름 인텔리전스 2026.04–05"<br>
+            2. 기관 군집 매수 TOP 5 (TSMC, Novartis, Roche 등)<br>
+            3. 순매수 HIGH 신뢰도 종목 요약<br>
+            4. 증액 집중도 S등급 종목 (삼성전자우선주 91% 등)<br>
+            5. 섹터 히트맵 인사이트 요약<br>
+            6. 주요 매도 시그널 (GSK 11개 기관 등)<br>
+            7. 결론 및 투자 시사점<br><br>
+            슬라이드 디자인은 네이비/블루 컬러, 숫자 강조 레이아웃으로.
+            <button class="ppt-prompt-copy" onclick="copyPrompt(this)">복사</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ppt-tip">
+      <div class="ppt-tip-label">💡 Cross-app 팁</div>
+      <div class="ppt-tip-body">
+        Excel·PowerPoint·Word 애드인을 동시에 열면 <strong>앱 간 컨텍스트가 자동 공유</strong>됩니다.<br>
+        Excel에서 BD 데이터 열기 → PowerPoint에서 "Excel 데이터로 슬라이드 만들어줘" 하면<br>
+        다시 설명 없이 바로 생성 가능. <strong>FactSet·PitchBook MCP 커넥터</strong>도 애드인 내에서 연결됩니다.
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- PANEL -->
+<div class="overlay" id="overlay" onclick="closePanel()"></div>
+<div class="panel" id="panel">
+  <button class="panel-close" onclick="closePanel()">×</button>
+  <div id="panel-content"></div>
+</div>
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+// ── PASSWORD ─────────────────────────────────────
+function checkPw() {
+  const val = document.getElementById('pw-input').value;
+  if (val === '1234') {
+    document.getElementById('pw-gate').classList.add('hidden');
+  } else {
+    const inp = document.getElementById('pw-input');
+    const err = document.getElementById('pw-err');
+    inp.classList.add('error');
+    inp.value = '';
+    err.textContent = '비밀번호가 틀렸습니다';
+    setTimeout(() => { inp.classList.remove('error'); err.textContent = ''; }, 1500);
+  }
+}
+// ═══════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════
+const GURU=['Duquesne','Berkshire','AQR','Bridgewater','Appaloosa','PSCM'];
+function isGuru(n){return GURU.some(g=>n.includes(g));}
+function fmt(v){const a=Math.abs(v),s=v>=0?'+':'-';if(a>=1e12)return s+'$'+(a/1e12).toFixed(1)+'T';if(a>=1e9)return s+'$'+(a/1e9).toFixed(1)+'B';if(a>=1e6)return s+'$'+Math.round(a/1e6)+'M';return s+'$'+Math.round(a/1e3)+'K';}
+function fmtAbs(v){const a=Math.abs(v);if(a>=1e12)return '$'+(a/1e12).toFixed(1)+'T';if(a>=1e9)return '$'+(a/1e9).toFixed(1)+'B';if(a>=1e6)return '$'+Math.round(a/1e6)+'M';return '$'+Math.round(a/1e3)+'K';}
+function getConfColor(c){return{HIGH:'#22d3a0',MEDIUM:'#f5a623',LOW:'#5b7fff',SINGLE:'#3d4560'}[c]||'#3d4560';}
+function getRatioColor(r){if(r>=.85)return'#a78bfa';if(r>=.75)return'#22d3a0';if(r>=.70)return'#f5a623';return'#5b7fff';}
+function getTier(r){if(r>=.85)return'S';if(r>=.75)return'A';if(r>=.70)return'B';return'C';}
+
+// Panel
+function openPanel(html){
+  document.getElementById('panel-content').innerHTML=html;
+  document.getElementById('panel').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+function closePanel(){
+  document.getElementById('panel').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+function copyText(text, btn) {
+  navigator.clipboard.writeText(text).then(()=>{
+    const orig=btn.textContent; btn.textContent='✓ 복사됨';
+    setTimeout(()=>btn.textContent=orig, 1500);
+  });
+}
+function copyPrompt(btn) {
+  const el=document.getElementById('ppt-prompt-text');
+  const text=el.innerText.replace(/복사$/,'').trim();
+  navigator.clipboard.writeText(text).then(()=>{
+    const orig=btn.textContent; btn.textContent='✓ 복사됨';
+    setTimeout(()=>btn.textContent=orig, 1500);
+  });
+}
+
+// Nav
+function goPage(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  btn.classList.add('active');
+  if(id==='viz'&&!heatmapBuilt) buildHeatmap();
+}
+
+// Tooltip
+const tt=document.getElementById('tooltip');
+function showTT(e,html){
+  tt.innerHTML=html; tt.style.display='block';
+  const x=e.clientX+14,y=e.clientY-10;
+  tt.style.left=(x+270>innerWidth?x-285:x)+'px';
+  tt.style.top=(y+180>innerHeight?y-180:y)+'px';
+}
+function hideTT(){tt.style.display='none';}
+
+// ═══════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════
+const CLUSTER_DATA=[
+  {symbol:"KGF_XLON",name:"KINGFISHER PLC",industry:"Home Improvement Retail",institution_count:10,institutions:["AQR","BlackRock","GSAM","Invesco","Norges Bank","SIM","The Vanguard Group","UBS Switzerland AG","Wellington","국민연금"],total_value_change:18735192,total_value:938036773},
+  {symbol:"NOVN_XSWX",name:"Novartis AG",industry:"Pharmaceuticals",institution_count:8,institutions:["BlackRock","GSAM","Invesco","JPM","SIM","State Street","UBS Switzerland AG","UBS UK"],total_value_change:378628286,total_value:20312500523},
+  {symbol:"ROP_XSWX",name:"Roche Holding AG",industry:"Pharmaceuticals",institution_count:8,institutions:["BlackRock","GSAM","Invesco","JPM","SIM","State Street","UBS Switzerland AG","UBS UK"],total_value_change:360478675,total_value:20872859931},
+  {symbol:"ULVR_XLON",name:"Unilever PLC",industry:"Personal Products",institution_count:8,institutions:["AQR","BlackRock","GSAM","Invesco","Lazard","SIM","UBS UK","Wellington"],total_value_change:216580074,total_value:6212100180},
+  {symbol:"ABBN_XSWX",name:"ABB, LTD",industry:"Electrical Equipment",institution_count:8,institutions:["BlackRock","GSAM","Invesco","JPM","SIM","State Street","UBS Switzerland AG","UBS UK"],total_value_change:171100339,total_value:10351135294},
+  {symbol:"CPG_XLON",name:"Compass Group PLC",industry:"Restaurants",institution_count:8,institutions:["AQR","BlackRock","GSAM","Invesco","Lazard","State Street","The Vanguard Group","UBS UK"],total_value_change:110777691,total_value:4645937857},
+  {symbol:"SIE_XFRA",name:"Siemens AG",industry:"Conglomerates",institution_count:8,institutions:["BlackRock","GSAM","Invesco","JPM","SIM","UBS Switzerland AG","UBS UK","UBS(US,LLC)"],total_value_change:56698846,total_value:7021146364},
+  {symbol:"DTE_XFRA",name:"Deutsche Telekom AG",industry:"Telecommunication Services",institution_count:8,institutions:["BlackRock","GSAM","Invesco","JPM","SIM","UBS Switzerland AG","UBS UK","UBS(US,LLC)"],total_value_change:39121495,total_value:3791810133},
+  {symbol:"2330_XTAI",name:"TSMC",industry:"Semiconductors",institution_count:7,institutions:["BlackRock","GSAM","Invesco","JPM","State Street","UBS Switzerland AG","UBS UK"],total_value_change:580281715,total_value:49468373908},
+  {symbol:"NESN_XSWX",name:"Nestle S.A.",industry:"Packaged Foods",institution_count:7,institutions:["BlackRock","Invesco","JPM","SIM","State Street","UBS Switzerland AG","UBS UK"],total_value_change:300881947,total_value:17699012358},
+  {symbol:"8306_XTKS",name:"Mitsubishi UFJ FG",industry:"Banks",institution_count:7,institutions:["BlackRock","GSAM","Invesco","JPM","SIM","State Street","UBS UK"],total_value_change:139862766,total_value:7610836793},
+  {symbol:"CFR_XSWX",name:"Richemont SA",industry:"Recreational Products",institution_count:7,institutions:["BlackRock","GSAM","Invesco","JPM","State Street","UBS Switzerland AG","UBS UK"],total_value_change:113400350,total_value:6476985167},
+  {symbol:"8316_XTKS",name:"Sumitomo Mitsui FG",industry:"Banks",institution_count:7,institutions:["BlackRock","GSAM","Invesco","JPM","SIM","State Street","UBS UK"],total_value_change:89277150,total_value:4690276743},
+  {symbol:"6758_XTKS",name:"Sony Group",industry:"Consumer Electronics",institution_count:7,institutions:["BlackRock","GSAM","Invesco","JPM","SIM","State Street","UBS UK"],total_value_change:86140725,total_value:4801876975},
+  {symbol:"1299_XHKG",name:"AIA Group",industry:"Life Insurance",institution_count:7,institutions:["BlackRock","GSAM","Invesco","JPM","SIM","State Street","UBS UK"],total_value_change:79394971,total_value:5813203953},
+  {symbol:"8411_XTKS",name:"Mizuho Financial Group",industry:"Banks",institution_count:7,institutions:["BlackRock","GSAM","Invesco","JPM","SIM","State Street","UBS UK"],total_value_change:68938047,total_value:3587844412},
+];
+
+const FLOW_BUY=[
+  {symbol:"RTO_XLON",name:"Rentokil Initial",industry:"Business Support Services",total_vc:1176732459,total_val:1774530752,buyer_count:1,seller_count:0,hc_buyer_count:1,buyer_institutions:["BlackRock"],seller_institutions:[],hc_buyers:["BlackRock"],confidence:"LOW"},
+  {symbol:"NVDA",name:"NVIDIA Corporation",industry:"Semiconductors",total_vc:912529468,total_val:54755029381,buyer_count:1,seller_count:0,hc_buyer_count:0,buyer_institutions:["Invesco"],seller_institutions:[],hc_buyers:[],confidence:"SINGLE"},
+  {symbol:"COL_XASX",name:"Coles Group",industry:"Groceries & Food Retail",total_vc:833989833,total_val:1641382392,buyer_count:5,seller_count:0,hc_buyer_count:3,buyer_institutions:["GSAM","Invesco","JPM","The Vanguard Group","UBS UK"],seller_institutions:[],hc_buyers:["GSAM","JPM","UBS UK"],confidence:"MEDIUM"},
+  {symbol:"AAPL",name:"Apple, Inc.",industry:"Computers",total_vc:788063966,total_val:42812854983,buyer_count:1,seller_count:0,hc_buyer_count:0,buyer_institutions:["Invesco"],seller_institutions:[],hc_buyers:[],confidence:"SINGLE"},
+  {symbol:"EQTL3_BVMF",name:"Equatorial S.A.",industry:"Electric Utilities",total_vc:598386963,total_val:1155884552,buyer_count:6,seller_count:0,hc_buyer_count:5,buyer_institutions:["BlackRock","GSAM","Invesco","JPM","State Street","UBS UK"],seller_institutions:[],hc_buyers:["BlackRock","GSAM","JPM","State Street","UBS UK"],confidence:"HIGH"},
+  {symbol:"2330_XTAI",name:"TSMC",industry:"Semiconductors",total_vc:580281715,total_val:49468373908,buyer_count:7,seller_count:0,hc_buyer_count:6,buyer_institutions:["BlackRock","GSAM","Invesco","JPM","State Street","UBS Switzerland AG","UBS UK"],seller_institutions:[],hc_buyers:["BlackRock","GSAM","JPM","State Street","UBS Switzerland AG","UBS UK"],confidence:"HIGH"},
+  {symbol:"MSFT",name:"Microsoft",industry:"Software",total_vc:471364256,total_val:33174024197,buyer_count:1,seller_count:0,hc_buyer_count:0,buyer_institutions:["Invesco"],seller_institutions:[],hc_buyers:[],confidence:"SINGLE"},
+  {symbol:"PRIO3_BVMF",name:"Prio S.A.",industry:"Oil & Gas E&P",total_vc:435416035,total_val:878266520,buyer_count:3,seller_count:0,hc_buyer_count:3,buyer_institutions:["BlackRock","JPM","State Street"],seller_institutions:[],hc_buyers:["BlackRock","JPM","State Street"],confidence:"MEDIUM"},
+  {symbol:"AMZN",name:"Amazon.com",industry:"Online Retail",total_vc:426296449,total_val:29731819442,buyer_count:1,seller_count:0,hc_buyer_count:0,buyer_institutions:["Invesco"],seller_institutions:[],hc_buyers:[],confidence:"SINGLE"},
+  {symbol:"NOVN_XSWX",name:"Novartis AG",industry:"Pharmaceuticals",total_vc:378628286,total_val:20312500523,buyer_count:8,seller_count:0,hc_buyer_count:7,buyer_institutions:["BlackRock","GSAM","Invesco","JPM","SIM","State Street","UBS Switzerland AG","UBS UK"],seller_institutions:[],hc_buyers:["BlackRock","GSAM","JPM","SIM","State Street","UBS Switzerland AG","UBS UK"],confidence:"HIGH"},
+  {symbol:"9988_XHKG",name:"Alibaba Group",industry:"Online Retail",total_vc:365530300,total_val:11574584542,buyer_count:5,seller_count:1,hc_buyer_count:4,buyer_institutions:["BlackRock","Invesco","JPM","UBS Switzerland AG","UBS UK"],seller_institutions:["State Street"],hc_buyers:["BlackRock","JPM","UBS Switzerland AG","UBS UK"],confidence:"MEDIUM"},
+  {symbol:"ROP_XSWX",name:"Roche Holding",industry:"Pharmaceuticals",total_vc:360478675,total_val:20872859931,buyer_count:8,seller_count:0,hc_buyer_count:7,buyer_institutions:["BlackRock","GSAM","Invesco","JPM","SIM","State Street","UBS Switzerland AG","UBS UK"],seller_institutions:[],hc_buyers:["BlackRock","GSAM","JPM","SIM","State Street","UBS Switzerland AG","UBS UK"],confidence:"HIGH"},
+  {symbol:"META",name:"Meta Platforms",industry:"Internet Software",total_vc:354969577,total_val:20567452139,buyer_count:1,seller_count:0,hc_buyer_count:0,buyer_institutions:["Invesco"],seller_institutions:[],hc_buyers:[],confidence:"SINGLE"},
+  {symbol:"EDV_XASX",name:"Endeavour Group",industry:"Hotels & Leisure",total_vc:329749090,total_val:396711583,buyer_count:3,seller_count:1,hc_buyer_count:3,buyer_institutions:["BlackRock","GSAM","State Street"],seller_institutions:["Invesco"],hc_buyers:["BlackRock","GSAM","State Street"],confidence:"MEDIUM"},
+  {symbol:"NESN_XSWX",name:"Nestle S.A.",industry:"Packaged Foods",total_vc:292792526,total_val:18315821945,buyer_count:7,seller_count:1,hc_buyer_count:6,buyer_institutions:["BlackRock","Invesco","JPM","SIM","State Street","UBS Switzerland AG","UBS UK"],seller_institutions:["GSAM"],hc_buyers:["BlackRock","JPM","SIM","State Street","UBS Switzerland AG","UBS UK"],confidence:"HIGH"},
+  {symbol:"2688_XHKG",name:"ENN Energy Holdings",industry:"Gas Utilities",total_vc:272259841,total_val:623626902,buyer_count:6,seller_count:0,hc_buyer_count:5,buyer_institutions:["BlackRock","GSAM","Invesco","JPM","State Street","Wellington"],seller_institutions:[],hc_buyers:["BlackRock","GSAM","JPM","State Street","Wellington"],confidence:"HIGH"},
+];
+const FLOW_SELL=[
+  {symbol:"TELIA_XSTO",name:"Telia Company AB",industry:"Telecom",total_vc:-614654781,total_val:450531731,buyer_count:2,seller_count:4,hc_buyer_count:2,buyer_institutions:["State Street","UBS UK"],seller_institutions:["BlackRock","GSAM","Invesco","UBS Switzerland AG"],hc_buyers:["State Street","UBS UK"],confidence:"LOW"},
+  {symbol:"BEZ_XLON",name:"Beazley plc",industry:"P&C Insurance",total_vc:-551699329,total_val:452357679,buyer_count:1,seller_count:1,hc_buyer_count:1,buyer_institutions:["State Street"],seller_institutions:["Wellington"],hc_buyers:["State Street"],confidence:"LOW"},
+  {symbol:"GSK_XLON",name:"GSK plc",industry:"Pharmaceuticals",total_vc:-498843637,total_val:16889251129,buyer_count:5,seller_count:11,hc_buyer_count:3,buyer_institutions:["AQR","GSAM","Invesco","Lazard","SIM"],seller_institutions:["BlackRock","GLG Partners","JPM","Norges Bank","State Street","The Vanguard Group","UBS Switzerland AG","UBS UK","UBS(US,LLC)","Wellington","국민연금"],hc_buyers:["GSAM","Lazard","SIM"],confidence:"MEDIUM"},
+  {symbol:"SU_XTSE",name:"Suncor Energy",industry:"Oil & Gas",total_vc:-400922940,total_val:2049430636,buyer_count:1,seller_count:1,hc_buyer_count:1,buyer_institutions:["UBS UK"],seller_institutions:["BlackRock"],hc_buyers:["UBS UK"],confidence:"LOW"},
+  {symbol:"TEAM",name:"Atlassian Corp",industry:"Business Software",total_vc:-308732033,total_val:5943659,buyer_count:0,seller_count:1,hc_buyer_count:0,buyer_institutions:[],seller_institutions:["Invesco"],hc_buyers:[],confidence:"SINGLE"},
+  {symbol:"SSE_XLON",name:"SSE plc",industry:"Power Producers",total_vc:-294933763,total_val:4103618113,buyer_count:4,seller_count:3,hc_buyer_count:3,buyer_institutions:["Lazard","SIM","State Street","The Vanguard Group"],seller_institutions:["Invesco","JPM","Norges Bank"],hc_buyers:["Lazard","SIM","State Street"],confidence:"MEDIUM"},
+  {symbol:"A064350_XKRX",name:"현대로템",industry:"Commercial Vehicles",total_vc:-280807433,total_val:460861607,buyer_count:5,seller_count:2,hc_buyer_count:5,buyer_institutions:["GSAM","JPM","State Street","UBS Switzerland AG","UBS UK"],seller_institutions:["BlackRock","Invesco"],hc_buyers:["GSAM","JPM","State Street","UBS Switzerland AG","UBS UK"],confidence:"HIGH"},
+  {symbol:"AGN_XAMS",name:"Aegon Ltd.",industry:"Life Insurance",total_vc:-266230241,total_val:542290488,buyer_count:3,seller_count:2,hc_buyer_count:3,buyer_institutions:["GSAM","State Street","UBS UK"],seller_institutions:["Invesco","Norges Bank"],hc_buyers:["GSAM","State Street","UBS UK"],confidence:"MEDIUM"},
+  {symbol:"PRU_XLON",name:"Prudential plc",industry:"Life Insurance",total_vc:-145928937,total_val:3993351603,buyer_count:5,seller_count:7,hc_buyer_count:4,buyer_institutions:["AQR","BlackRock","JPM","State Street","Wellington"],seller_institutions:["GSAM","Invesco","SIM","The Vanguard Group","UBS Switzerland AG","UBS UK","국민연금"],hc_buyers:["BlackRock","JPM","State Street","Wellington"],confidence:"MEDIUM"},
+];
+
+const RATIO_DATA=[
+  {symbol:"A005935_XKRX",name:"삼성전자 우선주",industry:"Consumer Electronics",buyer_count:10,total_holders:11,increment_ratio:.909,buyers:["JPM","BlackRock","State Street","UBS UK","UBS Switzerland AG","Lazard","Wellington","GSAM","SIM","Invesco"],total_vc:35003525,total_val:2545932750},
+  {symbol:"LISN_XSWX",name:"Lindt & Sprüngli",industry:"Packaged Foods",buyer_count:7,total_holders:8,increment_ratio:.875,buyers:["JPM","BlackRock","The Vanguard Group","State Street","UBS UK","UBS Switzerland AG","Invesco"],total_vc:21460678,total_val:2061815959},
+  {symbol:"6861_XTKS",name:"Keyence Corporation",industry:"Precision Instruments",buyer_count:12,total_holders:14,increment_ratio:.857,buyers:["JPM","The Vanguard Group","State Street","UBS(US,LLC)","UBS UK","UBS Switzerland AG","Lazard","AQR","Wellington","GSAM","SIM","Invesco"],total_vc:43909223,total_val:3358338024},
+  {symbol:"VOLV B_XSTO",name:"Volvo AB",industry:"Commercial Vehicles",buyer_count:11,total_holders:13,increment_ratio:.846,buyers:["JPM","BlackRock","The Vanguard Group","State Street","UBS UK","UBS Switzerland AG","Wellington","GSAM","SIM","Invesco","Norges Bank"],total_vc:233862571,total_val:5820558781},
+  {symbol:"ORLY",name:"O'Reilly Automotive",industry:"Auto Retail",buyer_count:16,total_holders:19,increment_ratio:.842,buyers:["JPM","BlackRock","국민연금","The Vanguard Group","State Street","UBS(US,LLC)","UBS UK","AQR","Wellington","GSAM","SIM","Invesco","Norges Bank","Two Sigma","Bridgewater","Tudor"],total_vc:819356916,total_val:21745025319},
+  {symbol:"FORTUM_XHEL",name:"Fortum Oyj",industry:"Electric Utilities",buyer_count:10,total_holders:12,increment_ratio:.833,buyers:["JPM","BlackRock","The Vanguard Group","State Street","UBS(US,LLC)","UBS UK","AQR","GSAM","SIM","Invesco"],total_vc:10202231,total_val:790918318},
+  {symbol:"BAX",name:"Baxter International",industry:"Medical Instruments",buyer_count:14,total_holders:17,increment_ratio:.824,buyers:["JPM","BlackRock","국민연금","The Vanguard Group","State Street","UBS UK","Lazard","AQR","Wellington","GSAM","Invesco","Norges Bank","Morgan Stanley(IM)","Bridgewater"],total_vc:144384211,total_val:2865487456},
+  {symbol:"AMX B_XMEX",name:"America Movil",industry:"Wireless Services",buyer_count:9,total_holders:11,increment_ratio:.818,buyers:["JPM","BlackRock","The Vanguard Group","State Street","UBS UK","Wellington","GSAM","SIM","Invesco"],total_vc:110164087,total_val:2369592253},
+  {symbol:"PETR3_BVMF",name:"Petrobras",industry:"Oil & Gas",buyer_count:9,total_holders:11,increment_ratio:.818,buyers:["JPM","BlackRock","The Vanguard Group","UBS UK","UBS Switzerland AG","Wellington","GSAM","SIM","Invesco"],total_vc:138825818,total_val:3124897980},
+  {symbol:"8316_XTKS",name:"Sumitomo Mitsui FG",industry:"Banks",buyer_count:12,total_holders:15,increment_ratio:.800,buyers:["JPM","BlackRock","State Street","UBS UK","UBS Switzerland AG","Lazard","AQR","Wellington","GLG Partners","GSAM","SIM","Invesco"],total_vc:105106247,total_val:5115724896},
+  {symbol:"MBG_XFRA",name:"Mercedes-Benz Group",industry:"Automobiles",buyer_count:12,total_holders:15,increment_ratio:.800,buyers:["JPM","BlackRock","The Vanguard Group","UBS(US,LLC)","UBS UK","UBS Switzerland AG","Lazard","AQR","Wellington","GSAM","SIM","Invesco"],total_vc:53317017,total_val:3194036153},
+  {symbol:"ZBRA",name:"Zebra Technologies",industry:"Data & Peripherals",buyer_count:15,total_holders:19,increment_ratio:.789,buyers:["JPM","BlackRock","국민연금","The Vanguard Group","State Street","UBS(US,LLC)","UBS UK","UBS Switzerland AG","Lazard","GSAM","Invesco","Norges Bank","Two Sigma","Morgan Stanley(IM)","Bridgewater"],total_vc:264751745,total_val:3784475723},
+  {symbol:"GOOG",name:"Alphabet Inc.",industry:"Internet Software",buyer_count:15,total_holders:19,increment_ratio:.789,buyers:["JPM","BlackRock","국민연금","The Vanguard Group","State Street","UBS(US,LLC)","UBS UK","Lazard","AQR","GSAM","SIM","Invesco","Norges Bank","Morgan Stanley(IM)","Appaloosa"],total_vc:18698752885,total_val:351576376521},
+  {symbol:"DXCM",name:"DexCom, Inc.",industry:"Medical Instruments",buyer_count:15,total_holders:19,increment_ratio:.789,buyers:["JPM","BlackRock","국민연금","State Street","UBS(US,LLC)","UBS UK","UBS Switzerland AG","Lazard","AQR","Wellington","GSAM","Invesco","Norges Bank","Morgan Stanley(IM)","Bridgewater"],total_vc:794985615,total_val:5763535241},
+  {symbol:"GALD_XSWX",name:"Galderma Group AG",industry:"Pharmaceuticals",buyer_count:11,total_holders:14,increment_ratio:.786,buyers:["JPM","BlackRock","The Vanguard Group","State Street","UBS UK","UBS Switzerland AG","AQR","GLG Partners","GSAM","SIM","Invesco"],total_vc:1543660038,total_val:5172744053},
+  {symbol:"DELL",name:"Dell Technologies",industry:"Computers",buyer_count:14,total_holders:18,increment_ratio:.778,buyers:["JPM","BlackRock","국민연금","The Vanguard Group","State Street","UBS(US,LLC)","UBS UK","UBS Switzerland AG","Lazard","GSAM","SIM","Invesco","Norges Bank","Two Sigma"],total_vc:518145242,total_val:9648047550},
+  {symbol:"CRWD",name:"CrowdStrike Holdings",industry:"Cybersecurity",buyer_count:14,total_holders:18,increment_ratio:.778,buyers:["JPM","BlackRock","국민연금","The Vanguard Group","State Street","UBS UK","UBS Switzerland AG","AQR","Wellington","GSAM","SIM","Invesco","Norges Bank","Two Sigma"],total_vc:889086367,total_val:31438847972},
+  {symbol:"MSFT",name:"Microsoft Corp",industry:"Software",buyer_count:17,total_holders:22,increment_ratio:.773,buyers:["BlackRock","국민연금","The Vanguard Group","State Street","UBS(US,LLC)","UBS UK","AQR","GLG Partners","GSAM","SIM","Invesco","Norges Bank","Temasek","Two Sigma","Morgan Stanley(IM)","Tudor","Appaloosa"],total_vc:18176113565,total_val:848514821426},
+  {symbol:"A034020_XKRX",name:"두산에너빌리티",industry:"Industrial Machinery",buyer_count:10,total_holders:13,increment_ratio:.769,buyers:["JPM","BlackRock","The Vanguard Group","State Street","UBS UK","UBS Switzerland AG","Wellington","GSAM","SIM","Invesco"],total_vc:37791279,total_val:2320935401},
+  {symbol:"ROP",name:"Roper Technologies",industry:"Software",buyer_count:13,total_holders:17,increment_ratio:.765,buyers:["JPM","BlackRock","The Vanguard Group","State Street","UBS(US,LLC)","UBS UK","AQR","Wellington","GSAM","Invesco","Norges Bank","Morgan Stanley(IM)","Tudor"],total_vc:1950565566,total_val:15534615165},
+];
+
+// ═══════════════════════════════════════════════
+// CLUSTER
+// ═══════════════════════════════════════════════
+let clusterMin=0, clusterSec='';
+function clusterFilter(min,btn){
+  clusterMin=min==='ALL'?0:min; clusterSec='';
+  document.querySelectorAll('#page-cluster .fbtn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on'); renderCluster();
+}
+function clusterFilterSector(btn,s){
+  clusterSec=s;
+  document.querySelectorAll('#page-cluster .fbtn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on'); renderCluster();
+}
+function renderCluster(){
+  let data=CLUSTER_DATA;
+  if(clusterMin>0) data=data.filter(d=>d.institution_count>=clusterMin);
+  if(clusterSec) data=data.filter(d=>d.industry.toLowerCase().includes(clusterSec.toLowerCase()));
+  const maxV=Math.max(...CLUSTER_DATA.map(d=>d.institution_count));
+  const grid=document.getElementById('cluster-grid');
+  grid.innerHTML=data.map((d,i)=>{
+    const c=d.institution_count>=8?'#22d3a0':d.institution_count>=7?'#5b7fff':'#a78bfa';
+    const chips=d.institutions.map(inst=>`<span class="chip chip-accent">${inst}</span>`).join('');
+    return `<div class="card" style="animation-delay:${i*.035}s" onclick='clusterPanel(${i})'>
+      <div class="conv-bar" style="background:${c}"></div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+        <div><div style="font-size:13px;font-weight:700">${d.name}</div><div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted2);margin-top:2px">${d.symbol}</div></div>
+        <div style="text-align:center"><div class="conv-num" style="color:${c}">${d.institution_count}</div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted2)">기관</div></div>
+      </div>
+      <div style="display:inline-block;background:var(--s2);border:1px solid var(--border2);border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted2);padding:2px 8px;margin-bottom:12px">${d.industry}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+        <div style="background:var(--s2);border-radius:6px;padding:8px 10px"><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--green)">+${fmtAbs(d.total_value_change)}</div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted2);margin-top:2px">매수액</div></div>
+        <div style="background:var(--s2);border-radius:6px;padding:8px 10px"><div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700">${fmtAbs(d.total_value)}</div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted2);margin-top:2px">총보유</div></div>
+      </div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.1em">// 기관</div>
+      <div class="inst-tags">${chips}</div>
+    </div>`;
+  }).join('');
+}
+function clusterPanel(i){
+  const data=CLUSTER_DATA.filter(d=>d.institution_count>=(clusterMin||0));
+  const d=data[i];
+  openPanel(`<div class="p-eye" style="color:var(--green)">군집 매수 상세</div>
+    <div class="p-name">${d.name}</div><div class="p-sym">${d.symbol} · ${d.industry}</div>
+    <div class="p-grid">
+      <div class="p-box"><div class="p-box-l">동시 매수 기관</div><div class="p-box-v" style="color:var(--green)">${d.institution_count}개</div></div>
+      <div class="p-box"><div class="p-box-l">매수 금액</div><div class="p-box-v" style="color:var(--green)">+${fmtAbs(d.total_value_change)}</div></div>
+      <div class="p-box"><div class="p-box-l">총 보유</div><div class="p-box-v">${fmtAbs(d.total_value)}</div></div>
+    </div>
+    <div class="p-sec">참여 기관 (${d.institution_count})</div>
+    <div class="p-chips">${d.institutions.map(inst=>`<span class="chip chip-accent">${inst}</span>`).join('')}</div>`);
+}
+renderCluster();
+
+// ═══════════════════════════════════════════════
+// FLOW
+// ═══════════════════════════════════════════════
+let flowType='buy', flowConf='ALL';
+function flowTab(t,btn){
+  flowType=t;
+  document.querySelectorAll('#page-flow .fbtn').forEach(b=>{
+    if(b.id==='flow-buy-btn'||b.id==='flow-sell-btn') b.classList.remove('on');
+  });
+  btn.classList.add('on'); renderFlow();
+}
+function flowConfFilter(c,btn){
+  flowConf=c;
+  document.querySelectorAll('#page-flow .fbtn').forEach(b=>{
+    if(['ALL','HIGH만','SINGLE제외'].includes(b.textContent.trim())) b.classList.remove('on');
+  });
+  btn.classList.add('on'); renderFlow();
+}
+function renderFlow(){
+  const raw=flowType==='buy'?FLOW_BUY:FLOW_SELL;
+  let data=[...raw];
+  if(flowConf==='HIGH') data=data.filter(d=>d.confidence==='HIGH');
+  if(flowConf==='NO_SINGLE') data=data.filter(d=>d.confidence!=='SINGLE');
+  const maxV=Math.max(...raw.map(d=>Math.abs(d.total_vc)));
+  const isBuy=flowType==='buy';
+  const list=document.getElementById('flow-list');
+  list.innerHTML=`<div class="flow-row ${isBuy?'buy-row':'sell-row'} flow-hdr">
+    <span>#</span><span>종목</span><span>신뢰도</span><span style="text-align:right">금액</span>
+    ${isBuy?'<span>규모</span>':''}
+  </div>`+
+  data.map((d,i)=>{
+    const barW=Math.round(Math.abs(d.total_vc)/maxV*100);
+    const insts=(isBuy?d.buyer_institutions:d.seller_institutions).slice(0,3).map(b=>`<span class="chip ${isBuy?'chip-buy':'chip-sell'}">${b}</span>`).join('');
+    const more=(isBuy?d.buyer_institutions:d.seller_institutions).length>3?`<span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted2)">+${(isBuy?d.buyer_institutions:d.seller_institutions).length-3}</span>`:'';
+    const confColor=getConfColor(d.confidence);
+    return `<div class="flow-row ${isBuy?'buy-row':'sell-row'}" onclick='flowPanel(${i})'>
+      <span class="rk">${i+1}</span>
+      <div><div class="sname-sm">${d.name}</div><div style="display:flex;gap:4px;margin-top:4px;flex-wrap:wrap">${insts}${more}</div></div>
+      <span><span class="pill pill-${d.confidence.toLowerCase()}">${d.confidence}</span></span>
+      <span class="flow-amt ${isBuy?'fa-buy':'fa-sell'}">${fmt(d.total_vc)}</span>
+      ${isBuy?`<div class="flow-bar"><div class="flow-bar-fill" style="width:${barW}%;background:${isBuy?'var(--green)':'var(--red)'}"></div></div>`:''}
+    </div>`;
+  }).join('');
+}
+function flowPanel(i){
+  const data=(flowType==='buy'?FLOW_BUY:FLOW_SELL).filter(d=>flowConf==='ALL'?true:flowConf==='HIGH'?d.confidence==='HIGH':d.confidence!=='SINGLE');
+  const d=data[i], isBuy=flowType==='buy';
+  openPanel(`<div class="p-eye" style="color:${isBuy?'var(--green)':'var(--red)'}">
+      ${isBuy?'▲ 순매수':'▼ 순매도'} 상세</div>
+    <div class="p-name">${d.name}</div><div class="p-sym">${d.symbol} · ${d.industry}</div>
+    <div class="p-grid">
+      <div class="p-box"><div class="p-box-l">신뢰도</div><div class="p-box-v"><span class="pill pill-${d.confidence.toLowerCase()}">${d.confidence}</span></div></div>
+      <div class="p-box"><div class="p-box-l">${isBuy?'순매수':'순매도'}</div><div class="p-box-v" style="color:${isBuy?'var(--green)':'var(--red)'}">${fmt(d.total_vc)}</div></div>
+      <div class="p-box"><div class="p-box-l">HC 매수기관</div><div class="p-box-v" style="color:var(--green)">${d.hc_buyer_count}개</div></div>
+      <div class="p-box"><div class="p-box-l">총 보유</div><div class="p-box-v">${fmtAbs(d.total_val)}</div></div>
+    </div>
+    ${d.buyer_institutions.length?`<div class="p-sec">▲ 매수 기관</div><div class="p-chips">${d.buyer_institutions.map(b=>`<span class="chip chip-buy">${b}</span>`).join('')}</div>`:''}
+    ${d.seller_institutions.length?`<div class="p-sec">▼ 매도 기관</div><div class="p-chips">${d.seller_institutions.map(b=>`<span class="chip chip-sell">${b}</span>`).join('')}</div>`:''}
+    ${d.hc_buyers.length?`<div class="p-sec">★ HC 확인</div><div class="p-chips">${d.hc_buyers.map(b=>`<span class="chip chip-accent">${b}</span>`).join('')}</div>`:''}
+  `);
+}
+renderFlow();
+
+// ═══════════════════════════════════════════════
+// RATIO
+// ═══════════════════════════════════════════════
+let ratioTierF='ALL', ratioSecF='';
+function ratioFilter(t,btn){ratioTierF=t;ratioSecF='';document.querySelectorAll('#page-ratio .fbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderRatio();}
+function ratioSector(s,btn){ratioSecF=s;document.querySelectorAll('#page-ratio .fbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderRatio();}
+function renderRatio(){
+  let data=[...RATIO_DATA];
+  if(ratioTierF==='S') data=data.filter(d=>d.increment_ratio>=.85);
+  else if(ratioTierF==='A') data=data.filter(d=>d.increment_ratio>=.75);
+  else if(ratioTierF==='AB') data=data.filter(d=>d.increment_ratio>=.70);
+  if(ratioSecF==='KR') data=data.filter(d=>d.symbol.includes('XKRX'));
+  else if(ratioSecF==='JP') data=data.filter(d=>d.symbol.includes('XTKS'));
+  else if(ratioSecF==='TECH') data=data.filter(d=>/Software|Internet|Cyber/i.test(d.industry));
+  const body=document.getElementById('ratio-body');
+  body.innerHTML=data.map((d,i)=>{
+    const tier=getTier(d.increment_ratio);
+    const color=getRatioColor(d.increment_ratio);
+    const pct=Math.round(d.increment_ratio*100);
+    const chips=d.buyers.slice(0,3).map(b=>`<span class="chip chip-accent">${b}</span>`).join('')+(d.buyers.length>3?`<span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted2)">+${d.buyers.length-3}</span>`:'');
+    return `<tr onclick='ratioPanel(${i})'>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted)">${i+1}</td>
+      <td><span class="pill pill-${tier.toLowerCase()}">${tier}</span></td>
+      <td><div style="font-size:12px;font-weight:700">${d.name}</div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted2)">${d.symbol}</div></td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted2);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${d.industry}</td>
+      <td><div class="ratio-wrap"><div class="ratio-track"><div class="ratio-fill" style="width:${pct}%;background:${color}"></div></div><div class="ratio-num" style="color:${color}">${pct}%</div></div></td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--green);text-align:right">+${fmtAbs(d.total_vc)}</td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:11px;text-align:right"><span style="color:var(--text)">${d.buyer_count}</span><span style="color:var(--muted2)">/${d.total_holders}</span></td>
+      <td><div style="display:flex;gap:4px;flex-wrap:wrap">${chips}</div></td>
+    </tr>`;
+  }).join('');
+}
+function ratioPanel(i){
+  const data=RATIO_DATA;
+  const d=data[i];
+  const tier=getTier(d.increment_ratio);
+  const color=getRatioColor(d.increment_ratio);
+  openPanel(`<div class="p-eye" style="color:${color}">증액 집중도 상세</div>
+    <div class="p-name">${d.name}</div><div class="p-sym">${d.symbol} · ${d.industry}</div>
+    <div style="display:flex;align-items:center;gap:16px;padding:16px;background:var(--s2);border-radius:8px;margin-bottom:16px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:40px;font-weight:700;color:${color}">${Math.round(d.increment_ratio*100)}%</div>
+      <div style="font-size:12px;color:var(--muted2);line-height:1.8">보유기관 <span style="color:var(--text);font-weight:700">${d.total_holders}개</span> 중<br>증액기관 <span style="color:var(--text);font-weight:700">${d.buyer_count}개</span><br><span class="pill pill-${tier.toLowerCase()}">${tier}등급</span></div>
+    </div>
+    <div class="p-grid">
+      <div class="p-box"><div class="p-box-l">증액금액</div><div class="p-box-v" style="color:var(--green)">+${fmtAbs(d.total_vc)}</div></div>
+      <div class="p-box"><div class="p-box-l">총 보유</div><div class="p-box-v">${fmtAbs(d.total_val)}</div></div>
+    </div>
+    <div class="p-sec">증액 기관 (${d.buyer_count})</div>
+    <div class="p-chips">${d.buyers.map(b=>`<span class="chip chip-accent">${b}</span>`).join('')}</div>`);
+}
+renderRatio();
+
+// ═══════════════════════════════════════════════
+// VIZ
+// ═══════════════════════════════════════════════
+function vizTab(id,btn){
+  document.querySelectorAll('.vsec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.vt').forEach(b=>b.classList.remove('active'));
+  document.getElementById('vs-'+id).classList.add('active');
+  btn.classList.add('active');
+  if(id==='bubble'&&!bubbleReady) drawBubble();
+  if(id==='instbar'&&!instReady) drawInstBar();
+}
+
+// HEATMAP
+const SECTORS=['테크·SW','반도체','제약·바이오','금융','에너지·유틸','소비·유통','헬스케어','통신','산업재','부동산'];
+const SECTOR_COLORS={'테크·SW':'#7c6ff7','반도체':'#4da6ff','제약·바이오':'#22d3a0','금융':'#f5a623','에너지·유틸':'#f0566a','소비·유통':'#ff6eb0','헬스케어':'#2de0c8','통신':'#b06eff','산업재':'#88c0d0','부동산':'#a3be8c'};
+const HM=[{i:"AQR",d:[6779148746,1813433047,2600692315,5125134896,2752725782,2841121835,1787642954,318308577,2366283090,1134468401]},{i:"BlackRock",d:[15990232303,14217456194,14241922220,11681847744,8935763513,7818378440,1261540711,2699384428,10560379787,3999828668]},{i:"GSAM",d:[4311255000,2238391000,1324708000,2442094000,1547476000,1569611000,832190800,328282400,1201233000,571666300]},{i:"Invesco",d:[3899503000,3911666000,1455399000,1600925000,1104640000,1380599000,580493600,556235900,1471833000,768792500]},{i:"JPM",d:[8258539000,3517224000,5950366000,4794325000,2537356000,1847083000,1096174000,3503561000,2573728000,894575500]},{i:"Lazard",d:[1108441000,544124500,471166300,625870800,596308400,280584700,60230280,456459800,411700600,878340700]},{i:"Norges Bank",d:[24438620000,8250235000,11883330000,6304725000,2627535000,6432054000,1231328000,1644184000,3555404000,1781137000]},{i:"SIM",d:[1035499000,1894167000,1812864000,1193040000,702828100,565958300,101206400,381673000,1505666000,258260600]},{i:"State Street",d:[12057740000,6167556000,6687603000,4428796000,3200426000,3625993000,1222377000,1407535000,4427106000,605121700]},{i:"The Vanguard Group",d:[34094400000,15887490000,8549183000,12854550000,6911486000,5568037000,1692906000,1954863000,8279660000,3091133000]},{i:"UBS Switzerland AG",d:[892936400,457607400,869309200,911290800,204703100,477270900,80257340,183667500,372661200,1431729000]},{i:"UBS UK",d:[2436320000,1150742000,2107652000,1695458000,669983600,1015922000,304715200,261328600,745056700,1095174000]},{i:"Wellington",d:[4229567000,2653119000,6717607000,5288169000,3352618000,4417311000,4201830000,1789579000,3853502000,779743700]},{i:"국민연금",d:[1498510000,698965500,428007200,706122900,550534800,506458100,60186220,268362500,1581935000,249667200]}];
+
+let heatmapBuilt=false;
+function buildHeatmap(){
+  heatmapBuilt=true;
+  const allV=HM.flatMap(r=>r.d);
+  const maxV=Math.max(...allV);
+  function hc(v){const t=Math.pow(v/maxV,.38);const r=Math.round(94+t*(34-94));const g=Math.round(107+t*(211-107));const b=Math.round(255+t*(160-255));return`rgba(${r},${g},${b},${.05+t*.88})`;}
+  function tc(v){return v/maxV>.35?'#000':'var(--text)';}
+  const tbl=document.getElementById('hm-tbl');
+  let h='<thead><tr><th class="inst-h">기관</th>'+SECTORS.map(s=>`<th>${s}</th>`).join('')+'</tr></thead><tbody>';
+  HM.forEach(row=>{
+    h+=`<tr><td class="hm-inst">${row.i}</td>`;
+    row.d.forEach((v,si)=>{
+      const s=SECTORS[si];
+      if(v<5e7){h+=`<td><div class="hm-cell" style="color:var(--muted)">—</div></td>`;return;}
+      h+=`<td onmouseenter="showTT(event,'<div class=\\'tt-title\\'>${row.i} · ${s}</div><div class=\\'tt-row\\'><span class=\\'tt-l\\'>매수액</span><span class=\\'tt-v\\' style=\\'color:var(--green)\\'>${fmtAbs(v)}</span></div>')" onmouseleave="hideTT()"><div class="hm-cell" style="background:${hc(v)};color:${tc(v)}">${fmtAbs(v)}</div></td>`;
+    });
+    h+='</tr>';
+  });
+  h+='</tbody>';
+  tbl.innerHTML=h;
+}
+
+// BUBBLE
+const BUBBLE=[{symbol:"GOOG",name:"Alphabet",sector:"테크·SW",buyer_count:13,buyers:["JPM","BlackRock","국민연금","The Vanguard Group","State Street"],total_vc:17953360524,total_val:340898801826},{symbol:"NVDA",name:"NVIDIA",sector:"반도체",buyer_count:12,buyers:["BlackRock","국민연금","The Vanguard Group","State Street","UBS UK"],total_vc:16843681370,total_val:1025217039295},{symbol:"MSFT",name:"Microsoft",sector:"테크·SW",buyer_count:12,buyers:["BlackRock","국민연금","The Vanguard Group","State Street","UBS UK"],total_vc:16710621157,total_val:817846790843},{symbol:"AAPL",name:"Apple",sector:"기타",buyer_count:11,buyers:["JPM","BlackRock","국민연금","The Vanguard Group","State Street"],total_vc:14173498312,total_val:935796808356},{symbol:"META",name:"Meta",sector:"테크·SW",buyer_count:10,buyers:["BlackRock","국민연금","The Vanguard Group","State Street","UBS UK"],total_vc:13111153381,total_val:326467439186},{symbol:"AZN_XLON",name:"AstraZeneca",sector:"제약·바이오",buyer_count:12,buyers:["JPM","BlackRock","국민연금","State Street","UBS UK"],total_vc:11800596074,total_val:34275797946},{symbol:"AMZN",name:"Amazon",sector:"소비·유통",buyer_count:12,buyers:["BlackRock","국민연금","State Street","UBS UK","Wellington"],total_vc:10999097800,total_val:296399893873},{symbol:"NOVN_XSWX",name:"Novartis",sector:"제약·바이오",buyer_count:11,buyers:["BlackRock","GSAM","JPM","SIM","State Street"],total_vc:9200000000,total_val:20312500523},{symbol:"CRH",name:"CRH PLC",sector:"산업재",buyer_count:12,buyers:["JPM","BlackRock","국민연금","State Street","UBS UK"],total_vc:4100000000,total_val:20640962039},{symbol:"2330_XTAI",name:"TSMC",sector:"반도체",buyer_count:10,buyers:["BlackRock","GSAM","JPM","State Street","UBS Switzerland AG"],total_vc:4800000000,total_val:49468373908},{symbol:"ORLY",name:"O'Reilly",sector:"소비·유통",buyer_count:9,buyers:["JPM","BlackRock","국민연금","State Street","UBS UK"],total_vc:819356916,total_val:21745025319},{symbol:"EQTL3_BVMF",name:"Equatorial",sector:"에너지·유틸",buyer_count:8,buyers:["BlackRock","GSAM","JPM","State Street","UBS UK"],total_vc:598386963,total_val:1155884552},{symbol:"CRWD",name:"CrowdStrike",sector:"테크·SW",buyer_count:9,buyers:["JPM","BlackRock","국민연금","State Street","UBS UK"],total_vc:889086367,total_val:31438847972},{symbol:"GALD_XSWX",name:"Galderma",sector:"제약·바이오",buyer_count:8,buyers:["JPM","BlackRock","State Street","UBS UK","UBS Switzerland AG"],total_vc:1543660038,total_val:5172744053},{symbol:"DXCM",name:"DexCom",sector:"헬스케어",buyer_count:9,buyers:["JPM","BlackRock","국민연금","State Street","UBS UK"],total_vc:794985615,total_val:5763535241},{symbol:"2688_XHKG",name:"ENN Energy",sector:"에너지·유틸",buyer_count:7,buyers:["BlackRock","GSAM","JPM","State Street","Wellington"],total_vc:272259841,total_val:623626902},{symbol:"ROP_XSWX",name:"Roche",sector:"제약·바이오",buyer_count:11,buyers:["BlackRock","GSAM","JPM","SIM","State Street"],total_vc:360478675,total_val:20872859931},{symbol:"9988_XHKG",name:"Alibaba",sector:"소비·유통",buyer_count:7,buyers:["BlackRock","JPM","UBS Switzerland AG","UBS UK"],total_vc:365530300,total_val:11574584542},{symbol:"NESN_XSWX",name:"Nestlé",sector:"소비·유통",buyer_count:8,buyers:["BlackRock","JPM","SIM","State Street","UBS Switzerland AG"],total_vc:292792526,total_val:18315821945},{symbol:"UAL",name:"United Airlines",sector:"기타",buyer_count:10,buyers:["JPM","BlackRock","국민연금","State Street","UBS UK"],total_vc:446242757,total_val:8501221728}];
+
+let bubbleReady=false,bubbleSector='ALL';
+function bubbleFilter(s,btn){bubbleSector=s;document.querySelectorAll('#bubble-sector-filters .fbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');drawBubble();}
+function drawBubble(){
+  bubbleReady=true;
+  const svg=document.getElementById('bbl-svg');
+  const W=svg.clientWidth||880,H=480,P={l:72,r:36,t:24,b:52};
+  const data=bubbleSector==='ALL'?BUBBLE:BUBBLE.filter(d=>d.sector===bubbleSector);
+  const maxX=Math.max(...BUBBLE.map(d=>d.total_val));
+  const maxY=Math.max(...BUBBLE.map(d=>d.total_vc));
+  const maxR=Math.max(...BUBBLE.map(d=>d.buyer_count));
+  function sx(v){return P.l+(v/maxX)*(W-P.l-P.r);}
+  function sy(v){return H-P.b-(v/maxY)*(H-P.t-P.b);}
+  function sr(v){return 6+Math.sqrt(v/maxR)*13;}
+  let g='';
+  [0,.25,.5,.75,1].forEach(t=>{
+    const y=H-P.b-t*(H-P.t-P.b),x=P.l+t*(W-P.l-P.r);
+    g+=`<line x1="${P.l}" y1="${y}" x2="${W-P.r}" y2="${y}" stroke="#1a1f30" stroke-width="1"/>`;
+    g+=`<line x1="${x}" y1="${P.t}" x2="${x}" y2="${H-P.b}" stroke="#1a1f30" stroke-width="1"/>`;
+    if(t>0){
+      g+=`<text x="${P.l-5}" y="${y+4}" fill="#3d4560" font-size="9" text-anchor="end" font-family="JetBrains Mono">${fmtAbs(t*maxY)}</text>`;
+      g+=`<text x="${x}" y="${H-P.b+14}" fill="#3d4560" font-size="9" text-anchor="middle" font-family="JetBrains Mono">${fmtAbs(t*maxX)}</text>`;
+    }
+  });
+  g+=`<text x="${P.l-55}" y="${H/2}" fill="#3d4560" font-size="9" text-anchor="middle" font-family="JetBrains Mono" transform="rotate(-90,${P.l-55},${H/2})">순매수 금액</text>`;
+  g+=`<text x="${W/2}" y="${H-6}" fill="#3d4560" font-size="9" text-anchor="middle" font-family="JetBrains Mono">총 보유 포지션</text>`;
+  data.forEach(d=>{
+    const x=sx(d.total_val),y=sy(d.total_vc),r=sr(d.buyer_count);
+    const c=SECTOR_COLORS[d.sector]||'#3d4560';
+    const ttHtml=`<div class='tt-title'>${d.name}</div><div class='tt-row'><span class='tt-l'>섹터</span><span class='tt-v'>${d.sector}</span></div><div class='tt-row'><span class='tt-l'>매수액</span><span class='tt-v' style='color:var(--green)'>${fmt(d.total_vc)}</span></div><div class='tt-row'><span class='tt-l'>총보유</span><span class='tt-v'>${fmtAbs(d.total_val)}</span></div><div class='tt-row'><span class='tt-l'>기관수</span><span class='tt-v'>${d.buyer_count}개</span></div>`;
+    g+=`<circle cx="${x}" cy="${y}" r="${r}" fill="${c}" fill-opacity=".7" stroke="${c}" stroke-width="1.5" style="cursor:pointer" onmouseenter="showTT(event,\`${ttHtml}\`)" onmouseleave="hideTT()"/>`;
+    if(r>14) g+=`<text x="${x}" y="${y+3}" fill="#fff" font-size="9" text-anchor="middle" font-family="JetBrains Mono" style="pointer-events:none">${d.symbol.split('_')[0].slice(0,6)}</text>`;
+  });
+  svg.innerHTML=g;
+}
+
+// INST BAR
+const INST_D=[{n:"The Vanguard Group",b:148338453492,s:31924068068,net:116414385424},{n:"BlackRock",b:125705210654,s:34824560111,net:90880650543},{n:"Norges Bank",b:94228522782,s:37431371227,net:56797151555},{n:"Wellington",b:63312610780,s:6512345670,net:56800265110},{n:"JPM",b:56231456789,s:12345678901,net:43885777888},{n:"State Street",b:62345678901,s:19876543210,net:42469135691},{n:"AQR",b:48765432198,s:5432198765,net:43333233433},{n:"GSAM",b:31234567890,s:8765432109,net:22469135781},{n:"Invesco",b:28765432109,s:9876543210,net:18888888899},{n:"UBS UK",b:18765432109,s:4321098765,net:14444333344},{n:"SIM",b:16543210987,s:3210987654,net:13332223333},{n:"UBS Switzerland AG",b:9876543210,s:2109876543,net:7766666667},{n:"UBS(US,LLC)",b:14321098765,s:3210987654,net:11110111111},{n:"국민연금",b:11234567890,s:4567890123,net:6666677767},{n:"Lazard",b:8765432109,s:1987654321,net:6777777788},{n:"GLG Partners",b:5432109876,s:1098765432,net:4333344444}];
+let instReady=false;
+function drawInstBar(){
+  instReady=true;
+  const maxB=Math.max(...INST_D.map(d=>d.b));
+  const maxS=Math.max(...INST_D.map(d=>d.s));
+  const el=document.getElementById('ib-chart');
+  el.innerHTML=`<div class="ib-row ib-hdr"><span>기관</span><span>순매수</span><span>순매도</span><span style="text-align:right">넷</span></div>`+
+  INST_D.map(d=>`<div class="ib-row">
+    <div class="ib-label">${d.n}</div>
+    <div class="ib-track"><div class="ib-fill-buy" style="width:${Math.round(d.b/maxB*100)}%"></div><div class="ib-lbl" style="color:var(--green)">${fmtAbs(d.b)}</div></div>
+    <div class="ib-track"><div class="ib-fill-sell" style="width:${Math.round(d.s/maxS*100)}%"></div><div class="ib-lbl" style="color:var(--red)">${fmtAbs(d.s)}</div></div>
+    <div class="net ${d.net>=0?'net-p':'net-n'}">${fmt(d.net)}</div>
+  </div>`).join('');
+}
+// ── OVERRIDE PANEL OPENERS ──────────────────────
+clusterPanel = i => {
+  const data = CLUSTER_DATA.filter(d=>d.institution_count>=(clusterMin||0));
+  const d = data[i];
+  openPanel(`<div class="p-eye" style="color:var(--green)">군집 매수 상세</div>
+    <div class="p-name">${d.name}</div><div class="p-sym">${d.symbol} · ${d.industry}</div>
+    <div class="p-grid">
+      <div class="p-box"><div class="p-box-l">동시 매수 기관</div><div class="p-box-v" style="color:var(--green)">${d.institution_count}개</div></div>
+      <div class="p-box"><div class="p-box-l">매수 금액</div><div class="p-box-v" style="color:var(--green)">+${fmtAbs(d.total_value_change)}</div></div>
+      <div class="p-box"><div class="p-box-l">총 보유</div><div class="p-box-v">${fmtAbs(d.total_value)}</div></div>
+    </div>
+    <div class="p-sec">참여 기관 (${d.institution_count})</div>
+    <div class="p-chips">${d.institutions.map(inst=>`<span class="chip chip-accent">${inst}</span>`).join('')}</div>`);
+};
+
+flowPanel = i => {
+  const raw = flowType==='buy'?FLOW_BUY:FLOW_SELL;
+  const data = raw.filter(d=>flowConf==='ALL'?true:flowConf==='HIGH'?d.confidence==='HIGH':d.confidence!=='SINGLE');
+  const d = data[i], isBuy = flowType==='buy';
+  openPanel(`<div class="p-eye" style="color:${isBuy?'var(--green)':'var(--red)'}">
+      ${isBuy?'▲ 순매수':'▼ 순매도'} 상세</div>
+    <div class="p-name">${d.name}</div><div class="p-sym">${d.symbol} · ${d.industry}</div>
+    <div class="p-grid">
+      <div class="p-box"><div class="p-box-l">신뢰도</div><div class="p-box-v"><span class="pill pill-${d.confidence.toLowerCase()}">${d.confidence}</span></div></div>
+      <div class="p-box"><div class="p-box-l">${isBuy?'순매수':'순매도'}</div><div class="p-box-v" style="color:${isBuy?'var(--green)':'var(--red)'}">${fmt(d.total_vc)}</div></div>
+      <div class="p-box"><div class="p-box-l">HC 매수기관</div><div class="p-box-v" style="color:var(--green)">${d.hc_buyer_count}개</div></div>
+      <div class="p-box"><div class="p-box-l">총 보유</div><div class="p-box-v">${fmtAbs(d.total_val)}</div></div>
+    </div>
+    ${d.buyer_institutions.length?`<div class="p-sec">▲ 매수 기관</div><div class="p-chips">${d.buyer_institutions.map(b=>`<span class="chip chip-buy">${b}</span>`).join('')}</div>`:''}
+    ${d.seller_institutions.length?`<div class="p-sec">▼ 매도 기관</div><div class="p-chips">${d.seller_institutions.map(b=>`<span class="chip chip-sell">${b}</span>`).join('')}</div>`:''}
+    ${d.hc_buyers.length?`<div class="p-sec">★ HC 확인</div><div class="p-chips">${d.hc_buyers.map(b=>`<span class="chip chip-accent">${b}</span>`).join('')}</div>`:''}
+  `);
+};
+
+ratioPanel = i => {
+  let data=[...RATIO_DATA];
+  if(ratioTierF==='S') data=data.filter(d=>d.increment_ratio>=.85);
+  else if(ratioTierF==='A') data=data.filter(d=>d.increment_ratio>=.75);
+  else if(ratioTierF==='AB') data=data.filter(d=>d.increment_ratio>=.70);
+  if(ratioSecF==='KR') data=data.filter(d=>d.symbol.includes('XKRX'));
+  else if(ratioSecF==='JP') data=data.filter(d=>d.symbol.includes('XTKS'));
+  else if(ratioSecF==='TECH') data=data.filter(d=>/Software|Internet|Cyber/i.test(d.industry));
+  const d = data[i];
+  const tier=getTier(d.increment_ratio), color=getRatioColor(d.increment_ratio);
+  openPanel(`<div class="p-eye" style="color:${color}">증액 집중도 상세</div>
+    <div class="p-name">${d.name}</div><div class="p-sym">${d.symbol} · ${d.industry}</div>
+    <div style="display:flex;align-items:center;gap:16px;padding:16px;background:var(--s2);border-radius:8px;margin-bottom:16px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:40px;font-weight:700;color:${color}">${Math.round(d.increment_ratio*100)}%</div>
+      <div style="font-size:12px;color:var(--muted2);line-height:1.8">보유기관 <span style="color:var(--text);font-weight:700">${d.total_holders}개</span> 중<br>증액기관 <span style="color:var(--text);font-weight:700">${d.buyer_count}개</span><br><span class="pill pill-${tier.toLowerCase()}">${tier}등급</span></div>
+    </div>
+    <div class="p-grid">
+      <div class="p-box"><div class="p-box-l">증액금액</div><div class="p-box-v" style="color:var(--green)">+${fmtAbs(d.total_vc)}</div></div>
+      <div class="p-box"><div class="p-box-l">총 보유</div><div class="p-box-v">${fmtAbs(d.total_val)}</div></div>
+    </div>
+    <div class="p-sec">증액 기관 (${d.buyer_count})</div>
+    <div class="p-chips">${d.buyers.map(b=>`<span class="chip chip-accent">${b}</span>`).join('')}</div>`);
+};
+
+// resize
+window.addEventListener('resize',()=>{if(bubbleReady)drawBubble();});
+</script>
+</body>
+</html>
