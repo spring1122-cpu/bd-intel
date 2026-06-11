@@ -1481,7 +1481,19 @@ function renderGuru() {
 function guruPanel(gi, hi) {
   const g = GURU_DATA[gi];
   const h = g.holdings[hi];
-  const key = `${g.office}|${h.symbol}`;
+  const officeKeyMap = {
+    'Duquesne': 'Duquesne',
+    'Berkshire Hathaway': 'berkshire',
+    'Bridgewater Associates': 'Bridgewater',
+    'AQR Capital Management': 'AQR',
+    'Appaloosa Management': 'Appaloosa',
+    'Pershing Square (PSCM)': 'PSCM',
+    'GLG Partners (Man Group)': 'GLG Partners',
+    'Two Sigma Investments': 'Two Sigma',
+    'Tudor Investment': 'Tudor',
+  };
+  const officeKey = officeKeyMap[g.office] || g.office;
+  const key = `${officeKey}|${h.symbol}`;
   const reason = GURU_ANALYSES[key] || '이 종목에 대한 상세 분석은 준비 중입니다. 기관 매수 신호 자체로 컨빅션을 유지하세요.';
 
   openPanel(`
